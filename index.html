@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bolão Copa 2026 - Consulta Pública</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">26</div>
+        <div>
+          <strong>Bolão Copa</strong>
+          <span>Consulta pública</span>
+        </div>
+      </div>
+      <nav class="menu" id="menu" aria-label="Menu principal">
+        <button data-view="dashboard" class="active"><span class="menu-icon">🏠</span><span>Home</span></button>
+        <button data-view="matches"><span class="menu-icon">⚽</span><span>Jogos</span></button>
+        <button data-view="predictions"><span class="menu-icon">📝</span><span>Palpites</span></button>
+        <button data-view="bonus"><span class="menu-icon">⭐</span><span>Bônus</span></button>
+        <button data-view="ranking"><span class="menu-icon">🏆</span><span>Ranking</span></button>
+        <button data-view="stats"><span class="menu-icon">📊</span><span>Estatísticas</span></button>
+        <button data-view="rules"><span class="menu-icon">📜</span><span>Regras</span></button>
+      </nav>
+      <div class="sidebar-footer">
+        <small>Somente leitura. Dados oficiais vêm de <code>data/bolao-publico.json</code>.</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Modo consulta pública</p>
+          <h1 id="pageTitle">Home</h1>
+        </div>
+        <div class="topbar-actions">
+          <button class="btn ghost" id="btnTheme" type="button">🌙 Modo escuro</button>
+          <button class="btn" id="btnReload" type="button">Atualizar dados</button>
+        </div>
+      </header>
+      <section id="alertArea" class="alert-area"></section>
+      <section id="app" class="view-container">
+        <div class="loading-card">Carregando dados oficiais...</div>
+      </section>
+    </main>
+  </div>
+  <div id="modalRoot"></div>
+  <script src="js/public-app.js"></script>
+</body>
+</html>
