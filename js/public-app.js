@@ -19,6 +19,15 @@
     rules: "Regras do bolão"
   };
 
+  const KNOCKOUT_PHASES = [
+    "16 avos",
+    "Oitavas",
+    "Quartas",
+    "Semifinal",
+    "Disputa de terceiro lugar",
+    "Final"
+  ];
+
   const TEAM_FLAGS = {
     "México": "mx",
     "África do Sul": "za",
@@ -107,6 +116,36 @@
     return Number(scoreA) - Number(scoreB);
   }
 
+  function isKnockoutMatch(match) {
+    return KNOCKOUT_PHASES.includes(String(match?.phase || ""));
+  }
+
+  function normalizeSide(value) {
+    const side = String(value || "").trim().toUpperCase();
+    return side === "A" || side === "B" ? side : "";
+  }
+
+  function inferWinnerSide(scoreA, scoreB) {
+    const result = outcome(scoreA, scoreB);
+    return result === "A" || result === "B" ? result : "";
+  }
+
+  function sideLabel(match, side) {
+    const normalized = normalizeSide(side);
+    if (normalized === "A") return match?.teamA || "Seleção A";
+    if (normalized === "B") return match?.teamB || "Seleção B";
+    return "-";
+  }
+
+  function qualifiedTeamText(match, side) {
+    const normalized = normalizeSide(side);
+    return normalized ? sideLabel(match, normalized) : "-";
+  }
+
+  function isAutomaticPrediction(prediction) {
+    return Boolean(prediction?.automatic || prediction?.autoDefault);
+  }
+
   function normalizeAnswer(value) {
     return String(value ?? "")
       .trim()
@@ -120,6 +159,8 @@
       exactScore: 10,
       goalDifference: 7,
       outcome: 5,
+      wrong: 0,
+      knockoutQualified: 3,
       ...(data?.settings?.scoring || {})
     };
   }
@@ -163,6 +204,7 @@
       venue: match.venue || "",
       scoreA: match.scoreA ?? "",
       scoreB: match.scoreB ?? "",
+      qualifiedTeam: normalizeSide(match.qualifiedTeam),
       status: match.status || "agendado",
       createdAt: match.createdAt || now,
       updatedAt: match.updatedAt || now
@@ -174,11 +216,16 @@
       matchId: prediction.matchId || "",
       goalsA: prediction.goalsA ?? "",
       goalsB: prediction.goalsB ?? "",
+      qualifiedTeam: normalizeSide(prediction.qualifiedTeam),
       points: Number(prediction.points || 0),
+      basePoints: Number(prediction.basePoints || 0),
       exact: Boolean(prediction.exact),
       outcomeHit: Boolean(prediction.outcomeHit),
-      goalDifferenceHit: Boolean(prediction.goalDifferenceHit),
-      automatic: Boolean(prediction.automatic),
+      goalDifferenceHit: Boolean(prediction.goalDifferenceHit || prediction.goalHit),
+      qualifiedHit: Boolean(prediction.qualifiedHit),
+      qualifiedPoints: Number(prediction.qualifiedPoints || 0),
+      automatic: Boolean(prediction.automatic || prediction.autoDefault),
+      autoDefault: Boolean(prediction.autoDefault || prediction.automatic),
       calculatedAt: prediction.calculatedAt || "",
       createdAt: prediction.createdAt || now,
       updatedAt: prediction.updatedAt || now
@@ -213,25 +260,57 @@
     const realB = toNumberOrNull(match.scoreB);
     const predA = toNumberOrNull(prediction.goalsA);
     const predB = toNumberOrNull(prediction.goalsB);
-    const empty = { points: 0, exact: false, outcomeHit: false, goalDifferenceHit: false, calculatedAt: "" };
+    const rules = {
+      exactScore: Number(scoring.exactScore ?? 10),
+      goalDifference: Number(scoring.goalDifference ?? 7),
+      outcome: Number(scoring.outcome ?? 5),
+      wrong: Number(scoring.wrong ?? 0),
+      knockoutQualified: Number(scoring.knockoutQualified ?? 3)
+    };
+    const empty = {
+      points: 0,
+      basePoints: 0,
+      exact: false,
+      outcomeHit: false,
+      goalDifferenceHit: false,
+      qualifiedHit: false,
+      qualifiedPoints: 0,
+      calculatedAt: ""
+    };
 
     if (match.status !== "finalizado" || realA === null || realB === null || predA === null || predB === null) return empty;
 
-    const exact = realA === predA && realB === predB;
-    const outcomeHit = outcome(realA, realB) === outcome(predA, predB);
     const realOutcome = outcome(realA, realB);
+    const predOutcome = outcome(predA, predB);
+    const exact = realA === predA && realB === predB;
+    const outcomeHit = realOutcome === predOutcome;
     const goalDifferenceHit = outcomeHit && realOutcome !== "E" && goalDifference(realA, realB) === goalDifference(predA, predB);
+    let basePoints = rules.wrong;
 
     if (exact) {
-      return { points: scoring.exactScore, exact: true, outcomeHit: true, goalDifferenceHit: true, calculatedAt: new Date().toISOString() };
+      basePoints = rules.exactScore;
+    } else if (goalDifferenceHit) {
+      basePoints = rules.goalDifference;
+    } else if (outcomeHit) {
+      basePoints = rules.outcome;
     }
-    if (goalDifferenceHit) {
-      return { points: scoring.goalDifference, exact: false, outcomeHit: true, goalDifferenceHit: true, calculatedAt: new Date().toISOString() };
-    }
-    if (outcomeHit) {
-      return { points: scoring.outcome, exact: false, outcomeHit: true, goalDifferenceHit: false, calculatedAt: new Date().toISOString() };
-    }
-    return { ...empty, calculatedAt: new Date().toISOString() };
+
+    const knockout = isKnockoutMatch(match);
+    const matchQualified = normalizeSide(match.qualifiedTeam || inferWinnerSide(realA, realB));
+    const predictionQualified = normalizeSide(prediction.qualifiedTeam);
+    const qualifiedHit = knockout && matchQualified !== "" && predictionQualified !== "" && matchQualified === predictionQualified;
+    const qualifiedPoints = qualifiedHit ? rules.knockoutQualified : 0;
+
+    return {
+      points: basePoints + qualifiedPoints,
+      basePoints,
+      exact,
+      outcomeHit,
+      goalDifferenceHit,
+      qualifiedHit,
+      qualifiedPoints,
+      calculatedAt: new Date().toISOString()
+    };
   }
 
   function ensureAutomaticPredictions(data) {
@@ -249,11 +328,16 @@
             matchId: match.id,
             goalsA: 0,
             goalsB: 0,
+            qualifiedTeam: "",
             points: 0,
+            basePoints: 0,
             exact: false,
             outcomeHit: false,
             goalDifferenceHit: false,
+            qualifiedHit: false,
+            qualifiedPoints: 0,
             automatic: true,
+            autoDefault: true,
             calculatedAt: "",
             createdAt: match.updatedAt || new Date().toISOString(),
             updatedAt: match.updatedAt || new Date().toISOString()
@@ -297,20 +381,35 @@
       });
     });
 
+    const matchesById = Object.fromEntries(data.matches.map((match) => [match.id, match]));
+    const scoring = defaultScoring(data);
     const predictionMap = new Map();
     data.predictions.forEach((prediction) => {
-      const current = predictionMap.get(prediction.participantId) || { gamePoints: 0, exactCount: 0, outcomeCount: 0, predictionsCount: 0 };
+      const current = predictionMap.get(prediction.participantId) || {
+        gamePoints: 0,
+        exactCount: 0,
+        outcomeCount: 0,
+        qualifiedCount: 0,
+        predictionsCount: 0,
+        scoredPredictionsCount: 0,
+        maxPointsPossible: 0
+      };
       current.gamePoints += Number(prediction.points || 0);
       current.exactCount += prediction.exact ? 1 : 0;
       current.outcomeCount += prediction.outcomeHit ? 1 : 0;
-      current.predictionsCount += prediction.automatic ? 0 : 1;
+      current.qualifiedCount += prediction.qualifiedHit ? 1 : 0;
+      current.scoredPredictionsCount += 1;
+      const match = matchesById[prediction.matchId];
+      current.maxPointsPossible += scoring.exactScore + (isKnockoutMatch(match) ? (scoring.knockoutQualified ?? 3) : 0);
+      current.predictionsCount += isAutomaticPrediction(prediction) ? 0 : 1;
       predictionMap.set(prediction.participantId, current);
     });
 
     return data.participants.map((participant) => {
-      const games = predictionMap.get(participant.id) || { gamePoints: 0, exactCount: 0, outcomeCount: 0, predictionsCount: 0 };
+      const games = predictionMap.get(participant.id) || { gamePoints: 0, exactCount: 0, outcomeCount: 0, qualifiedCount: 0, predictionsCount: 0, scoredPredictionsCount: 0, maxPointsPossible: 0 };
       const bonusPoints = bonusMap.get(participant.id) || 0;
       const total = games.gamePoints + bonusPoints;
+      const scoredPredictionsCount = games.scoredPredictionsCount || 0;
       return {
         participantId: participant.id,
         name: participant.name,
@@ -321,15 +420,18 @@
         total,
         exactCount: games.exactCount,
         outcomeCount: games.outcomeCount,
+        qualifiedCount: games.qualifiedCount,
         predictionsCount: games.predictionsCount,
-        efficiency: games.predictionsCount ? Math.round((games.gamePoints / (games.predictionsCount * defaultScoring(data).exactScore)) * 100) : 0
+        scoredPredictionsCount,
+        maxPointsPossible: games.maxPointsPossible || 0,
+        efficiency: games.maxPointsPossible ? Math.round((games.gamePoints / games.maxPointsPossible) * 100) : 0
       };
     }).sort((a, b) => {
       if (b.total !== a.total) return b.total - a.total;
       if (b.exactCount !== a.exactCount) return b.exactCount - a.exactCount;
       if (b.outcomeCount !== a.outcomeCount) return b.outcomeCount - a.outcomeCount;
       if (b.predictionsCount !== a.predictionsCount) return b.predictionsCount - a.predictionsCount;
-      const dateCompare = String(a.createdAt || "").localeCompare(String(b.createdAt || ""));
+      const dateCompare = String(a.createdAt || "9999").localeCompare(String(b.createdAt || "9999"));
       if (dateCompare !== 0) return dateCompare;
       return String(a.nickname || a.name).localeCompare(String(b.nickname || b.name), "pt-BR");
     });
@@ -379,22 +481,33 @@
   }
 
   function resultText(match) {
-    if (match.status === "finalizado" && match.scoreA !== "" && match.scoreB !== "") return `<strong>${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}</strong>`;
+    if (match.status === "finalizado" && match.scoreA !== "" && match.scoreB !== "") {
+      const qualified = isKnockoutMatch(match) && normalizeSide(match.qualifiedTeam || inferWinnerSide(Number(match.scoreA), Number(match.scoreB)))
+        ? ` <span class="badge success">classificado: ${escapeHtml(qualifiedTeamText(match, match.qualifiedTeam || inferWinnerSide(Number(match.scoreA), Number(match.scoreB))))}</span>`
+        : "";
+      return `<strong>${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}</strong>${qualified}`;
+    }
     return "-";
   }
 
   function criterionText(prediction) {
-    if (!prediction || Number(prediction.points || 0) === 0) return "-";
-    if (prediction.exact) return "Placar exato";
-    if (prediction.goalDifferenceHit) return "Vencedor + saldo";
-    if (prediction.outcomeHit) return "Resultado correto";
-    return "-";
+    if (!prediction) return "-";
+    const parts = [];
+    if (prediction.exact) parts.push("Placar exato");
+    else if (prediction.goalDifferenceHit) parts.push("Vencedor + saldo");
+    else if (prediction.outcomeHit) parts.push("Resultado correto");
+    else if (Number(prediction.points || 0) === 0) parts.push("-");
+    if (prediction.qualifiedHit) parts.push("Classificado");
+    return parts.filter(Boolean).join(" + ") || "-";
   }
 
-  function predictionText(prediction) {
+  function predictionText(prediction, match = null) {
     if (!prediction) return "-";
-    const suffix = prediction.automatic ? ` <span class="badge">0x0 automático</span>` : "";
-    return `<strong>${escapeHtml(prediction.goalsA)} x ${escapeHtml(prediction.goalsB)}</strong>${suffix}`;
+    const suffix = isAutomaticPrediction(prediction) ? ` <span class="badge">0x0 automático</span>` : "";
+    const qualified = match && isKnockoutMatch(match) && normalizeSide(prediction.qualifiedTeam)
+      ? ` <span class="badge">classificado: ${escapeHtml(qualifiedTeamText(match, prediction.qualifiedTeam))}</span>`
+      : "";
+    return `<strong>${escapeHtml(prediction.goalsA)} x ${escapeHtml(prediction.goalsB)}</strong>${qualified}${suffix}`;
   }
 
   function table(headers, rows) {
@@ -549,7 +662,7 @@
     const only = document.getElementById("predOnly")?.value || "all";
     const rows = state.predictions
       .filter((prediction) => !participantId || prediction.participantId === participantId)
-      .filter((prediction) => only === "all" || (only === "manual" && !prediction.automatic) || (only === "auto" && prediction.automatic))
+      .filter((prediction) => only === "all" || (only === "manual" && !isAutomaticPrediction(prediction)) || (only === "auto" && isAutomaticPrediction(prediction)))
       .filter((prediction) => {
         const match = matchById(prediction.matchId);
         return !status || match?.status === status;
@@ -565,7 +678,7 @@
         return [
           escapeHtml(participantName(prediction.participantId)),
           match ? matchHtml(match, false) : "-",
-          predictionText(prediction),
+          predictionText(prediction, match),
           match ? statusBadge(match.status) : "-",
           `<strong>${prediction.points || 0}</strong>`,
           criterionText(prediction)
@@ -600,7 +713,7 @@
       </section>
       <section class="card">
         <div class="card-header"><div><h2>Ranking geral</h2><p>Desempate: placares exatos, resultados corretos, palpites cadastrados e cadastro mais antigo.</p></div></div>
-        ${table(["Posição", "Participante", "Jogos", "Bônus", "Total", "Placares exatos", "Resultados corretos", "Palpites registrados"], ranking.map((row, index) => [
+        ${table(["Posição", "Participante", "Jogos", "Bônus", "Total", "Placares exatos", "Resultados corretos", "Classificados", "Palpites registrados"], ranking.map((row, index) => [
           `<strong>${index + 1}</strong>`,
           escapeHtml(row.nickname || row.name),
           row.gamePoints,
@@ -608,6 +721,7 @@
           `<strong>${row.total}</strong>`,
           row.exactCount,
           row.outcomeCount,
+          row.qualifiedCount,
           row.predictionsCount
         ]))}
       </section>
@@ -641,6 +755,7 @@
           <div class="stat-list">
             ${statItem("Mais placares exatos", ranking[0] ? `${mostBy(ranking, "exactCount").nickname || mostBy(ranking, "exactCount").name} · ${mostBy(ranking, "exactCount").exactCount}` : "-")}
             ${statItem("Mais resultados corretos", ranking[0] ? `${mostBy(ranking, "outcomeCount").nickname || mostBy(ranking, "outcomeCount").name} · ${mostBy(ranking, "outcomeCount").outcomeCount}` : "-")}
+            ${statItem("Mais classificados no mata-mata", ranking[0] ? `${mostBy(ranking, "qualifiedCount").nickname || mostBy(ranking, "qualifiedCount").name} · ${mostBy(ranking, "qualifiedCount").qualifiedCount}` : "-")}
             ${statItem("Jogos finalizados", String(finalized.length))}
             ${statItem("Última atualização", formatDateTime(state.meta.updatedAt || state.meta.publicPublishedAt))}
           </div>
@@ -665,15 +780,26 @@
   }
 
   function rulesHtml() {
+    const scoring = defaultScoring(state);
     return `
       <div class="rules-grid">
-        <div class="rule-box"><strong>10 pts</strong><span>Placar exato</span><p>Acertou exatamente o placar, seja vitória ou empate. Ex.: palpite 2x1 e resultado 2x1; ou palpite 0x0 e resultado 0x0.</p></div>
-        <div class="rule-box"><strong>7 pts</strong><span>Vencedor + saldo de gols</span><p>Acertou o vencedor e a diferença de gols. Ex.: palpite 4x2 e resultado 2x0.</p></div>
-        <div class="rule-box"><strong>5 pts</strong><span>Resultado correto</span><p>Acertou apenas o vencedor ou o empate. Ex.: palpite 3x0 e resultado 1x0; ou 2x2 e resultado 0x0.</p></div>
-        <div class="rule-box"><strong>0 pts</strong><span>Errou tudo</span><p>Não acertou o placar, nem o vencedor/empate, nem o saldo quando aplicável.</p></div>
-        <div class="rule-box"><strong>0x0</strong><span>Palpite ausente</span><p>Se não houver palpite cadastrado até o horário do jogo, ele é considerado 0x0 automaticamente.</p></div>
+        <div class="rule-box"><strong>${scoring.exactScore} pts</strong><span>Placar exato</span><p>Acertou exatamente o placar, seja vitória ou empate. Ex.: palpite 2x1 e resultado 2x1; ou palpite 0x0 e resultado 0x0.</p></div>
+        <div class="rule-box"><strong>${scoring.goalDifference} pts</strong><span>Vencedor + saldo de gols</span><p>Acertou o vencedor e a diferença de gols. Ex.: palpite 4x2 e resultado 2x0.</p></div>
+        <div class="rule-box"><strong>${scoring.outcome} pts</strong><span>Resultado correto</span><p>Acertou apenas o vencedor ou o empate. Ex.: palpite 3x0 e resultado 1x0; ou 2x2 e resultado 0x0.</p></div>
+        <div class="rule-box"><strong>${scoring.wrong || 0} pts</strong><span>Errou tudo</span><p>Não acertou o placar, nem o vencedor/empate, nem o saldo quando aplicável.</p></div>
+        <div class="rule-box"><strong>+${scoring.knockoutQualified ?? 3} pts</strong><span>Classificado no mata-mata</span><p>Nos jogos eliminatórios, soma bônus se acertar quem se classifica/vence. O placar usado é o do jogo até o fim da prorrogação.</p></div>
+        <div class="rule-box"><strong>Pênaltis</strong><span>Não entram no placar</span><p>Se o jogo terminar empatado e for decidido nos pênaltis, o placar do bolão continua empatado; o classificado é informado separadamente.</p></div>
+        <div class="rule-box"><strong>0x0</strong><span>Palpite ausente</span><p>Se não houver palpite cadastrado até o horário do jogo, ele é considerado 0x0 automaticamente. No mata-mata, não recebe bônus de classificado.</p></div>
         <div class="rule-box"><strong>70/20/10</strong><span>Premiação</span><p>70% para o primeiro lugar, 20% para o segundo lugar e 10% para o terceiro lugar.</p></div>
       </div>
+      <section class="card" style="box-shadow:none;margin:18px 0 0;padding:16px;background:var(--surface-2)">
+        <h2>Exemplos do mata-mata</h2>
+        <ul>
+          <li>Palpite 1x1 + Brasil classificado; resultado 1x1 + Brasil nos pênaltis = ${scoring.exactScore + (scoring.knockoutQualified ?? 3)} pontos.</li>
+          <li>Palpite 2x2 + Brasil classificado; resultado 0x0 + Brasil nos pênaltis = ${scoring.outcome + (scoring.knockoutQualified ?? 3)} pontos.</li>
+          <li>Palpite Brasil 2x0 + Brasil classificado; resultado 1x1 + Brasil nos pênaltis = ${scoring.knockoutQualified ?? 3} pontos.</li>
+        </ul>
+      </section>
       <section class="card" style="box-shadow:none;margin:18px 0 0;padding:16px;background:var(--surface-2)">
         <h2>Critérios de desempate</h2>
         <p>Em caso de empate na pontuação, serão aplicados nesta ordem:</p>
@@ -690,7 +816,7 @@
   function podiumHtml(ranking) {
     if (!ranking.length) return emptyState();
     const medals = ["🥇", "🥈", "🥉"];
-    return `<div class="podium-grid">${ranking.slice(0, 3).map((row, index) => `<div class="podium-card"><div class="podium-medal">${medals[index]}</div><strong>${escapeHtml(row.nickname || row.name)}</strong><span>${row.total} pontos</span><small>${row.exactCount} exatos · ${row.outcomeCount} resultados corretos</small></div>`).join("")}</div>`;
+    return `<div class="podium-grid">${ranking.slice(0, 3).map((row, index) => `<div class="podium-card"><div class="podium-medal">${medals[index]}</div><strong>${escapeHtml(row.nickname || row.name)}</strong><span>${row.total} pontos</span><small>${row.exactCount} exatos · ${row.outcomeCount} resultados corretos · ${row.qualifiedCount} classificados</small></div>`).join("")}</div>`;
   }
 
   function barChart(items) {

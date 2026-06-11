@@ -16,7 +16,8 @@
       "outcome": 5,
       "wrong": 0,
       "exactDoesNotAccumulate": true,
-      "missingPredictionDefault": "0x0"
+      "missingPredictionDefault": "0x0",
+      "knockoutQualified": 3
     },
     "prizeDistribution": {
       "first": 70,
@@ -205,7 +206,8 @@
       "scoreB": "",
       "status": "andamento",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T19:12:16.174Z"
+      "updatedAt": "2026-06-11T19:12:16.174Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_002",
@@ -222,7 +224,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_003",
@@ -239,7 +242,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_004",
@@ -256,7 +260,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_005",
@@ -273,7 +278,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_006",
@@ -290,7 +296,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_007",
@@ -307,7 +314,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_008",
@@ -324,7 +332,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_009",
@@ -341,7 +350,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_010",
@@ -358,7 +368,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_011",
@@ -375,7 +386,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:00:32.960Z"
+      "updatedAt": "2026-06-11T14:00:32.960Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_012",
@@ -392,7 +404,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_013",
@@ -409,7 +422,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_014",
@@ -426,7 +440,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_015",
@@ -443,7 +458,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_016",
@@ -460,7 +476,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_017",
@@ -477,7 +494,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_018",
@@ -494,7 +512,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_019",
@@ -511,7 +530,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_020",
@@ -528,7 +548,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_021",
@@ -545,7 +566,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_022",
@@ -562,7 +584,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_023",
@@ -579,7 +602,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:05:42.129Z"
+      "updatedAt": "2026-06-11T14:05:42.129Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_024",
@@ -596,7 +620,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_025",
@@ -613,7 +638,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_026",
@@ -630,7 +656,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_027",
@@ -647,7 +674,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_028",
@@ -664,7 +692,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_029",
@@ -681,7 +710,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_030",
@@ -698,7 +728,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_031",
@@ -715,7 +746,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_032",
@@ -732,7 +764,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_033",
@@ -749,7 +782,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_034",
@@ -766,7 +800,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_035",
@@ -783,7 +818,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_036",
@@ -800,7 +836,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_037",
@@ -817,7 +854,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_038",
@@ -834,7 +872,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_039",
@@ -851,7 +890,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_040",
@@ -868,7 +908,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_041",
@@ -885,7 +926,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_042",
@@ -902,7 +944,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_043",
@@ -919,7 +962,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_044",
@@ -936,7 +980,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_045",
@@ -953,7 +998,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_046",
@@ -970,7 +1016,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_047",
@@ -987,7 +1034,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:05:58.704Z"
+      "updatedAt": "2026-06-11T14:05:58.704Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_048",
@@ -1004,7 +1052,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_049",
@@ -1021,7 +1070,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_050",
@@ -1038,7 +1088,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_051",
@@ -1055,7 +1106,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_052",
@@ -1072,7 +1124,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_053",
@@ -1089,7 +1142,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_054",
@@ -1106,7 +1160,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_055",
@@ -1123,7 +1178,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_056",
@@ -1140,7 +1196,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_057",
@@ -1157,7 +1214,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:01:56.255Z"
+      "updatedAt": "2026-06-11T14:01:56.255Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_058",
@@ -1174,7 +1232,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:02:08.651Z"
+      "updatedAt": "2026-06-11T14:02:08.651Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_059",
@@ -1191,7 +1250,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_060",
@@ -1208,7 +1268,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_061",
@@ -1225,7 +1286,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_062",
@@ -1242,7 +1304,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_063",
@@ -1259,7 +1322,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_064",
@@ -1276,7 +1340,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_065",
@@ -1293,7 +1358,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_066",
@@ -1310,7 +1376,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_067",
@@ -1327,7 +1394,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_068",
@@ -1344,7 +1412,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_069",
@@ -1361,7 +1430,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:05:15.326Z"
+      "updatedAt": "2026-06-11T14:05:15.326Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_070",
@@ -1378,7 +1448,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-11T14:05:20.844Z"
+      "updatedAt": "2026-06-11T14:05:20.844Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_071",
@@ -1395,7 +1466,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_072",
@@ -1412,7 +1484,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_073",
@@ -1429,7 +1502,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_074",
@@ -1446,7 +1520,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_075",
@@ -1463,7 +1538,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_076",
@@ -1480,7 +1556,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_077",
@@ -1497,7 +1574,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_078",
@@ -1514,7 +1592,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_079",
@@ -1531,7 +1610,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_080",
@@ -1548,7 +1628,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_081",
@@ -1565,7 +1646,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_082",
@@ -1582,7 +1664,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_083",
@@ -1599,7 +1682,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_084",
@@ -1616,7 +1700,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_085",
@@ -1633,7 +1718,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_086",
@@ -1650,7 +1736,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_087",
@@ -1667,7 +1754,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_088",
@@ -1684,7 +1772,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_089",
@@ -1701,7 +1790,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_090",
@@ -1718,7 +1808,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_091",
@@ -1735,7 +1826,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_092",
@@ -1752,7 +1844,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_093",
@@ -1769,7 +1862,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_094",
@@ -1786,7 +1880,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_095",
@@ -1803,7 +1898,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_096",
@@ -1820,7 +1916,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_097",
@@ -1837,7 +1934,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_098",
@@ -1854,7 +1952,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_099",
@@ -1871,7 +1970,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_100",
@@ -1888,7 +1988,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_101",
@@ -1905,7 +2006,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_102",
@@ -1922,7 +2024,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_103",
@@ -1939,7 +2042,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     },
     {
       "id": "m_104",
@@ -1956,7 +2060,8 @@
       "scoreB": "",
       "status": "agendado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-10T00:00:00.000Z",
+      "qualifiedTeam": ""
     }
   ],
   "predictions": [
@@ -1974,7 +2079,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T02:14:22.708Z",
-      "updatedAt": "2026-06-11T16:51:09.052Z"
+      "updatedAt": "2026-06-11T16:51:09.052Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_9f746355",
@@ -1990,7 +2099,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T02:17:29.529Z",
-      "updatedAt": "2026-06-11T02:17:29.529Z"
+      "updatedAt": "2026-06-11T02:17:29.529Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_e7c48fd7",
@@ -2006,7 +2119,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:13:44.196Z",
-      "updatedAt": "2026-06-11T16:51:09.052Z"
+      "updatedAt": "2026-06-11T16:51:09.052Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_65fcf830",
@@ -2022,7 +2139,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:13:44.196Z",
-      "updatedAt": "2026-06-11T13:50:20.109Z"
+      "updatedAt": "2026-06-11T13:50:20.109Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_06ec408f",
@@ -2038,7 +2159,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:13:44.196Z",
-      "updatedAt": "2026-06-11T13:25:47.853Z"
+      "updatedAt": "2026-06-11T13:25:47.853Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_d9aa23e2",
@@ -2054,7 +2179,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:13:44.196Z",
-      "updatedAt": "2026-06-11T13:26:22.435Z"
+      "updatedAt": "2026-06-11T13:26:22.435Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_adf4d5e5",
@@ -2070,7 +2199,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:13:44.196Z",
-      "updatedAt": "2026-06-11T13:25:47.853Z"
+      "updatedAt": "2026-06-11T13:25:47.853Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_4b78d77b",
@@ -2086,7 +2219,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:13:44.196Z",
-      "updatedAt": "2026-06-11T13:26:22.435Z"
+      "updatedAt": "2026-06-11T13:26:22.435Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_590aaf89",
@@ -2102,7 +2239,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:19:27.905Z",
-      "updatedAt": "2026-06-11T03:19:27.905Z"
+      "updatedAt": "2026-06-11T03:19:27.905Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_cefeee7a",
@@ -2118,7 +2259,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T03:19:52.188Z",
-      "updatedAt": "2026-06-11T03:19:52.188Z"
+      "updatedAt": "2026-06-11T03:19:52.188Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_3526b859",
@@ -2134,7 +2279,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:25:47.853Z",
-      "updatedAt": "2026-06-11T13:25:47.853Z"
+      "updatedAt": "2026-06-11T13:25:47.853Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_1fd40a4a",
@@ -2150,7 +2299,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:26:22.435Z",
-      "updatedAt": "2026-06-11T13:26:22.435Z"
+      "updatedAt": "2026-06-11T13:26:22.435Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_d25796a5",
@@ -2166,7 +2319,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:27:16.114Z",
-      "updatedAt": "2026-06-11T13:27:16.114Z"
+      "updatedAt": "2026-06-11T13:27:16.114Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_a0c07b9b",
@@ -2182,7 +2339,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:27:16.114Z",
-      "updatedAt": "2026-06-11T13:27:16.114Z"
+      "updatedAt": "2026-06-11T13:27:16.114Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_c81462d8",
@@ -2198,7 +2359,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:27:16.114Z",
-      "updatedAt": "2026-06-11T13:27:16.114Z"
+      "updatedAt": "2026-06-11T13:27:16.114Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_30a36c47",
@@ -2214,7 +2379,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:27:16.114Z",
-      "updatedAt": "2026-06-11T13:27:16.114Z"
+      "updatedAt": "2026-06-11T13:27:16.114Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_616eafe7",
@@ -2230,7 +2399,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:27:16.114Z",
-      "updatedAt": "2026-06-11T13:27:16.114Z"
+      "updatedAt": "2026-06-11T13:27:16.114Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_14e15052",
@@ -2246,7 +2419,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:27:16.114Z",
-      "updatedAt": "2026-06-11T13:27:16.114Z"
+      "updatedAt": "2026-06-11T13:27:16.114Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_ab4c8cc1",
@@ -2262,7 +2439,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:35:19.160Z",
-      "updatedAt": "2026-06-11T13:35:19.160Z"
+      "updatedAt": "2026-06-11T13:35:19.160Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_6f7ced85",
@@ -2278,7 +2459,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:35:19.160Z",
-      "updatedAt": "2026-06-11T13:35:19.160Z"
+      "updatedAt": "2026-06-11T13:35:19.160Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_504f53ee",
@@ -2294,7 +2479,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:35:35.048Z",
-      "updatedAt": "2026-06-11T13:35:35.048Z"
+      "updatedAt": "2026-06-11T13:35:35.048Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_bbf56195",
@@ -2310,7 +2499,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:35:35.048Z",
-      "updatedAt": "2026-06-11T13:35:35.048Z"
+      "updatedAt": "2026-06-11T13:35:35.048Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_6143793d",
@@ -2326,7 +2519,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:48:07.392Z",
-      "updatedAt": "2026-06-11T13:48:07.392Z"
+      "updatedAt": "2026-06-11T13:48:07.392Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_d397d830",
@@ -2342,7 +2539,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:48:17.257Z",
-      "updatedAt": "2026-06-11T13:48:17.257Z"
+      "updatedAt": "2026-06-11T13:48:17.257Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_0f75edd6",
@@ -2358,7 +2559,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:50:28.406Z",
-      "updatedAt": "2026-06-11T13:50:28.406Z"
+      "updatedAt": "2026-06-11T13:50:28.406Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_d44d9ddc",
@@ -2374,7 +2579,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:50:37.541Z",
-      "updatedAt": "2026-06-11T13:50:37.541Z"
+      "updatedAt": "2026-06-11T13:50:37.541Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_49d6756b",
@@ -2390,7 +2599,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T13:50:51.444Z",
-      "updatedAt": "2026-06-11T13:50:51.444Z"
+      "updatedAt": "2026-06-11T13:50:51.444Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_e368ae0a",
@@ -2406,7 +2619,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T14:43:05.996Z",
-      "updatedAt": "2026-06-11T14:43:05.996Z"
+      "updatedAt": "2026-06-11T14:43:05.996Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_b15f9ca7",
@@ -2422,7 +2639,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T14:43:05.996Z",
-      "updatedAt": "2026-06-11T14:43:05.996Z"
+      "updatedAt": "2026-06-11T14:43:05.996Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_578c7762",
@@ -2438,7 +2659,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T14:43:36.663Z",
-      "updatedAt": "2026-06-11T14:43:36.663Z"
+      "updatedAt": "2026-06-11T14:43:36.663Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_02b0b7aa",
@@ -2454,7 +2679,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T14:43:36.663Z",
-      "updatedAt": "2026-06-11T14:43:36.663Z"
+      "updatedAt": "2026-06-11T14:43:36.663Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_36955c98",
@@ -2470,7 +2699,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T16:51:24.563Z",
-      "updatedAt": "2026-06-11T16:51:24.563Z"
+      "updatedAt": "2026-06-11T16:51:24.563Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_a4bb869a",
@@ -2486,7 +2719,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T16:52:26.746Z",
-      "updatedAt": "2026-06-11T16:52:26.746Z"
+      "updatedAt": "2026-06-11T16:52:26.746Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     },
     {
       "id": "pr_3fc29817",
@@ -2502,7 +2739,11 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-06-11T16:52:39.169Z",
-      "updatedAt": "2026-06-11T16:52:39.169Z"
+      "updatedAt": "2026-06-11T16:52:39.169Z",
+      "qualifiedTeam": "",
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "basePoints": 0
     }
   ],
   "bonusQuestions": [
