@@ -3,7 +3,7 @@
     "appName": "Bolão Copa do Mundo 2026",
     "version": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
-    "updatedAt": "2026-06-11T21:09:33.886Z",
+    "updatedAt": "2026-06-11T21:11:57.505Z",
     "dataSource": "Tabela oficial FIFA 2026; horários ajustados para Brasília/São Paulo",
     "totalMatches": 104
   },
@@ -38,7 +38,7 @@
       "enabled": true,
       "intervalMinutes": 30,
       "saveEveryChanges": 10,
-      "lastBackupAt": "2026-06-11T21:08:27.164Z",
+      "lastBackupAt": "2026-06-11T21:11:50.685Z",
       "changesSinceBackup": 0
     }
   },
@@ -2081,7 +2081,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T02:14:22.708Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2121,7 +2121,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2141,7 +2141,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:50:20.109Z"
     },
@@ -2161,7 +2161,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2181,7 +2181,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2201,7 +2201,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2221,7 +2221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2281,7 +2281,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T13:25:47.853Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2301,7 +2301,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-11T21:08:27.163Z",
+      "calculatedAt": "2026-06-11T21:11:50.685Z",
       "createdAt": "2026-06-11T13:26:22.435Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2744,6 +2744,46 @@
       "calculatedAt": "",
       "createdAt": "2026-06-11T16:52:39.169Z",
       "updatedAt": "2026-06-11T16:52:39.169Z"
+    },
+    {
+      "id": "pr_9e7424d3",
+      "participantId": "p_cainho",
+      "matchId": "m_003",
+      "goalsA": 0,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-11T21:11:39.656Z",
+      "updatedAt": "2026-06-11T21:11:39.656Z"
+    },
+    {
+      "id": "pr_fdac19b7",
+      "participantId": "p_cainho",
+      "matchId": "m_004",
+      "goalsA": 1,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-11T21:11:46.666Z",
+      "updatedAt": "2026-06-11T21:11:46.666Z"
     }
   ],
   "bonusQuestions": [
@@ -4153,6 +4193,33 @@
       "description": "Resultado lançado/editado: México x África do Sul",
       "before": "-",
       "after": "2 x 0"
+    },
+    {
+      "id": "log_1d685827",
+      "timestamp": "2026-06-11T21:11:39.656Z",
+      "type": "Palpite",
+      "entity": "pr_9e7424d3",
+      "description": "Palpite criado: Cia em Canadá x Bósnia e Herzegovina",
+      "before": "-",
+      "after": "0 x 1"
+    },
+    {
+      "id": "log_2b9b53fd",
+      "timestamp": "2026-06-11T21:11:46.666Z",
+      "type": "Palpite",
+      "entity": "pr_fdac19b7",
+      "description": "Palpite criado: Cia em Estados Unidos x Paraguai",
+      "before": "-",
+      "after": "1 x 1"
+    },
+    {
+      "id": "log_84dbe736",
+      "timestamp": "2026-06-11T21:11:50.685Z",
+      "type": "Backup",
+      "entity": "auto",
+      "description": "Backup manual baixado pela área de backup automático",
+      "before": "",
+      "after": ""
     }
   ]
 }
