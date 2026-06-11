@@ -18,6 +18,27 @@ O que vale para o público é o arquivo:
 data/bolao-publico.json
 ```
 
+## Como atualizar a versão pública
+
+No seu sistema ADMIN/local:
+
+1. Atualize resultados, palpites e bônus normalmente.
+2. Exporte o backup JSON.
+3. Renomeie o arquivo exportado para:
+
+```txt
+bolao-publico.json
+```
+
+4. Substitua o arquivo dentro da pasta:
+
+```txt
+data/bolao-publico.json
+```
+
+5. Suba essa alteração no GitHub.
+6. O site público passará a mostrar essa nova versão.
+
 ## Regras de pontuação
 
 ### Regra geral
@@ -76,3 +97,8 @@ Resultado esperado:
 ```txt
 TESTES PUBLICOS OK
 ```
+
+## V15 público - correção do gráfico de evolução
+
+- O gráfico de evolução por rodada agora exibe pontos visíveis mesmo quando há apenas uma rodada finalizada.
+- Quando houver duas ou mais rodadas, o gráfico passa a ligar os pontos normalmente.

@@ -866,18 +866,27 @@
     const pad = 42;
     const maxPoints = Math.max(1, ...roundEvolution.flatMap((round) => round.participants.map((item) => Number(item.points || 0))));
     const xStep = roundEvolution.length > 1 ? (width - pad * 2) / (roundEvolution.length - 1) : 0;
+    const pointX = (roundIndex) => roundEvolution.length > 1 ? pad + roundIndex * xStep : width / 2;
+    const pointY = (participantId, round) => {
+      const item = round.participants.find((row) => row.participantId === participantId);
+      return height - pad - ((Number(item?.points || 0) / maxPoints) * (height - pad * 2));
+    };
     const colors = ["#2563eb", "#dc2626", "#16a34a", "#9333ea", "#ea580c", "#0891b2", "#be123c", "#4f46e5", "#65a30d", "#c026d3"];
     const lines = participants.map((participant, index) => {
-      const points = roundEvolution.map((round, roundIndex) => {
-        const item = round.participants.find((row) => row.participantId === participant.id);
-        const x = pad + roundIndex * xStep;
-        const y = height - pad - ((Number(item?.points || 0) / maxPoints) * (height - pad * 2));
-        return `${x},${y}`;
-      }).join(" ");
-      return `<polyline points="${points}" fill="none" stroke="${colors[index % colors.length]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />`;
+      const color = colors[index % colors.length];
+      const coords = roundEvolution.map((round, roundIndex) => ({
+        x: pointX(roundIndex),
+        y: pointY(participant.id, round)
+      }));
+      const points = coords.map((point) => `${point.x},${point.y}`).join(" ");
+      const line = coords.length > 1
+        ? `<polyline points="${points}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />`
+        : "";
+      const markers = coords.map((point) => `<circle cx="${point.x}" cy="${point.y}" r="5" fill="${color}" stroke="var(--surface)" stroke-width="2"><title>${escapeHtml(participant.nickname || participant.name)}: ${Math.round(((height - pad - point.y) / (height - pad * 2)) * maxPoints)} pontos</title></circle>`).join("");
+      return line + markers;
     }).join("");
     const labels = roundEvolution.map((round, index) => {
-      const x = pad + index * xStep;
+      const x = pointX(index);
       const label = round.round.length > 12 ? `${round.round.slice(0, 10)}…` : round.round;
       return `<text x="${x}" y="${height - 10}" text-anchor="middle" class="svg-label">${escapeHtml(label)}</text>`;
     }).join("");
