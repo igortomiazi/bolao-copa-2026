@@ -3,7 +3,7 @@
     "appName": "Bolão Copa do Mundo 2026",
     "version": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
-    "updatedAt": "2026-06-12T03:59:28.722Z",
+    "updatedAt": "2026-06-12T13:39:46.602Z",
     "dataSource": "Tabela oficial FIFA 2026; horários ajustados para Brasília/São Paulo",
     "totalMatches": 104
   },
@@ -38,7 +38,7 @@
       "enabled": true,
       "intervalMinutes": 30,
       "saveEveryChanges": 10,
-      "lastBackupAt": "2026-06-12T03:57:49.605Z",
+      "lastBackupAt": "2026-06-12T13:39:43.824Z",
       "changesSinceBackup": 0
     }
   },
@@ -2081,7 +2081,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T02:14:22.708Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2101,7 +2101,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T02:17:29.529Z",
       "updatedAt": "2026-06-11T02:17:29.529Z"
     },
@@ -2121,7 +2121,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2141,7 +2141,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:50:20.109Z"
     },
@@ -2161,7 +2161,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2181,7 +2181,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2201,7 +2201,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2221,7 +2221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2281,7 +2281,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:25:47.853Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2301,7 +2301,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:26:22.435Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2321,7 +2321,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2341,7 +2341,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2361,7 +2361,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2381,7 +2381,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2401,7 +2401,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2421,7 +2421,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2561,7 +2561,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T13:50:28.406Z",
       "updatedAt": "2026-06-11T13:50:28.406Z"
     },
@@ -2701,7 +2701,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-12T03:57:49.603Z",
+      "calculatedAt": "2026-06-12T13:39:43.824Z",
       "createdAt": "2026-06-11T16:51:24.563Z",
       "updatedAt": "2026-06-11T16:51:24.563Z"
     },
@@ -2944,6 +2944,106 @@
       "calculatedAt": "",
       "createdAt": "2026-06-11T22:35:33.394Z",
       "updatedAt": "2026-06-11T22:35:33.394Z"
+    },
+    {
+      "id": "pr_1f74d6a9",
+      "participantId": "p_igor",
+      "matchId": "m_009",
+      "goalsA": 4,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-12T13:34:09.951Z",
+      "updatedAt": "2026-06-12T13:34:09.951Z"
+    },
+    {
+      "id": "pr_24fac603",
+      "participantId": "p_igor",
+      "matchId": "m_010",
+      "goalsA": 2,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-12T13:35:00.927Z",
+      "updatedAt": "2026-06-12T13:35:00.927Z"
+    },
+    {
+      "id": "pr_43f701d2",
+      "participantId": "p_igor",
+      "matchId": "m_011",
+      "goalsA": 1,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-12T13:35:52.538Z",
+      "updatedAt": "2026-06-12T13:35:52.538Z"
+    },
+    {
+      "id": "pr_dc8354ad",
+      "participantId": "p_igor",
+      "matchId": "m_012",
+      "goalsA": 1,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-12T13:36:49.957Z",
+      "updatedAt": "2026-06-12T13:36:49.957Z"
+    },
+    {
+      "id": "pr_4db6f4ca",
+      "participantId": "p_igor",
+      "matchId": "m_013",
+      "goalsA": 3,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-12T13:39:22.710Z",
+      "updatedAt": "2026-06-12T13:39:22.710Z"
     }
   ],
   "bonusQuestions": [
@@ -4488,6 +4588,60 @@
       "description": "Resultado lançado/editado: Coreia do Sul x Tchéquia",
       "before": "-",
       "after": "2 x 1"
+    },
+    {
+      "id": "log_74130911",
+      "timestamp": "2026-06-12T13:34:09.951Z",
+      "type": "Palpite",
+      "entity": "pr_1f74d6a9",
+      "description": "Palpite criado: Cebola em Alemanha x Curaçao",
+      "before": "-",
+      "after": "4 x 0"
+    },
+    {
+      "id": "log_21ceef98",
+      "timestamp": "2026-06-12T13:35:00.927Z",
+      "type": "Palpite",
+      "entity": "pr_24fac603",
+      "description": "Palpite criado: Cebola em Holanda x Japão",
+      "before": "-",
+      "after": "2 x 1"
+    },
+    {
+      "id": "log_f2f208fe",
+      "timestamp": "2026-06-12T13:35:52.538Z",
+      "type": "Palpite",
+      "entity": "pr_43f701d2",
+      "description": "Palpite criado: Cebola em Costa do Marfim x Equador",
+      "before": "-",
+      "after": "1 x 1"
+    },
+    {
+      "id": "log_52daa173",
+      "timestamp": "2026-06-12T13:36:49.957Z",
+      "type": "Palpite",
+      "entity": "pr_dc8354ad",
+      "description": "Palpite criado: Cebola em Suécia x Tunísia",
+      "before": "-",
+      "after": "1 x 0"
+    },
+    {
+      "id": "log_7b591496",
+      "timestamp": "2026-06-12T13:39:22.710Z",
+      "type": "Palpite",
+      "entity": "pr_4db6f4ca",
+      "description": "Palpite criado: Cebola em Espanha x Cabo Verde",
+      "before": "-",
+      "after": "3 x 0"
+    },
+    {
+      "id": "log_60d53312",
+      "timestamp": "2026-06-12T13:39:43.824Z",
+      "type": "Backup",
+      "entity": "auto",
+      "description": "Backup manual baixado pela área de backup automático",
+      "before": "",
+      "after": ""
     }
   ]
 }
