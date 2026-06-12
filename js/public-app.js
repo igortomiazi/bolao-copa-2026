@@ -477,7 +477,7 @@
     const score = showScore && match.status === "finalizado" && match.scoreA !== "" && match.scoreB !== ""
       ? `<strong class="score-inline">${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}</strong>`
       : `<span class="versus">x</span>`;
-    return `${teamHtml(match.teamA)} ${score} ${teamHtml(match.teamB)}`;
+    return `<span class="matchup-inline">${teamHtml(match.teamA)}${score}${teamHtml(match.teamB)}</span>`;
   }
 
   function resultText(match) {
@@ -490,15 +490,9 @@
     return "-";
   }
 
-  function criterionText(prediction) {
-    if (!prediction) return "-";
-    const parts = [];
-    if (prediction.exact) parts.push("Placar exato");
-    else if (prediction.goalDifferenceHit) parts.push("Vencedor + saldo");
-    else if (prediction.outcomeHit) parts.push("Resultado correto");
-    else if (Number(prediction.points || 0) === 0) parts.push("-");
-    if (prediction.qualifiedHit) parts.push("Classificado");
-    return parts.filter(Boolean).join(" + ") || "-";
+  function criterionText(prediction, match = null) {
+    const meta = criterionMeta(prediction, match);
+    return meta?.shortLabel || "-";
   }
 
   function criterionMeta(prediction, match) {
@@ -536,10 +530,12 @@
         title: `Acertou o vencedor e a diferença/saldo de gols. Base: ${basePoints} ponto(s).`
       };
     } else if (prediction.outcomeHit) {
+      const realOutcome = outcome(toNumberOrNull(match.scoreA), toNumberOrNull(match.scoreB));
+      const outcomeLabel = realOutcome === "E" ? "Empate correto" : "Vencedor correto";
       meta = {
         className: "criterion-outcome",
-        shortLabel: "Vencedor/empate",
-        title: `Acertou o vencedor ou acertou que seria empate. Base: ${basePoints} ponto(s).`
+        shortLabel: outcomeLabel,
+        title: `${outcomeLabel}. Base: ${basePoints} ponto(s).`
       };
     } else {
       meta = {
@@ -737,7 +733,7 @@
       </section>
 
       <div class="grid-2">
-        <section class="card">
+        <section class="card compact-table-card home-table-card upcoming-table-card">
           <div class="card-header"><div><h2>Próximos jogos</h2><p>Ordenados por data e horário.</p></div></div>
           ${table(["Data", "Fase", "Jogo", "Sede", "Status"], upcoming.map((match) => [
             `${formatDate(match.date)} ${escapeHtml(match.time)}`,
@@ -747,7 +743,7 @@
             statusBadge(match.status)
           ]))}
         </section>
-        <section class="card">
+        <section class="card compact-table-card home-table-card ranking-summary-card">
           <div class="card-header"><div><h2>Ranking resumido</h2><p>Top 5 por pontuação total.</p></div></div>
           ${table(["#", "Participante", "Jogos", "Bônus", "Total"], ranking.slice(0, 5).map((row, index) => [
             `<strong>${index + 1}</strong>`,
@@ -791,23 +787,29 @@
     return `
       <section class="card">
         <div class="card-header"><div><h2>Palpites</h2><p>Somente consulta. Palpites ausentes em jogos finalizados aparecem como 0x0 automático.</p></div></div>
-        <div class="filters" data-filters="predictions">
+        <div class="filters predictions-filters" data-filters="predictions">
           <input type="search" id="predSearch" placeholder="Buscar participante, seleção ou fase" />
           <select id="predParticipant"><option value="">Todos os participantes</option>${state.participants.map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.nickname || p.name)}</option>`).join("")}</select>
           <select id="predStatus"><option value="">Todos os status</option><option value="agendado">agendado</option><option value="andamento">andamento</option><option value="finalizado">finalizado</option></select>
           <select id="predOnly"><option value="all">Todos</option><option value="manual">Só cadastrados manualmente</option><option value="auto">Só 0x0 automático</option></select>
+          <select id="predView"><option value="grouped">Visualização por jogo</option><option value="table">Visualização em tabela</option></select>
         </div>
         <div id="predictionsTable">${predictionsTableHtml()}</div>
       </section>
     `;
   }
 
-  function predictionsTableHtml() {
+  function predictionMatchSortValue(match) {
+    return `${match?.date || "9999-99-99"} ${match?.time || "99:99"} ${String(match?.matchNo || "").padStart(4, "0")}`;
+  }
+
+  function filteredPredictions() {
     const search = normalizeSearch(document.getElementById("predSearch")?.value || "");
     const participantId = document.getElementById("predParticipant")?.value || "";
     const status = document.getElementById("predStatus")?.value || "";
     const only = document.getElementById("predOnly")?.value || "all";
-    const rows = state.predictions
+
+    return state.predictions
       .filter((prediction) => !participantId || prediction.participantId === participantId)
       .filter((prediction) => only === "all" || (only === "manual" && !isAutomaticPrediction(prediction)) || (only === "auto" && isAutomaticPrediction(prediction)))
       .filter((prediction) => {
@@ -817,24 +819,119 @@
       .filter((prediction) => {
         if (!search) return true;
         const match = matchById(prediction.matchId);
-        return normalizeSearch(`${participantName(prediction.participantId)} ${match?.teamA || ""} ${match?.teamB || ""} ${match?.phase || ""} ${match?.group || ""} ${match?.matchNo || ""}`).includes(search);
+        return normalizeSearch(`${participantName(prediction.participantId)} ${match?.teamA || ""} ${match?.teamB || ""} ${match?.phase || ""} ${match?.group || ""} ${match?.matchNo || ""} ${match?.date || ""}`).includes(search);
       })
-      .sort((a, b) => participantName(a.participantId).localeCompare(participantName(b.participantId), "pt-BR") || String(matchById(a.matchId)?.matchNo || "").localeCompare(String(matchById(b.matchId)?.matchNo || ""), "pt-BR"))
-      .map((prediction) => {
-        const match = matchById(prediction.matchId);
-        return [
-          escapeHtml(participantName(prediction.participantId)),
-          match ? matchHtml(match, false) : "-",
-          predictionText(prediction, match),
-          match ? statusBadge(match.status) : "-",
-          `<strong>${prediction.points || 0}</strong>`,
-          criterionText(prediction)
-        ];
+      .sort((a, b) => {
+        const matchA = matchById(a.matchId);
+        const matchB = matchById(b.matchId);
+        return predictionMatchSortValue(matchA).localeCompare(predictionMatchSortValue(matchB), "pt-BR") || participantName(a.participantId).localeCompare(participantName(b.participantId), "pt-BR");
       });
-    return table(["Participante", "Jogo", "Palpite", "Status", "Pontos", "Critério"], rows);
   }
 
-  function bonusView() {
+  function predictionPointsCell(prediction, match = null) {
+    if (!match || match.status !== "finalizado") return `<span class="muted-inline">-</span>`;
+    return `<strong>${escapeHtml(prediction?.points || 0)}</strong>`;
+  }
+
+  function predictionCriterionCell(prediction, match = null) {
+    const meta = criterionMeta(prediction, match);
+    return `<span class="criterion-inline ${escapeHtml(meta.className || "")}" title="${escapeHtml(meta.title || "")}">${escapeHtml(meta.shortLabel || "-")}</span>`;
+  }
+
+  function groupedPredictionsHtml() {
+    const predictions = filteredPredictions();
+    if (!predictions.length) return emptyState();
+
+    const grouped = new Map();
+    predictions.forEach((prediction) => {
+      if (!grouped.has(prediction.matchId)) grouped.set(prediction.matchId, []);
+      grouped.get(prediction.matchId).push(prediction);
+    });
+
+    const orderedGroups = Array.from(grouped.entries())
+      .map(([matchId, list]) => ({ match: matchById(matchId), list }))
+      .filter((entry) => entry.match)
+      .sort((a, b) => predictionMatchSortValue(a.match).localeCompare(predictionMatchSortValue(b.match), "pt-BR"));
+
+    return `
+      <div class="prediction-groups">
+        ${orderedGroups.map(({ match, list }) => {
+          const orderedPredictions = [...list].sort((a, b) => {
+            if (match.status === "finalizado") {
+              return Number(b.points || 0) - Number(a.points || 0) || participantName(a.participantId).localeCompare(participantName(b.participantId), "pt-BR");
+            }
+            return participantName(a.participantId).localeCompare(participantName(b.participantId), "pt-BR");
+          });
+
+          const resultLine = match.status === "finalizado"
+            ? `<div class="prediction-group-result"><strong>Resultado:</strong> ${matchHtml(match, true)}</div>`
+            : `<div class="prediction-group-result pending"><strong>Resultado:</strong> aguardando finalização do jogo.</div>`;
+
+          return `
+            <details class="prediction-group-card">
+              <summary>
+                <div class="prediction-group-title">
+                  <strong>${match.matchNo ? `#${escapeHtml(match.matchNo)} • ` : ''}${matchHtml(match, false)}</strong>
+                  <span>${formatDate(match.date)} ${escapeHtml(match.time)} • ${escapeHtml(match.phase)}${match.group && match.group !== "-" ? ` • Grupo ${escapeHtml(match.group)}` : ""}</span>
+                </div>
+                <div class="prediction-group-meta">
+                  ${statusBadge(match.status)}
+                  <span class="badge">${escapeHtml(orderedPredictions.length)} palpites</span>
+                </div>
+              </summary>
+              ${resultLine}
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Participante</th>
+                      <th>Palpite</th>
+                      <th>Pontos</th>
+                      <th>Critério</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${orderedPredictions.map((prediction) => `
+                      <tr>
+                        <td>${escapeHtml(participantName(prediction.participantId))}</td>
+                        <td>${predictionText(prediction, match)}</td>
+                        <td>${predictionPointsCell(prediction, match)}</td>
+                        <td>${predictionCriterionCell(prediction, match)}</td>
+                      </tr>
+                    `).join("")}
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          `;
+        }).join("")}
+      </div>
+    `;
+  }
+
+  function flatPredictionsTableHtml() {
+    const rows = filteredPredictions().map((prediction) => {
+      const match = matchById(prediction.matchId);
+      return [
+        match ? `${formatDate(match.date)} ${escapeHtml(match.time)}` : "-",
+        escapeHtml(participantName(prediction.participantId)),
+        match ? matchHtml(match, false) : "-",
+        predictionText(prediction, match),
+        match ? statusBadge(match.status) : "-",
+        predictionPointsCell(prediction, match),
+        predictionCriterionCell(prediction, match)
+      ];
+    });
+
+    return table(["Data", "Participante", "Jogo", "Palpite", "Status", "Pontos", "Critério"], rows);
+  }
+
+  function predictionsTableHtml() {
+    const view = document.getElementById("predView")?.value || "grouped";
+    return view === "table" ? flatPredictionsTableHtml() : groupedPredictionsHtml();
+  }
+
+function bonusView() {
     const rows = state.bonusQuestions.map((question) => [
       escapeHtml(question.question),
       escapeHtml(question.answerType),
@@ -876,6 +973,38 @@
     `;
   }
 
+  function phasePointsAccordionHtml() {
+    const finalizedPhases = (state.settings.phases || [])
+      .filter((phase) => state.matches.some((match) => match.phase === phase && match.status === "finalizado"));
+
+    if (!finalizedPhases.length) {
+      return emptyState("Nenhuma fase possui jogo finalizado ainda.");
+    }
+
+    const rankingByParticipant = Object.fromEntries(buildRanking().map((row) => [row.participantId, row]));
+
+    const items = state.participants.map((participant, index) => {
+      const ranking = rankingByParticipant[participant.id] || {};
+      const phaseRows = finalizedPhases.map((phase) => {
+        const points = state.predictions
+          .filter((prediction) => prediction.participantId === participant.id && matchById(prediction.matchId)?.phase === phase)
+          .reduce((sum, prediction) => sum + Number(prediction.points || 0), 0);
+        return [escapeHtml(phase), `<strong>${points}</strong>`];
+      });
+
+      return `
+        <details class="phase-accordion-item">
+          <summary>
+            <span><strong>${escapeHtml(participant.nickname || participant.name)}</strong><small>${escapeHtml(participant.name)}</small></span>
+            <span class="phase-total-badge">${escapeHtml(ranking.gamePoints || 0)} pts em jogos</span>
+          </summary>
+          ${table(["Fase", "Pontos"], phaseRows)}
+        </details>`;
+    }).join("");
+
+    return `<div class="phase-accordion">${items}</div>`;
+  }
+
   function statsView() {
     const ranking = buildRanking();
     const finalized = state.matches.filter((match) => match.status === "finalizado");
@@ -885,16 +1014,6 @@
       const wrong = predictions.filter((prediction) => Number(prediction.points || 0) === 0).length;
       return { match, avg: Number(avg.toFixed(2)), wrong, wrongPercent: predictions.length ? Math.round((wrong / predictions.length) * 100) : 0, total: predictions.length };
     }).sort((a, b) => a.avg - b.avg || b.wrongPercent - a.wrongPercent).slice(0, 8);
-
-    const phaseRows = [];
-    state.participants.forEach((participant) => {
-      state.settings.phases.forEach((phase) => {
-        const points = state.predictions
-          .filter((prediction) => prediction.participantId === participant.id && matchById(prediction.matchId)?.phase === phase)
-          .reduce((sum, prediction) => sum + Number(prediction.points || 0), 0);
-        if (points > 0 || state.matches.some((match) => match.phase === phase)) phaseRows.push([escapeHtml(participant.nickname || participant.name), escapeHtml(phase), points]);
-      });
-    });
 
     return `
       <div class="grid-2">
@@ -911,8 +1030,8 @@
       </div>
       <section class="card"><div class="card-header"><div><h2>Evolução por rodada</h2><p>Pontuação acumulada por rodada finalizada.</p></div></div>${lineChartEvolution(rankingEvolutionByRound())}</section>
       <div class="grid-2">
-        <section class="card"><div class="card-header"><div><h2>Jogos mais difíceis</h2><p>Menor média de pontos por palpite.</p></div></div>${table(["Jogo", "Fase", "Média", "Erraram"], hardest.map((row) => [matchHtml(row.match, true), escapeHtml(row.match.phase), row.avg, `${row.wrongPercent}%`]))}</section>
-        <section class="card"><div class="card-header"><div><h2>Pontuação por fase</h2><p>Total por participante e fase.</p></div></div>${table(["Participante", "Fase", "Pontos"], phaseRows)}</section>
+        <section class="card compact-table-card"><div class="card-header"><div><h2>Jogos mais difíceis</h2><p>Menor média de pontos por palpite.</p></div></div>${table(["Jogo", "Fase", "Média", "Erraram"], hardest.map((row) => [matchHtml(row.match, true), escapeHtml(row.match.phase), row.avg, `${row.wrongPercent}%`]))}</section>
+        <section class="card compact-table-card"><div class="card-header"><div><h2>Pontuação por fase</h2><p>Resumo por participante. Abra um nome para ver os pontos por fase finalizada.</p></div></div>${phasePointsAccordionHtml()}</section>
       </div>
     `;
   }
@@ -1129,9 +1248,13 @@
       bindMatchPredictionButtons();
     }
     if (view === "predictions") {
-      app.querySelectorAll("#predSearch, #predParticipant, #predStatus, #predOnly").forEach((element) => element.addEventListener("input", () => {
+      const redrawPredictions = () => {
         document.getElementById("predictionsTable").innerHTML = predictionsTableHtml();
-      }));
+      };
+      app.querySelectorAll("#predSearch, #predParticipant, #predStatus, #predOnly, #predView").forEach((element) => {
+        element.addEventListener("input", redrawPredictions);
+        element.addEventListener("change", redrawPredictions);
+      });
     }
     app.querySelectorAll("[data-open-rules]").forEach((button) => button.addEventListener("click", () => openModal("Regras do bolão", rulesHtml())));
     app.querySelectorAll("[data-bonus-modal]").forEach((button) => button.addEventListener("click", () => bonusResponsesModal(button.dataset.bonusModal)));

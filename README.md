@@ -115,3 +115,42 @@ A tela **Jogos** agora possui o botão **Ver palpites**, que abre um modal somen
 - destaque para o melhor palpite do jogo;
 - tooltip explicativo sobre o critério;
 - ordenação automática por maior pontuação quando o jogo está finalizado.
+
+
+## Atualização - Estatísticas mais compactas
+
+A área **Pontuação por fase** agora usa blocos expansíveis por participante. Isso reduz a rolagem da página e mostra apenas fases que já possuem jogos finalizados.
+
+Também foi ajustado o texto dos critérios de pontuação para diferenciar melhor **Vencedor correto** e **Empate correto**.
+
+
+## Ajustes visuais - Estatísticas e jogos
+
+- A área **Pontuação por fase** agora abre todos os participantes fechados por padrão.
+- O botão **Abrir/Fechar detalhes** recebeu mais destaque visual.
+- O alinhamento entre bandeiras, nomes e placar foi corrigido.
+- As tabelas compactas de estatísticas foram ajustadas para evitar barras horizontais desnecessárias.
+
+
+## Atualização - Home sem barras e mobile melhorado
+
+- As tabelas compactas da Home foram ajustadas para não exibirem barras horizontais desnecessárias.
+- O layout mobile recebeu melhorias de menu, espaçamento, cards, filtros e tabelas.
+- A navegação em telas de celular ficou mais confortável, com menu fixo no topo e botões maiores.
+
+## Atualização - Palpites por jogo
+
+- A aba **Palpites** agora abre por padrão em **visualização por jogo**.
+- Os jogos são mostrados em ordem cronológica, facilitando a conferência dos palpites.
+- Há opção de alternar para **visualização em tabela**.
+- Em jogos ainda não finalizados, a coluna de critério mostra **Aguardando resultado**.
+
+
+## Atualização - Alinhamento da aba Palpites
+
+A aba **Palpites** recebeu ajustes visuais:
+
+- filtros alinhados em uma linha mais estável no desktop;
+- cards de jogos com título, badges e botão **Abrir** melhor distribuídos;
+- tabelas internas sem barra horizontal desnecessária no desktop;
+- comportamento mobile ajustado para empilhar os elementos sem quebrar a leitura.
