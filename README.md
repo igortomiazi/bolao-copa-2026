@@ -102,3 +102,16 @@ TESTES PUBLICOS OK
 
 - O gráfico de evolução por rodada agora exibe pontos visíveis mesmo quando há apenas uma rodada finalizada.
 - Quando houver duas ou mais rodadas, o gráfico passa a ligar os pontos normalmente.
+
+
+## Atualização - Modal público de palpites por jogo
+
+A tela **Jogos** agora possui o botão **Ver palpites**, que abre um modal somente leitura com:
+
+- resultado final do jogo;
+- resumo do jogo;
+- total de palpites, pontuaram, zeraram, média e maior pontuação;
+- pontuação e regra atingida por participante;
+- destaque para o melhor palpite do jogo;
+- tooltip explicativo sobre o critério;
+- ordenação automática por maior pontuação quando o jogo está finalizado.

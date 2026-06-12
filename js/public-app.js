@@ -501,6 +501,152 @@
     return parts.filter(Boolean).join(" + ") || "-";
   }
 
+  function criterionMeta(prediction, match) {
+    if (!match || match.status !== "finalizado") {
+      return {
+        className: "criterion-pending",
+        shortLabel: "Aguardando resultado",
+        title: "Este jogo ainda não foi finalizado, então a pontuação ainda não foi calculada."
+      };
+    }
+
+    if (!prediction) {
+      return {
+        className: "criterion-missing",
+        shortLabel: "Sem palpite",
+        title: "Nenhum palpite localizado para este participante neste jogo."
+      };
+    }
+
+    const basePoints = Number(prediction.basePoints || 0);
+    const qualifiedPoints = Number(prediction.qualifiedPoints || 0);
+    const totalPoints = Number(prediction.points || 0);
+
+    let meta;
+    if (prediction.exact) {
+      meta = {
+        className: "criterion-exact",
+        shortLabel: "Placar exato",
+        title: `Acertou o placar exato. Base: ${basePoints} ponto(s).`
+      };
+    } else if (prediction.goalDifferenceHit) {
+      meta = {
+        className: "criterion-goal-diff",
+        shortLabel: "Vencedor + saldo",
+        title: `Acertou o vencedor e a diferença/saldo de gols. Base: ${basePoints} ponto(s).`
+      };
+    } else if (prediction.outcomeHit) {
+      meta = {
+        className: "criterion-outcome",
+        shortLabel: "Vencedor/empate",
+        title: `Acertou o vencedor ou acertou que seria empate. Base: ${basePoints} ponto(s).`
+      };
+    } else {
+      meta = {
+        className: "criterion-wrong",
+        shortLabel: "Errou tudo",
+        title: `Não acertou nenhum critério de pontuação do placar. Base: ${basePoints} ponto(s).`
+      };
+    }
+
+    if (isKnockoutMatch(match)) {
+      if (qualifiedPoints > 0) {
+        meta.title += ` Acertou o classificado/vencedor do mata-mata: +${qualifiedPoints} ponto(s).`;
+      } else if (normalizeSide(prediction.qualifiedTeam)) {
+        meta.title += " Não acertou o classificado/vencedor do mata-mata.";
+      } else {
+        meta.title += " Sem classificado/vencedor informado no palpite.";
+      }
+    }
+
+    meta.title += ` Total: ${totalPoints} ponto(s).`;
+    return meta;
+  }
+
+  function predictionPointsSummaryHtml(prediction, match) {
+    const meta = criterionMeta(prediction, match);
+
+    if (!match || match.status !== "finalizado") {
+      return `<span class="muted-inline" title="${escapeHtml(meta.title)}">${escapeHtml(meta.shortLabel)}</span>`;
+    }
+
+    if (!prediction) {
+      return `<span class="muted-inline" title="${escapeHtml(meta.title)}">${escapeHtml(meta.shortLabel)}</span>`;
+    }
+
+    const totalPoints = Number(prediction.points || 0);
+    const extraDetails = [];
+    if (isKnockoutMatch(match)) {
+      if (Number(prediction.qualifiedPoints || 0) > 0) {
+        extraDetails.push(`+${escapeHtml(prediction.qualifiedPoints)} classificado`);
+      } else if (normalizeSide(prediction.qualifiedTeam)) {
+        extraDetails.push("classificado não pontuou");
+      }
+    }
+
+    return `
+      <div class="prediction-points-box" title="${escapeHtml(meta.title)}">
+        <span class="badge criterion-badge ${escapeHtml(meta.className)}">${escapeHtml(totalPoints)} pts</span>
+        <small><strong>${escapeHtml(meta.shortLabel)}</strong></small>
+        ${extraDetails.length ? `<small class="muted-inline">${escapeHtml(extraDetails.join(" · "))}</small>` : ""}
+      </div>`;
+  }
+
+  function matchPredictions(matchId) {
+    return state.predictions.filter((prediction) => prediction.matchId === matchId);
+  }
+
+  function matchSummaryStats(match, predictions) {
+    if (!match || match.status !== "finalizado") {
+      return {
+        total: predictions.length,
+        scored: 0,
+        zero: 0,
+        average: 0,
+        max: 0
+      };
+    }
+    const total = predictions.length;
+    const scored = predictions.filter((prediction) => Number(prediction.points || 0) > 0).length;
+    const zero = predictions.filter((prediction) => Number(prediction.points || 0) === 0).length;
+    const totalPoints = predictions.reduce((sum, prediction) => sum + Number(prediction.points || 0), 0);
+    const max = predictions.reduce((best, prediction) => Math.max(best, Number(prediction.points || 0)), 0);
+    return {
+      total,
+      scored,
+      zero,
+      average: total ? Number((totalPoints / total).toFixed(2)) : 0,
+      max
+    };
+  }
+
+  function matchResultSummaryHtml(match) {
+    if (!match || match.status !== "finalizado" || match.scoreA === "" || match.scoreB === "") {
+      return `<div class="modal-result-box pending"><strong>Resultado:</strong> aguardando finalização do jogo.</div>`;
+    }
+
+    const qualified = isKnockoutMatch(match) && normalizeSide(match.qualifiedTeam || inferWinnerSide(Number(match.scoreA), Number(match.scoreB)))
+      ? `<div><strong>Classificado/vencedor:</strong> ${escapeHtml(qualifiedTeamText(match, match.qualifiedTeam || inferWinnerSide(Number(match.scoreA), Number(match.scoreB))))}</div>`
+      : "";
+
+    return `
+      <div class="modal-result-box">
+        <div><strong>Resultado final:</strong> ${matchHtml(match, true)}</div>
+        ${qualified}
+      </div>`;
+  }
+
+  function matchStatsHtml(stats) {
+    return `
+      <div class="modal-match-stats">
+        <div><strong>${escapeHtml(stats.total)}</strong><span>Total de palpites</span></div>
+        <div><strong>${escapeHtml(stats.scored)}</strong><span>Pontuaram</span></div>
+        <div><strong>${escapeHtml(stats.zero)}</strong><span>Zeraram</span></div>
+        <div><strong>${escapeHtml(stats.average)}</strong><span>Média</span></div>
+        <div><strong>${escapeHtml(stats.max)}</strong><span>Maior pontuação</span></div>
+      </div>`;
+  }
+
   function predictionText(prediction, match = null) {
     if (!prediction) return "-";
     const suffix = isAutomaticPrediction(prediction) ? ` <span class="badge">0x0 automático</span>` : "";
@@ -629,13 +775,14 @@
       matchHtml(match, false),
       escapeHtml(match.venue || "-"),
       resultText(match),
-      statusBadge(match.status)
+      statusBadge(match.status),
+      `<button class="btn compact ghost" type="button" data-match-predictions="${escapeHtml(match.id)}">Ver palpites</button>`
     ]);
     return `
       <section class="card">
         <div class="card-header"><div><h2>Jogos</h2><p>Consulta da tabela e resultados publicados pelo administrador.</p></div></div>
         ${filtersHtml("matches")}
-        <div id="matchesTable">${table(["Nº", "Data", "Fase", "Grupo", "Jogo", "Sede", "Placar", "Status"], rows)}</div>
+        <div id="matchesTable">${table(["Nº", "Data", "Fase", "Grupo", "Jogo", "Sede", "Placar", "Status", "Ações"], rows)}</div>
       </section>
     `;
   }
@@ -905,6 +1052,43 @@
     modalRoot.querySelector(".modal-backdrop").addEventListener("click", (event) => { if (event.target.classList.contains("modal-backdrop")) modalRoot.innerHTML = ""; });
   }
 
+  function matchPredictionsModal(matchId) {
+    const match = matchById(matchId);
+    if (!match) return;
+
+    const predictions = matchPredictions(match.id);
+    const stats = matchSummaryStats(match, predictions);
+    const maxPoints = match.status === "finalizado" ? stats.max : -1;
+
+    const ordered = predictions
+      .map((prediction, index) => ({ prediction, index }))
+      .sort((left, right) => {
+        if (match.status !== "finalizado") return left.index - right.index;
+        return Number(right.prediction.points || 0) - Number(left.prediction.points || 0) || left.index - right.index;
+      });
+
+    const rows = ordered.map(({ prediction }) => {
+      const points = Number(prediction.points || 0);
+      const bestBadge = match.status === "finalizado" && maxPoints > 0 && points === maxPoints
+        ? ` <span class="badge criterion-best">🏆 Melhor do jogo</span>`
+        : "";
+      return [
+        `<strong>${escapeHtml(participantName(prediction.participantId))}</strong>`,
+        predictionText(prediction, match),
+        predictionPointsSummaryHtml(prediction, match) + bestBadge
+      ];
+    });
+
+    const body = `
+      ${matchResultSummaryHtml(match)}
+      ${match.status === "finalizado" ? matchStatsHtml(stats) : `<p class="modal-helper-text">A pontuação aparecerá automaticamente depois que o resultado for publicado.</p>`}
+      <p class="modal-helper-text">${match.status === "finalizado" ? "Ordenado por maior pontuação no jogo. Passe o mouse sobre a pontuação para ver a explicação do critério." : "Ordem de participantes mantida enquanto o jogo não estiver finalizado."}</p>
+      ${table(["Participante", "Palpite", "Pontuação / regra"], rows)}
+    `;
+
+    openModal(`${match.matchNo ? `#${escapeHtml(match.matchNo)} · ` : ""}${match.teamA} x ${match.teamB}`, body);
+  }
+
   function bonusResponsesModal(questionId) {
     const question = state.bonusQuestions.find((item) => item.id === questionId);
     if (!question) return;
@@ -929,12 +1113,20 @@
     bindViewEvents(view);
   }
 
+  function bindMatchPredictionButtons() {
+    app.querySelectorAll("[data-match-predictions]").forEach((button) => {
+      button.addEventListener("click", () => matchPredictionsModal(button.dataset.matchPredictions));
+    });
+  }
+
   function bindViewEvents(view) {
     if (view === "matches") {
       app.querySelectorAll("[data-filters='matches'] input, [data-filters='matches'] select").forEach((element) => element.addEventListener("input", () => {
-        const rows = filterMatches("matches").map((match) => [match.matchNo ? `#${escapeHtml(match.matchNo)}` : "-", `${formatDate(match.date)} ${escapeHtml(match.time)}`, `<span class="phase-pill">${escapeHtml(match.phase)}</span>`, escapeHtml(match.group || "-"), matchHtml(match, false), escapeHtml(match.venue || "-"), resultText(match), statusBadge(match.status)]);
-        document.getElementById("matchesTable").innerHTML = table(["Nº", "Data", "Fase", "Grupo", "Jogo", "Sede", "Placar", "Status"], rows);
+        const rows = filterMatches("matches").map((match) => [match.matchNo ? `#${escapeHtml(match.matchNo)}` : "-", `${formatDate(match.date)} ${escapeHtml(match.time)}`, `<span class="phase-pill">${escapeHtml(match.phase)}</span>`, escapeHtml(match.group || "-"), matchHtml(match, false), escapeHtml(match.venue || "-"), resultText(match), statusBadge(match.status), `<button class="btn compact ghost" type="button" data-match-predictions="${escapeHtml(match.id)}">Ver palpites</button>`]);
+        document.getElementById("matchesTable").innerHTML = table(["Nº", "Data", "Fase", "Grupo", "Jogo", "Sede", "Placar", "Status", "Ações"], rows);
+        bindMatchPredictionButtons();
       }));
+      bindMatchPredictionButtons();
     }
     if (view === "predictions") {
       app.querySelectorAll("#predSearch, #predParticipant, #predStatus, #predOnly").forEach((element) => element.addEventListener("input", () => {
