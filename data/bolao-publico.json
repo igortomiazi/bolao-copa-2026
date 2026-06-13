@@ -3,7 +3,7 @@
     "appName": "Bolão Copa do Mundo 2026",
     "version": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
-    "updatedAt": "2026-06-13T17:00:17.464Z",
+    "updatedAt": "2026-06-13T17:08:37.600Z",
     "dataSource": "Tabela oficial FIFA 2026; horários ajustados para Brasília/São Paulo",
     "totalMatches": 104
   },
@@ -38,8 +38,8 @@
       "enabled": true,
       "intervalMinutes": 30,
       "saveEveryChanges": 10,
-      "lastBackupAt": "2026-06-13T16:56:30.500Z",
-      "changesSinceBackup": 1
+      "lastBackupAt": "2026-06-13T17:08:29.439Z",
+      "changesSinceBackup": 0
     }
   },
   "groups": {
@@ -2081,7 +2081,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T02:14:22.708Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2101,7 +2101,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T02:17:29.529Z",
       "updatedAt": "2026-06-11T02:17:29.529Z"
     },
@@ -2121,7 +2121,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2141,7 +2141,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:50:20.109Z"
     },
@@ -2161,7 +2161,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2181,7 +2181,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2201,7 +2201,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2221,7 +2221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2241,7 +2241,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:19:27.905Z",
       "updatedAt": "2026-06-12T16:56:23.990Z"
     },
@@ -2261,7 +2261,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T03:19:52.188Z",
       "updatedAt": "2026-06-11T03:19:52.188Z"
     },
@@ -2281,7 +2281,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:25:47.853Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2301,7 +2301,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:26:22.435Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2321,7 +2321,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2341,7 +2341,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2361,7 +2361,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2381,7 +2381,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2401,7 +2401,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2421,7 +2421,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2441,7 +2441,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:35:19.160Z",
       "updatedAt": "2026-06-11T13:35:19.160Z"
     },
@@ -2461,7 +2461,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:35:19.160Z",
       "updatedAt": "2026-06-11T13:35:19.160Z"
     },
@@ -2481,7 +2481,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:35:35.048Z",
       "updatedAt": "2026-06-11T13:35:35.048Z"
     },
@@ -2501,7 +2501,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:35:35.048Z",
       "updatedAt": "2026-06-11T13:35:35.048Z"
     },
@@ -2521,7 +2521,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:48:07.392Z",
       "updatedAt": "2026-06-11T13:48:07.392Z"
     },
@@ -2541,7 +2541,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:48:17.257Z",
       "updatedAt": "2026-06-11T13:48:17.257Z"
     },
@@ -2561,7 +2561,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:50:28.406Z",
       "updatedAt": "2026-06-11T13:50:28.406Z"
     },
@@ -2581,7 +2581,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:50:37.541Z",
       "updatedAt": "2026-06-11T13:50:37.541Z"
     },
@@ -2601,7 +2601,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T13:50:51.444Z",
       "updatedAt": "2026-06-11T13:50:51.444Z"
     },
@@ -2621,7 +2621,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T14:43:05.996Z",
       "updatedAt": "2026-06-11T14:43:05.996Z"
     },
@@ -2641,7 +2641,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T14:43:05.996Z",
       "updatedAt": "2026-06-11T14:43:05.996Z"
     },
@@ -2661,7 +2661,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T14:43:36.663Z",
       "updatedAt": "2026-06-11T14:43:36.663Z"
     },
@@ -2681,7 +2681,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T14:43:36.663Z",
       "updatedAt": "2026-06-11T14:43:36.663Z"
     },
@@ -2701,7 +2701,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T16:51:24.563Z",
       "updatedAt": "2026-06-11T16:51:24.563Z"
     },
@@ -2721,7 +2721,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T16:52:26.746Z",
       "updatedAt": "2026-06-11T16:52:26.746Z"
     },
@@ -2741,7 +2741,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T16:52:39.169Z",
       "updatedAt": "2026-06-11T16:52:39.169Z"
     },
@@ -2761,7 +2761,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T21:11:39.656Z",
       "updatedAt": "2026-06-11T21:11:39.656Z"
     },
@@ -2781,7 +2781,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:00:07.858Z",
+      "calculatedAt": "2026-06-13T17:08:36.297Z",
       "createdAt": "2026-06-11T21:11:46.666Z",
       "updatedAt": "2026-06-11T21:11:46.666Z"
     },
@@ -4284,6 +4284,186 @@
       "calculatedAt": "",
       "createdAt": "2026-06-13T16:56:30.496Z",
       "updatedAt": "2026-06-13T16:56:30.496Z"
+    },
+    {
+      "id": "pr_894c400a",
+      "participantId": "p_92008c3b",
+      "matchId": "m_014",
+      "goalsA": 2,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:05:39.954Z",
+      "updatedAt": "2026-06-13T17:05:39.954Z"
+    },
+    {
+      "id": "pr_4fa92dcb",
+      "participantId": "p_92008c3b",
+      "matchId": "m_015",
+      "goalsA": 0,
+      "goalsB": 2,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:05:55.565Z",
+      "updatedAt": "2026-06-13T17:05:55.565Z"
+    },
+    {
+      "id": "pr_f4f25380",
+      "participantId": "p_92008c3b",
+      "matchId": "m_016",
+      "goalsA": 1,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:06:43.097Z",
+      "updatedAt": "2026-06-13T17:06:43.097Z"
+    },
+    {
+      "id": "pr_1f2ac970",
+      "participantId": "p_92008c3b",
+      "matchId": "m_017",
+      "goalsA": 3,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:07:04.119Z",
+      "updatedAt": "2026-06-13T17:07:04.119Z"
+    },
+    {
+      "id": "pr_68fe2299",
+      "participantId": "p_92008c3b",
+      "matchId": "m_018",
+      "goalsA": 0,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:07:15.447Z",
+      "updatedAt": "2026-06-13T17:07:15.447Z"
+    },
+    {
+      "id": "pr_25b6bd8d",
+      "participantId": "p_92008c3b",
+      "matchId": "m_019",
+      "goalsA": 3,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:07:30.291Z",
+      "updatedAt": "2026-06-13T17:07:30.291Z"
+    },
+    {
+      "id": "pr_59f871f2",
+      "participantId": "p_92008c3b",
+      "matchId": "m_020",
+      "goalsA": 1,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:07:39.222Z",
+      "updatedAt": "2026-06-13T17:07:39.222Z"
+    },
+    {
+      "id": "pr_7cd0faf3",
+      "participantId": "p_igor",
+      "matchId": "m_021",
+      "goalsA": 4,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:08:09.025Z",
+      "updatedAt": "2026-06-13T17:08:09.025Z"
+    },
+    {
+      "id": "pr_e341319e",
+      "participantId": "p_92008c3b",
+      "matchId": "m_021",
+      "goalsA": 5,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T17:08:09.025Z",
+      "updatedAt": "2026-06-13T17:08:09.025Z"
     }
   ],
   "bonusQuestions": [
@@ -6539,6 +6719,96 @@
       "description": "Palpite alterado: Lucas em Brasil x Marrocos",
       "before": "1 x 1",
       "after": "1 x 0"
+    },
+    {
+      "id": "log_f10a5f0a",
+      "timestamp": "2026-06-13T17:05:39.954Z",
+      "type": "Palpite",
+      "entity": "pr_894c400a",
+      "description": "Palpite criado: Lucas em Bélgica x Egito",
+      "before": "-",
+      "after": "2 x 1"
+    },
+    {
+      "id": "log_367594a4",
+      "timestamp": "2026-06-13T17:05:55.565Z",
+      "type": "Palpite",
+      "entity": "pr_4fa92dcb",
+      "description": "Palpite criado: Lucas em Arábia Saudita x Uruguai",
+      "before": "-",
+      "after": "0 x 2"
+    },
+    {
+      "id": "log_ddcf5f3c",
+      "timestamp": "2026-06-13T17:06:43.097Z",
+      "type": "Palpite",
+      "entity": "pr_f4f25380",
+      "description": "Palpite criado: Lucas em Irã x Nova Zelândia",
+      "before": "-",
+      "after": "1 x 0"
+    },
+    {
+      "id": "log_6a21addf",
+      "timestamp": "2026-06-13T17:07:04.119Z",
+      "type": "Palpite",
+      "entity": "pr_1f2ac970",
+      "description": "Palpite criado: Lucas em França x Senegal",
+      "before": "-",
+      "after": "3 x 1"
+    },
+    {
+      "id": "log_ca961c20",
+      "timestamp": "2026-06-13T17:07:15.447Z",
+      "type": "Palpite",
+      "entity": "pr_68fe2299",
+      "description": "Palpite criado: Lucas em Iraque x Noruega",
+      "before": "-",
+      "after": "0 x 1"
+    },
+    {
+      "id": "log_94a67085",
+      "timestamp": "2026-06-13T17:07:30.291Z",
+      "type": "Palpite",
+      "entity": "pr_25b6bd8d",
+      "description": "Palpite criado: Lucas em Argentina x Argélia",
+      "before": "-",
+      "after": "3 x 0"
+    },
+    {
+      "id": "log_80031d27",
+      "timestamp": "2026-06-13T17:07:39.222Z",
+      "type": "Palpite",
+      "entity": "pr_59f871f2",
+      "description": "Palpite criado: Lucas em Áustria x Jordânia",
+      "before": "-",
+      "after": "1 x 0"
+    },
+    {
+      "id": "log_da0ebf91",
+      "timestamp": "2026-06-13T17:08:09.025Z",
+      "type": "Palpite",
+      "entity": "pr_7cd0faf3",
+      "description": "Palpite criado: Cebola em Portugal x Congo DR",
+      "before": "-",
+      "after": "4 x 0"
+    },
+    {
+      "id": "log_d20b55e0",
+      "timestamp": "2026-06-13T17:08:09.025Z",
+      "type": "Palpite",
+      "entity": "pr_e341319e",
+      "description": "Palpite criado: Lucas em Portugal x Congo DR",
+      "before": "-",
+      "after": "5 x 0"
+    },
+    {
+      "id": "log_e8bb654d",
+      "timestamp": "2026-06-13T17:08:29.439Z",
+      "type": "Backup",
+      "entity": "auto",
+      "description": "Backup manual baixado pela área de backup automático",
+      "before": "",
+      "after": ""
     }
   ]
 }
