@@ -3,7 +3,7 @@
     "appName": "Bolão Copa do Mundo 2026",
     "version": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
-    "updatedAt": "2026-06-13T17:08:37.600Z",
+    "updatedAt": "2026-06-13T21:06:29.012Z",
     "dataSource": "Tabela oficial FIFA 2026; horários ajustados para Brasília/São Paulo",
     "totalMatches": 104
   },
@@ -38,7 +38,7 @@
       "enabled": true,
       "intervalMinutes": 30,
       "saveEveryChanges": 10,
-      "lastBackupAt": "2026-06-13T17:08:29.439Z",
+      "lastBackupAt": "2026-06-13T21:06:23.641Z",
       "changesSinceBackup": 0
     }
   },
@@ -274,12 +274,12 @@
       "teamA": "Catar",
       "teamB": "Suíça",
       "venue": "San Francisco Bay Area Stadium",
-      "scoreA": "",
-      "scoreB": "",
+      "scoreA": 1,
+      "scoreB": 1,
       "qualifiedTeam": "",
-      "status": "agendado",
+      "status": "finalizado",
       "createdAt": "2026-06-10T00:00:00.000Z",
-      "updatedAt": "2026-06-10T00:00:00.000Z"
+      "updatedAt": "2026-06-13T21:05:42.261Z"
     },
     {
       "id": "m_006",
@@ -2081,7 +2081,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T02:14:22.708Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2101,7 +2101,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T02:17:29.529Z",
       "updatedAt": "2026-06-11T02:17:29.529Z"
     },
@@ -2121,7 +2121,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2141,7 +2141,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:50:20.109Z"
     },
@@ -2161,7 +2161,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2181,7 +2181,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2201,7 +2201,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2221,7 +2221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2241,7 +2241,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:19:27.905Z",
       "updatedAt": "2026-06-12T16:56:23.990Z"
     },
@@ -2261,7 +2261,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T03:19:52.188Z",
       "updatedAt": "2026-06-11T03:19:52.188Z"
     },
@@ -2281,7 +2281,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:25:47.853Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2301,7 +2301,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:26:22.435Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2321,7 +2321,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2341,7 +2341,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2361,7 +2361,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2381,7 +2381,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2401,7 +2401,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2421,7 +2421,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2441,7 +2441,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:35:19.160Z",
       "updatedAt": "2026-06-11T13:35:19.160Z"
     },
@@ -2461,7 +2461,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:35:19.160Z",
       "updatedAt": "2026-06-11T13:35:19.160Z"
     },
@@ -2481,7 +2481,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:35:35.048Z",
       "updatedAt": "2026-06-11T13:35:35.048Z"
     },
@@ -2501,7 +2501,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:35:35.048Z",
       "updatedAt": "2026-06-11T13:35:35.048Z"
     },
@@ -2521,7 +2521,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:48:07.392Z",
       "updatedAt": "2026-06-11T13:48:07.392Z"
     },
@@ -2541,7 +2541,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:48:17.257Z",
       "updatedAt": "2026-06-11T13:48:17.257Z"
     },
@@ -2561,7 +2561,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:50:28.406Z",
       "updatedAt": "2026-06-11T13:50:28.406Z"
     },
@@ -2581,7 +2581,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:50:37.541Z",
       "updatedAt": "2026-06-11T13:50:37.541Z"
     },
@@ -2601,7 +2601,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T13:50:51.444Z",
       "updatedAt": "2026-06-11T13:50:51.444Z"
     },
@@ -2621,7 +2621,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T14:43:05.996Z",
       "updatedAt": "2026-06-11T14:43:05.996Z"
     },
@@ -2641,7 +2641,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T14:43:05.996Z",
       "updatedAt": "2026-06-11T14:43:05.996Z"
     },
@@ -2661,7 +2661,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T14:43:36.663Z",
       "updatedAt": "2026-06-11T14:43:36.663Z"
     },
@@ -2681,7 +2681,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T14:43:36.663Z",
       "updatedAt": "2026-06-11T14:43:36.663Z"
     },
@@ -2701,7 +2701,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T16:51:24.563Z",
       "updatedAt": "2026-06-11T16:51:24.563Z"
     },
@@ -2721,7 +2721,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T16:52:26.746Z",
       "updatedAt": "2026-06-11T16:52:26.746Z"
     },
@@ -2741,7 +2741,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T16:52:39.169Z",
       "updatedAt": "2026-06-11T16:52:39.169Z"
     },
@@ -2761,7 +2761,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T21:11:39.656Z",
       "updatedAt": "2026-06-11T21:11:39.656Z"
     },
@@ -2781,7 +2781,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-13T17:08:36.297Z",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T21:11:46.666Z",
       "updatedAt": "2026-06-11T21:11:46.666Z"
     },
@@ -2801,7 +2801,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T22:22:21.717Z",
       "updatedAt": "2026-06-11T22:22:21.717Z"
     },
@@ -2921,7 +2921,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-11T22:29:27.951Z",
       "updatedAt": "2026-06-11T22:29:27.951Z"
     },
@@ -3061,7 +3061,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T16:05:34.349Z",
       "updatedAt": "2026-06-12T16:05:34.349Z"
     },
@@ -3221,7 +3221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T16:36:22.506Z",
       "updatedAt": "2026-06-12T16:36:22.506Z"
     },
@@ -3381,7 +3381,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T17:06:43.929Z",
       "updatedAt": "2026-06-12T17:06:43.929Z"
     },
@@ -3541,7 +3541,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T19:50:58.675Z",
       "updatedAt": "2026-06-12T19:50:58.675Z"
     },
@@ -3701,7 +3701,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T20:55:54.145Z",
       "updatedAt": "2026-06-12T20:55:54.145Z"
     },
@@ -3861,7 +3861,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T20:58:10.648Z",
       "updatedAt": "2026-06-12T20:58:10.648Z"
     },
@@ -4021,7 +4021,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "",
+      "calculatedAt": "2026-06-13T21:06:25.991Z",
       "createdAt": "2026-06-12T21:00:59.574Z",
       "updatedAt": "2026-06-12T21:00:59.574Z"
     },
@@ -4464,6 +4464,166 @@
       "calculatedAt": "",
       "createdAt": "2026-06-13T17:08:09.025Z",
       "updatedAt": "2026-06-13T17:08:09.025Z"
+    },
+    {
+      "id": "pr_e1749236",
+      "participantId": "p_caio",
+      "matchId": "m_013",
+      "goalsA": 3,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:10.599Z",
+      "updatedAt": "2026-06-13T19:15:10.599Z"
+    },
+    {
+      "id": "pr_6a997a06",
+      "participantId": "p_caio",
+      "matchId": "m_014",
+      "goalsA": 2,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:10.599Z",
+      "updatedAt": "2026-06-13T21:05:00.615Z"
+    },
+    {
+      "id": "pr_e81651f1",
+      "participantId": "p_caio",
+      "matchId": "m_015",
+      "goalsA": 0,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:10.599Z",
+      "updatedAt": "2026-06-13T19:15:10.599Z"
+    },
+    {
+      "id": "pr_0281593e",
+      "participantId": "p_caio",
+      "matchId": "m_016",
+      "goalsA": 1,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:10.599Z",
+      "updatedAt": "2026-06-13T19:15:10.599Z"
+    },
+    {
+      "id": "pr_422899d0",
+      "participantId": "p_kevin",
+      "matchId": "m_013",
+      "goalsA": 4,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:52.541Z",
+      "updatedAt": "2026-06-13T19:15:52.541Z"
+    },
+    {
+      "id": "pr_c6184f3e",
+      "participantId": "p_kevin",
+      "matchId": "m_014",
+      "goalsA": 2,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:52.541Z",
+      "updatedAt": "2026-06-13T19:15:52.541Z"
+    },
+    {
+      "id": "pr_63004867",
+      "participantId": "p_kevin",
+      "matchId": "m_015",
+      "goalsA": 1,
+      "goalsB": 2,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:52.541Z",
+      "updatedAt": "2026-06-13T19:15:52.541Z"
+    },
+    {
+      "id": "pr_be35127a",
+      "participantId": "p_kevin",
+      "matchId": "m_016",
+      "goalsA": 1,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-13T19:15:52.541Z",
+      "updatedAt": "2026-06-13T19:15:52.541Z"
     }
   ],
   "bonusQuestions": [
@@ -6804,6 +6964,105 @@
     {
       "id": "log_e8bb654d",
       "timestamp": "2026-06-13T17:08:29.439Z",
+      "type": "Backup",
+      "entity": "auto",
+      "description": "Backup manual baixado pela área de backup automático",
+      "before": "",
+      "after": ""
+    },
+    {
+      "id": "log_306ae49f",
+      "timestamp": "2026-06-13T19:15:10.599Z",
+      "type": "Palpite",
+      "entity": "pr_e1749236",
+      "description": "Palpite importado do WhatsApp: Caião em Espanha x Cabo Verde",
+      "before": "-",
+      "after": "3 x 0"
+    },
+    {
+      "id": "log_9d524f75",
+      "timestamp": "2026-06-13T19:15:10.599Z",
+      "type": "Palpite",
+      "entity": "pr_6a997a06",
+      "description": "Palpite importado do WhatsApp: Caião em Bélgica x Egito",
+      "before": "-",
+      "after": "1 x 0"
+    },
+    {
+      "id": "log_9f87c775",
+      "timestamp": "2026-06-13T19:15:10.599Z",
+      "type": "Palpite",
+      "entity": "pr_e81651f1",
+      "description": "Palpite importado do WhatsApp: Caião em Arábia Saudita x Uruguai",
+      "before": "-",
+      "after": "0 x 1"
+    },
+    {
+      "id": "log_c569f8ea",
+      "timestamp": "2026-06-13T19:15:10.599Z",
+      "type": "Palpite",
+      "entity": "pr_0281593e",
+      "description": "Palpite importado do WhatsApp: Caião em Irã x Nova Zelândia",
+      "before": "-",
+      "after": "1 x 0"
+    },
+    {
+      "id": "log_383dd2ce",
+      "timestamp": "2026-06-13T19:15:52.541Z",
+      "type": "Palpite",
+      "entity": "pr_422899d0",
+      "description": "Palpite importado do WhatsApp: Kelvin em Espanha x Cabo Verde",
+      "before": "-",
+      "after": "4 x 0"
+    },
+    {
+      "id": "log_b0379b72",
+      "timestamp": "2026-06-13T19:15:52.541Z",
+      "type": "Palpite",
+      "entity": "pr_c6184f3e",
+      "description": "Palpite importado do WhatsApp: Kelvin em Bélgica x Egito",
+      "before": "-",
+      "after": "2 x 0"
+    },
+    {
+      "id": "log_76fb3241",
+      "timestamp": "2026-06-13T19:15:52.541Z",
+      "type": "Palpite",
+      "entity": "pr_63004867",
+      "description": "Palpite importado do WhatsApp: Kelvin em Arábia Saudita x Uruguai",
+      "before": "-",
+      "after": "1 x 2"
+    },
+    {
+      "id": "log_048a6935",
+      "timestamp": "2026-06-13T19:15:52.541Z",
+      "type": "Palpite",
+      "entity": "pr_be35127a",
+      "description": "Palpite importado do WhatsApp: Kelvin em Irã x Nova Zelândia",
+      "before": "-",
+      "after": "1 x 1"
+    },
+    {
+      "id": "log_9cf4a71b",
+      "timestamp": "2026-06-13T21:05:00.615Z",
+      "type": "Palpite",
+      "entity": "pr_6a997a06",
+      "description": "Palpite importado/atualizado do WhatsApp: Caião em Bélgica x Egito",
+      "before": "1 x 0",
+      "after": "2 x 1"
+    },
+    {
+      "id": "log_65275403",
+      "timestamp": "2026-06-13T21:05:42.261Z",
+      "type": "Resultado",
+      "entity": "m_005",
+      "description": "Resultado lançado/editado: Catar x Suíça",
+      "before": "-",
+      "after": "1 x 1"
+    },
+    {
+      "id": "log_e68e97e6",
+      "timestamp": "2026-06-13T21:06:23.641Z",
       "type": "Backup",
       "entity": "auto",
       "description": "Backup manual baixado pela área de backup automático",
