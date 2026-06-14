@@ -3,7 +3,7 @@
     "appName": "Bolão Copa do Mundo 2026",
     "version": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
-    "updatedAt": "2026-06-14T03:36:16.228Z",
+    "updatedAt": "2026-06-14T04:00:07.602Z",
     "dataSource": "Tabela oficial FIFA 2026; horários ajustados para Brasília/São Paulo",
     "totalMatches": 104
   },
@@ -38,7 +38,7 @@
       "enabled": true,
       "intervalMinutes": 30,
       "saveEveryChanges": 10,
-      "lastBackupAt": "2026-06-14T03:36:06.438Z",
+      "lastBackupAt": "2026-06-14T03:59:54.178Z",
       "changesSinceBackup": 0
     }
   },
@@ -2081,7 +2081,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T02:14:22.708Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2101,7 +2101,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T02:17:29.529Z",
       "updatedAt": "2026-06-11T02:17:29.529Z"
     },
@@ -2121,7 +2121,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T16:51:09.052Z"
     },
@@ -2141,7 +2141,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:50:20.109Z"
     },
@@ -2161,7 +2161,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2181,7 +2181,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2201,7 +2201,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2221,7 +2221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:13:44.196Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2241,7 +2241,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:19:27.905Z",
       "updatedAt": "2026-06-12T16:56:23.990Z"
     },
@@ -2261,7 +2261,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T03:19:52.188Z",
       "updatedAt": "2026-06-11T03:19:52.188Z"
     },
@@ -2281,7 +2281,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:25:47.853Z",
       "updatedAt": "2026-06-11T13:25:47.853Z"
     },
@@ -2301,7 +2301,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:26:22.435Z",
       "updatedAt": "2026-06-11T13:26:22.435Z"
     },
@@ -2321,7 +2321,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2341,7 +2341,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2361,7 +2361,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2381,7 +2381,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2401,7 +2401,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2421,7 +2421,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:27:16.114Z",
       "updatedAt": "2026-06-11T13:27:16.114Z"
     },
@@ -2441,7 +2441,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:35:19.160Z",
       "updatedAt": "2026-06-11T13:35:19.160Z"
     },
@@ -2461,7 +2461,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:35:19.160Z",
       "updatedAt": "2026-06-11T13:35:19.160Z"
     },
@@ -2481,7 +2481,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:35:35.048Z",
       "updatedAt": "2026-06-11T13:35:35.048Z"
     },
@@ -2501,7 +2501,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:35:35.048Z",
       "updatedAt": "2026-06-11T13:35:35.048Z"
     },
@@ -2521,7 +2521,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:48:07.392Z",
       "updatedAt": "2026-06-11T13:48:07.392Z"
     },
@@ -2541,7 +2541,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:48:17.257Z",
       "updatedAt": "2026-06-11T13:48:17.257Z"
     },
@@ -2561,7 +2561,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:50:28.406Z",
       "updatedAt": "2026-06-11T13:50:28.406Z"
     },
@@ -2581,7 +2581,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:50:37.541Z",
       "updatedAt": "2026-06-11T13:50:37.541Z"
     },
@@ -2601,7 +2601,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T13:50:51.444Z",
       "updatedAt": "2026-06-11T13:50:51.444Z"
     },
@@ -2621,7 +2621,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T14:43:05.996Z",
       "updatedAt": "2026-06-11T14:43:05.996Z"
     },
@@ -2641,7 +2641,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T14:43:05.996Z",
       "updatedAt": "2026-06-11T14:43:05.996Z"
     },
@@ -2661,7 +2661,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T14:43:36.663Z",
       "updatedAt": "2026-06-11T14:43:36.663Z"
     },
@@ -2681,7 +2681,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T14:43:36.663Z",
       "updatedAt": "2026-06-11T14:43:36.663Z"
     },
@@ -2701,7 +2701,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T16:51:24.563Z",
       "updatedAt": "2026-06-11T16:51:24.563Z"
     },
@@ -2721,7 +2721,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T16:52:26.746Z",
       "updatedAt": "2026-06-11T16:52:26.746Z"
     },
@@ -2741,7 +2741,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T16:52:39.169Z",
       "updatedAt": "2026-06-11T16:52:39.169Z"
     },
@@ -2761,7 +2761,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T21:11:39.656Z",
       "updatedAt": "2026-06-11T21:11:39.656Z"
     },
@@ -2781,7 +2781,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T21:11:46.666Z",
       "updatedAt": "2026-06-11T21:11:46.666Z"
     },
@@ -2801,7 +2801,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T22:22:21.717Z",
       "updatedAt": "2026-06-11T22:22:21.717Z"
     },
@@ -2821,7 +2821,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T22:23:13.809Z",
       "updatedAt": "2026-06-13T16:58:25.997Z"
     },
@@ -2861,7 +2861,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T22:25:38.014Z",
       "updatedAt": "2026-06-12T16:56:56.341Z"
     },
@@ -2881,7 +2881,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T22:25:38.014Z",
       "updatedAt": "2026-06-11T22:25:38.014Z"
     },
@@ -2921,7 +2921,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T22:29:27.951Z",
       "updatedAt": "2026-06-11T22:29:27.951Z"
     },
@@ -2941,7 +2941,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-11T22:35:33.394Z",
       "updatedAt": "2026-06-11T22:35:33.394Z"
     },
@@ -3061,7 +3061,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T16:05:34.349Z",
       "updatedAt": "2026-06-12T16:05:34.349Z"
     },
@@ -3081,7 +3081,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T16:06:03.376Z",
       "updatedAt": "2026-06-12T16:06:03.376Z"
     },
@@ -3101,7 +3101,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T16:06:20.388Z",
       "updatedAt": "2026-06-12T16:06:20.388Z"
     },
@@ -3221,7 +3221,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T16:36:22.506Z",
       "updatedAt": "2026-06-12T16:36:22.506Z"
     },
@@ -3241,7 +3241,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T16:36:37.498Z",
       "updatedAt": "2026-06-12T16:36:37.498Z"
     },
@@ -3261,7 +3261,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T16:36:49.427Z",
       "updatedAt": "2026-06-12T16:36:49.427Z"
     },
@@ -3381,7 +3381,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T17:06:43.929Z",
       "updatedAt": "2026-06-12T17:06:43.929Z"
     },
@@ -3401,7 +3401,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T17:06:52.806Z",
       "updatedAt": "2026-06-12T17:06:52.806Z"
     },
@@ -3421,7 +3421,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T17:07:03.677Z",
       "updatedAt": "2026-06-12T17:07:03.677Z"
     },
@@ -3541,7 +3541,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T19:50:58.675Z",
       "updatedAt": "2026-06-12T19:50:58.675Z"
     },
@@ -3561,7 +3561,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T19:51:13.036Z",
       "updatedAt": "2026-06-12T19:51:13.036Z"
     },
@@ -3581,7 +3581,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T19:51:21.575Z",
       "updatedAt": "2026-06-12T19:51:21.575Z"
     },
@@ -3701,7 +3701,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T20:55:54.145Z",
       "updatedAt": "2026-06-12T20:55:54.145Z"
     },
@@ -3721,7 +3721,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T20:56:06.639Z",
       "updatedAt": "2026-06-12T20:56:06.639Z"
     },
@@ -3741,7 +3741,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T20:56:20.852Z",
       "updatedAt": "2026-06-12T20:56:20.852Z"
     },
@@ -3861,7 +3861,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T20:58:10.648Z",
       "updatedAt": "2026-06-12T20:58:10.648Z"
     },
@@ -3881,7 +3881,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T20:58:21.950Z",
       "updatedAt": "2026-06-12T20:58:21.950Z"
     },
@@ -3901,7 +3901,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T20:58:35.699Z",
       "updatedAt": "2026-06-12T20:58:35.699Z"
     },
@@ -4021,7 +4021,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T21:00:59.574Z",
       "updatedAt": "2026-06-12T21:00:59.574Z"
     },
@@ -4041,7 +4041,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T21:01:05.621Z",
       "updatedAt": "2026-06-12T21:01:05.621Z"
     },
@@ -4061,7 +4061,7 @@
       "qualifiedHit": false,
       "qualifiedPoints": 0,
       "autoDefault": false,
-      "calculatedAt": "2026-06-14T03:36:14.498Z",
+      "calculatedAt": "2026-06-14T04:00:06.066Z",
       "createdAt": "2026-06-12T21:01:12.099Z",
       "updatedAt": "2026-06-12T21:01:12.099Z"
     },
@@ -4624,6 +4624,66 @@
       "calculatedAt": "",
       "createdAt": "2026-06-13T19:15:52.541Z",
       "updatedAt": "2026-06-13T19:15:52.541Z"
+    },
+    {
+      "id": "pr_9a2d66ba",
+      "participantId": "p_igor",
+      "matchId": "m_014",
+      "goalsA": 2,
+      "goalsB": 1,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-14T03:57:33.038Z",
+      "updatedAt": "2026-06-14T03:57:33.038Z"
+    },
+    {
+      "id": "pr_a6a4cf6b",
+      "participantId": "p_igor",
+      "matchId": "m_015",
+      "goalsA": 1,
+      "goalsB": 2,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-14T03:58:03.999Z",
+      "updatedAt": "2026-06-14T03:58:03.999Z"
+    },
+    {
+      "id": "pr_a0fbda71",
+      "participantId": "p_igor",
+      "matchId": "m_016",
+      "goalsA": 2,
+      "goalsB": 0,
+      "qualifiedTeam": "",
+      "points": 0,
+      "basePoints": 0,
+      "exact": false,
+      "outcomeHit": false,
+      "goalHit": 0,
+      "goalDifferenceHit": false,
+      "qualifiedHit": false,
+      "qualifiedPoints": 0,
+      "autoDefault": false,
+      "calculatedAt": "",
+      "createdAt": "2026-06-14T03:59:44.856Z",
+      "updatedAt": "2026-06-14T03:59:44.856Z"
     }
   ],
   "bonusQuestions": [
@@ -7104,6 +7164,42 @@
       "description": "Palpite alterado: Cebola em Austrália x Turquia",
       "before": "1 x 2",
       "after": "0 x 2"
+    },
+    {
+      "id": "log_92d8a190",
+      "timestamp": "2026-06-14T03:57:33.038Z",
+      "type": "Palpite",
+      "entity": "pr_9a2d66ba",
+      "description": "Palpite criado: Cebola em Bélgica x Egito",
+      "before": "-",
+      "after": "2 x 1"
+    },
+    {
+      "id": "log_c86d52b6",
+      "timestamp": "2026-06-14T03:58:03.999Z",
+      "type": "Palpite",
+      "entity": "pr_a6a4cf6b",
+      "description": "Palpite criado: Cebola em Arábia Saudita x Uruguai",
+      "before": "-",
+      "after": "1 x 2"
+    },
+    {
+      "id": "log_c49b3925",
+      "timestamp": "2026-06-14T03:59:44.856Z",
+      "type": "Palpite",
+      "entity": "pr_a0fbda71",
+      "description": "Palpite criado: Cebola em Irã x Nova Zelândia",
+      "before": "-",
+      "after": "2 x 0"
+    },
+    {
+      "id": "log_e60c526f",
+      "timestamp": "2026-06-14T03:59:54.178Z",
+      "type": "Backup",
+      "entity": "auto",
+      "description": "Backup manual baixado pela área de backup automático",
+      "before": "",
+      "after": ""
     }
   ]
 }
