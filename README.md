@@ -47,7 +47,8 @@ data/bolao-publico.json
 - Vencedor + saldo de gols: 7 pontos.
 - Resultado correto, incluindo empate: 5 pontos.
 - Erro total: 0 ponto.
-- Se não houver palpite cadastrado em jogo finalizado, o sistema considera 0x0 automático.
+- Se não houver palpite cadastrado em jogo finalizado, o participante não pontua nesse jogo.
+- Palpite 0x0 continua válido somente quando foi cadastrado manualmente.
 
 Observação: empate com saldo zero, mas placar diferente, vale 5 pontos, não 7. Exemplo: palpite 2x2 e resultado 0x0 vale 5 pontos.
 
@@ -154,3 +155,9 @@ A aba **Palpites** recebeu ajustes visuais:
 - cards de jogos com título, badges e botão **Abrir** melhor distribuídos;
 - tabelas internas sem barra horizontal desnecessária no desktop;
 - comportamento mobile ajustado para empilhar os elementos sem quebrar a leitura.
+
+
+## Pasta oficial
+
+Esta é a pasta oficial para publicação da versão pública do Bolão Copa 2026.
+Use o `bolao-publico.json` exportado pela versão Admin e publique por aqui.

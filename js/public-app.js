@@ -210,26 +210,28 @@
       updatedAt: match.updatedAt || now
     }));
 
-    normalized.predictions = normalized.predictions.map((prediction) => ({
-      id: prediction.id || uid("pr"),
-      participantId: prediction.participantId || "",
-      matchId: prediction.matchId || "",
-      goalsA: prediction.goalsA ?? "",
-      goalsB: prediction.goalsB ?? "",
-      qualifiedTeam: normalizeSide(prediction.qualifiedTeam),
-      points: Number(prediction.points || 0),
-      basePoints: Number(prediction.basePoints || 0),
-      exact: Boolean(prediction.exact),
-      outcomeHit: Boolean(prediction.outcomeHit),
-      goalDifferenceHit: Boolean(prediction.goalDifferenceHit || prediction.goalHit),
-      qualifiedHit: Boolean(prediction.qualifiedHit),
-      qualifiedPoints: Number(prediction.qualifiedPoints || 0),
-      automatic: Boolean(prediction.automatic || prediction.autoDefault),
-      autoDefault: Boolean(prediction.autoDefault || prediction.automatic),
-      calculatedAt: prediction.calculatedAt || "",
-      createdAt: prediction.createdAt || now,
-      updatedAt: prediction.updatedAt || now
-    }));
+    normalized.predictions = normalized.predictions
+      .filter((prediction) => !isAutomaticPrediction(prediction))
+      .map((prediction) => ({
+        id: prediction.id || uid("pr"),
+        participantId: prediction.participantId || "",
+        matchId: prediction.matchId || "",
+        goalsA: prediction.goalsA ?? "",
+        goalsB: prediction.goalsB ?? "",
+        qualifiedTeam: normalizeSide(prediction.qualifiedTeam),
+        points: Number(prediction.points || 0),
+        basePoints: Number(prediction.basePoints || 0),
+        exact: Boolean(prediction.exact),
+        outcomeHit: Boolean(prediction.outcomeHit),
+        goalDifferenceHit: Boolean(prediction.goalDifferenceHit || prediction.goalHit),
+        qualifiedHit: Boolean(prediction.qualifiedHit),
+        qualifiedPoints: Number(prediction.qualifiedPoints || 0),
+        automatic: false,
+        autoDefault: false,
+        calculatedAt: prediction.calculatedAt || "",
+        createdAt: prediction.createdAt || now,
+        updatedAt: prediction.updatedAt || now
+      }));
 
     normalized.bonusQuestions = normalized.bonusQuestions.map((question) => ({
       id: question.id || uid("b"),
@@ -278,7 +280,7 @@
       calculatedAt: ""
     };
 
-    if (match.status !== "finalizado" || realA === null || realB === null || predA === null || predB === null) return empty;
+    if (isAutomaticPrediction(prediction) || match.status !== "finalizado" || realA === null || realB === null || predA === null || predB === null) return empty;
 
     const realOutcome = outcome(realA, realB);
     const predOutcome = outcome(predA, predB);
@@ -313,41 +315,6 @@
     };
   }
 
-  function ensureAutomaticPredictions(data) {
-    const predictions = [...data.predictions];
-    const existing = new Set(predictions.map((prediction) => `${prediction.participantId}|${prediction.matchId}`));
-    data.matches
-      .filter((match) => match.status === "finalizado" && toNumberOrNull(match.scoreA) !== null && toNumberOrNull(match.scoreB) !== null)
-      .forEach((match) => {
-        data.participants.forEach((participant) => {
-          const key = `${participant.id}|${match.id}`;
-          if (existing.has(key)) return;
-          predictions.push({
-            id: `auto_${participant.id}_${match.id}`,
-            participantId: participant.id,
-            matchId: match.id,
-            goalsA: 0,
-            goalsB: 0,
-            qualifiedTeam: "",
-            points: 0,
-            basePoints: 0,
-            exact: false,
-            outcomeHit: false,
-            goalDifferenceHit: false,
-            qualifiedHit: false,
-            qualifiedPoints: 0,
-            automatic: true,
-            autoDefault: true,
-            calculatedAt: "",
-            createdAt: match.updatedAt || new Date().toISOString(),
-            updatedAt: match.updatedAt || new Date().toISOString()
-          });
-          existing.add(key);
-        });
-      });
-    return predictions;
-  }
-
   function calculateBonusQuestion(question) {
     const correct = normalizeAnswer(question.correctAnswer);
     const canCalculate = ["fechado", "calculado"].includes(question.status) && correct !== "";
@@ -363,12 +330,13 @@
   function recalculateAll(data) {
     const scoring = defaultScoring(data);
     const matchesById = Object.fromEntries(data.matches.map((match) => [match.id, match]));
-    const withAutomatic = ensureAutomaticPredictions({ ...data, predictions: data.predictions || [] });
-    const predictions = withAutomatic.map((prediction) => {
-      const match = matchesById[prediction.matchId];
-      if (!match) return prediction;
-      return { ...prediction, ...calculatePrediction(prediction, match, scoring) };
-    });
+    const predictions = (data.predictions || [])
+      .filter((prediction) => !isAutomaticPrediction(prediction))
+      .map((prediction) => {
+        const match = matchesById[prediction.matchId];
+        if (!match) return prediction;
+        return { ...prediction, automatic: false, autoDefault: false, ...calculatePrediction(prediction, match, scoring) };
+      });
     const bonusQuestions = data.bonusQuestions.map(calculateBonusQuestion);
     return { ...data, settings: { ...data.settings, scoring }, predictions, bonusQuestions };
   }
@@ -401,7 +369,7 @@
       current.scoredPredictionsCount += 1;
       const match = matchesById[prediction.matchId];
       current.maxPointsPossible += scoring.exactScore + (isKnockoutMatch(match) ? (scoring.knockoutQualified ?? 3) : 0);
-      current.predictionsCount += isAutomaticPrediction(prediction) ? 0 : 1;
+      current.predictionsCount += 1;
       predictionMap.set(prediction.participantId, current);
     });
 
@@ -635,7 +603,7 @@
   function matchStatsHtml(stats) {
     return `
       <div class="modal-match-stats">
-        <div><strong>${escapeHtml(stats.total)}</strong><span>Total de palpites</span></div>
+        <div><strong>${escapeHtml(stats.total)}</strong><span>Palpites cadastrados</span></div>
         <div><strong>${escapeHtml(stats.scored)}</strong><span>Pontuaram</span></div>
         <div><strong>${escapeHtml(stats.zero)}</strong><span>Zeraram</span></div>
         <div><strong>${escapeHtml(stats.average)}</strong><span>Média</span></div>
@@ -644,12 +612,11 @@
   }
 
   function predictionText(prediction, match = null) {
-    if (!prediction) return "-";
-    const suffix = isAutomaticPrediction(prediction) ? ` <span class="badge">0x0 automático</span>` : "";
+    if (!prediction) return `<span class="muted-inline">Sem palpite</span>`;
     const qualified = match && isKnockoutMatch(match) && normalizeSide(prediction.qualifiedTeam)
       ? ` <span class="badge">classificado: ${escapeHtml(qualifiedTeamText(match, prediction.qualifiedTeam))}</span>`
       : "";
-    return `<strong>${escapeHtml(prediction.goalsA)} x ${escapeHtml(prediction.goalsB)}</strong>${qualified}${suffix}`;
+    return `<strong>${escapeHtml(prediction.goalsA)} x ${escapeHtml(prediction.goalsB)}</strong>${qualified}`;
   }
 
   function table(headers, rows) {
@@ -786,12 +753,11 @@
   function predictionsView() {
     return `
       <section class="card">
-        <div class="card-header"><div><h2>Palpites</h2><p>Somente consulta. Palpites ausentes em jogos finalizados aparecem como 0x0 automático.</p></div></div>
+        <div class="card-header"><div><h2>Palpites</h2><p>Somente consulta. Palpites ausentes não pontuam; 0x0 só vale quando foi cadastrado manualmente.</p></div></div>
         <div class="filters predictions-filters" data-filters="predictions">
           <input type="search" id="predSearch" placeholder="Buscar participante, seleção ou fase" />
           <select id="predParticipant"><option value="">Todos os participantes</option>${state.participants.map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.nickname || p.name)}</option>`).join("")}</select>
           <select id="predStatus"><option value="">Todos os status</option><option value="agendado">agendado</option><option value="andamento">andamento</option><option value="finalizado">finalizado</option></select>
-          <select id="predOnly"><option value="all">Todos</option><option value="manual">Só cadastrados manualmente</option><option value="auto">Só 0x0 automático</option></select>
           <select id="predView"><option value="grouped">Visualização por jogo</option><option value="table">Visualização em tabela</option></select>
         </div>
         <div id="predictionsTable">${predictionsTableHtml()}</div>
@@ -807,11 +773,8 @@
     const search = normalizeSearch(document.getElementById("predSearch")?.value || "");
     const participantId = document.getElementById("predParticipant")?.value || "";
     const status = document.getElementById("predStatus")?.value || "";
-    const only = document.getElementById("predOnly")?.value || "all";
-
     return state.predictions
       .filter((prediction) => !participantId || prediction.participantId === participantId)
-      .filter((prediction) => only === "all" || (only === "manual" && !isAutomaticPrediction(prediction)) || (only === "auto" && isAutomaticPrediction(prediction)))
       .filter((prediction) => {
         const match = matchById(prediction.matchId);
         return !status || match?.status === status;
@@ -1055,7 +1018,7 @@ function bonusView() {
         <div class="rule-box"><strong>${scoring.wrong || 0} pts</strong><span>Errou tudo</span><p>Não acertou o placar, nem o vencedor/empate, nem o saldo quando aplicável.</p></div>
         <div class="rule-box"><strong>+${scoring.knockoutQualified ?? 3} pts</strong><span>Classificado no mata-mata</span><p>Nos jogos eliminatórios, soma bônus se acertar quem se classifica/vence. O placar usado é o do jogo até o fim da prorrogação.</p></div>
         <div class="rule-box"><strong>Pênaltis</strong><span>Não entram no placar</span><p>Se o jogo terminar empatado e for decidido nos pênaltis, o placar do bolão continua empatado; o classificado é informado separadamente.</p></div>
-        <div class="rule-box"><strong>0x0</strong><span>Palpite ausente</span><p>Se não houver palpite cadastrado até o horário do jogo, ele é considerado 0x0 automaticamente. No mata-mata, não recebe bônus de classificado.</p></div>
+        <div class="rule-box"><strong>0 pts</strong><span>Sem palpite</span><p>Se não houver palpite cadastrado, o participante não pontua neste jogo. Palpite 0x0 continua válido somente quando foi enviado/cadastrado manualmente.</p></div>
         <div class="rule-box"><strong>70/20/10</strong><span>Premiação</span><p>70% para o primeiro lugar, 20% para o segundo lugar e 10% para o terceiro lugar.</p></div>
       </div>
       <section class="card" style="box-shadow:none;margin:18px 0 0;padding:16px;background:var(--surface-2)">
@@ -1175,24 +1138,28 @@ function bonusView() {
     const match = matchById(matchId);
     if (!match) return;
 
-    const predictions = matchPredictions(match.id);
+    const predictions = matchPredictions(match.id).filter((prediction) => !isAutomaticPrediction(prediction));
     const stats = matchSummaryStats(match, predictions);
     const maxPoints = match.status === "finalizado" ? stats.max : -1;
+    const predictionByParticipant = new Map(predictions.map((prediction) => [prediction.participantId, prediction]));
 
-    const ordered = predictions
-      .map((prediction, index) => ({ prediction, index }))
+    const ordered = state.participants
+      .map((participant, index) => ({ participant, prediction: predictionByParticipant.get(participant.id) || null, index }))
       .sort((left, right) => {
         if (match.status !== "finalizado") return left.index - right.index;
-        return Number(right.prediction.points || 0) - Number(left.prediction.points || 0) || left.index - right.index;
+        const leftHasPrediction = left.prediction ? 1 : 0;
+        const rightHasPrediction = right.prediction ? 1 : 0;
+        if (rightHasPrediction !== leftHasPrediction) return rightHasPrediction - leftHasPrediction;
+        return Number(right.prediction?.points || 0) - Number(left.prediction?.points || 0) || left.index - right.index;
       });
 
-    const rows = ordered.map(({ prediction }) => {
-      const points = Number(prediction.points || 0);
-      const bestBadge = match.status === "finalizado" && maxPoints > 0 && points === maxPoints
+    const rows = ordered.map(({ participant, prediction }) => {
+      const points = Number(prediction?.points || 0);
+      const bestBadge = prediction && match.status === "finalizado" && maxPoints > 0 && points === maxPoints
         ? ` <span class="badge criterion-best">🏆 Melhor do jogo</span>`
         : "";
       return [
-        `<strong>${escapeHtml(participantName(prediction.participantId))}</strong>`,
+        `<strong>${escapeHtml(participant.nickname || participant.name)}</strong>`,
         predictionText(prediction, match),
         predictionPointsSummaryHtml(prediction, match) + bestBadge
       ];
@@ -1201,7 +1168,7 @@ function bonusView() {
     const body = `
       ${matchResultSummaryHtml(match)}
       ${match.status === "finalizado" ? matchStatsHtml(stats) : `<p class="modal-helper-text">A pontuação aparecerá automaticamente depois que o resultado for publicado.</p>`}
-      <p class="modal-helper-text">${match.status === "finalizado" ? "Ordenado por maior pontuação no jogo. Passe o mouse sobre a pontuação para ver a explicação do critério." : "Ordem de participantes mantida enquanto o jogo não estiver finalizado."}</p>
+      <p class="modal-helper-text">${match.status === "finalizado" ? "Ordenado por maior pontuação no jogo. Quem não palpitou aparece como sem palpite e não pontua." : "Ordem de participantes mantida enquanto o jogo não estiver finalizado."}</p>
       ${table(["Participante", "Palpite", "Pontuação / regra"], rows)}
     `;
 

@@ -64,3 +64,29 @@ const rows = [
 assert.deepStrictEqual(rows.map(r => r.name), ['D', 'C', 'B', 'A'], 'desempate deve seguir exatos, resultados, palpites e cadastro antigo');
 
 console.log('TESTES PUBLICOS OK');
+
+function recalculatePublicPredictionsWithoutAutomatic(data) {
+  const matchesById = Object.fromEntries(data.matches.map(match => [match.id, match]));
+  return data.predictions
+    .filter(prediction => !(prediction.automatic || prediction.autoDefault))
+    .map(prediction => {
+      const match = matchesById[prediction.matchId];
+      if (!match) return prediction;
+      return {
+        ...prediction,
+        automatic: false,
+        autoDefault: false,
+        points: calc(prediction.goalsA, prediction.goalsB, match.scoreA, match.scoreB, match.phase, prediction.qualifiedTeam, match.qualifiedTeam)
+      };
+    });
+}
+
+const noAutoData = {
+  participants: [{ id: 'p1' }, { id: 'p2' }],
+  matches: [{ id: 'm1', scoreA: 0, scoreB: 0, phase: 'Fase de grupos', status: 'finalizado' }],
+  predictions: [{ participantId: 'p1', matchId: 'm1', goalsA: 0, goalsB: 0 }]
+};
+const noAutoResult = recalculatePublicPredictionsWithoutAutomatic(noAutoData);
+assert.strictEqual(noAutoResult.length, 1, 'publico nao deve criar palpite automatico para ausente');
+assert.strictEqual(noAutoResult[0].participantId, 'p1', 'mantem apenas palpite cadastrado manualmente');
+assert.strictEqual(noAutoResult[0].points, 10, '0x0 manual continua valendo placar exato');
