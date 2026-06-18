@@ -161,3 +161,11 @@ A aba **Palpites** recebeu ajustes visuais:
 
 Esta é a pasta oficial para publicação da versão pública do Bolão Copa 2026.
 Use o `bolao-publico.json` exportado pela versão Admin e publique por aqui.
+
+## Atualização pública V41
+
+- Aproveitamento agora considera somente jogos finalizados/com resultado lançado.
+- Palpites futuros registrados não reduzem o percentual de aproveitamento.
+- Pódio e ranking público exibem a premiação calculada pela entrada de R$ 50,00 e distribuição 70% / 20% / 10%.
+- Tela pública de bônus exibe aviso de bloqueio/integridade.
+- Metadado antigo `missingPredictionDefault: 0x0` foi substituído por `none`.

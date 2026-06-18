@@ -90,3 +90,58 @@ const noAutoResult = recalculatePublicPredictionsWithoutAutomatic(noAutoData);
 assert.strictEqual(noAutoResult.length, 1, 'publico nao deve criar palpite automatico para ausente');
 assert.strictEqual(noAutoResult[0].participantId, 'p1', 'mantem apenas palpite cadastrado manualmente');
 assert.strictEqual(noAutoResult[0].points, 10, '0x0 manual continua valendo placar exato');
+
+function publicEfficiencyFromPredictions(predictions, matchesById, scoring) {
+  let gamePoints = 0;
+  let maxPointsPossible = 0;
+  let predictionsCount = 0;
+  let scoredPredictionsCount = 0;
+  predictions.forEach((prediction) => {
+    const match = matchesById[prediction.matchId];
+    predictionsCount += 1;
+    const hasFinalResult = match && match.status === 'finalizado' && match.scoreA !== '' && match.scoreB !== '';
+    if (hasFinalResult) {
+      gamePoints += Number(prediction.points || 0);
+      scoredPredictionsCount += 1;
+      maxPointsPossible += scoring.exactScore + (isKnockoutMatch(match) ? scoring.knockoutQualified : 0);
+    }
+  });
+  return {
+    predictionsCount,
+    scoredPredictionsCount,
+    efficiency: maxPointsPossible ? Math.round((gamePoints / maxPointsPossible) * 100) : 0
+  };
+}
+
+const efficiencyScenario = publicEfficiencyFromPredictions(
+  [
+    { matchId: 'final1', points: 10 },
+    { matchId: 'final2', points: 10 },
+    { matchId: 'future1', points: 0 },
+    { matchId: 'future2', points: 0 },
+    { matchId: 'future3', points: 0 },
+    { matchId: 'future4', points: 0 },
+    { matchId: 'future5', points: 0 },
+    { matchId: 'future6', points: 0 },
+    { matchId: 'future7', points: 0 },
+    { matchId: 'future8', points: 0 }
+  ],
+  {
+    final1: { status: 'finalizado', scoreA: 1, scoreB: 0, phase: 'Fase de grupos' },
+    final2: { status: 'finalizado', scoreA: 1, scoreB: 0, phase: 'Fase de grupos' },
+    future1: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future2: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future3: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future4: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future5: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future6: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future7: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' },
+    future8: { status: 'agendado', scoreA: '', scoreB: '', phase: 'Fase de grupos' }
+  },
+  scoring
+);
+assert.strictEqual(efficiencyScenario.predictionsCount, 10, 'palpites futuros continuam contando como registrados');
+assert.strictEqual(efficiencyScenario.scoredPredictionsCount, 2, 'aproveitamento deve considerar só jogos finalizados');
+assert.strictEqual(efficiencyScenario.efficiency, 100, '2 acertos exatos em 2 jogos finalizados deve gerar 100% de aproveitamento');
+
+assert.strictEqual(50 * 9 * 0.7, 315, 'premiação do primeiro lugar deve ser 70% de R$ 450,00');

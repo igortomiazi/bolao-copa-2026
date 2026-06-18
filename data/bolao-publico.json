@@ -17,7 +17,7 @@
       "wrong": 0,
       "knockoutQualified": 3,
       "exactDoesNotAccumulate": true,
-      "missingPredictionDefault": "0x0"
+      "missingPredictionDefault": "none"
     },
     "prizeDistribution": {
       "first": 70,
@@ -46,8 +46,8 @@
     },
     "publication": {
       "lastPublicExportAt": "2026-06-18T04:04:08.015Z",
-      "lastPublicExportDescription": "JSON público exportado para GitHub · Jogos finalizados: 24 | Palpites cadastrados: 256 | Jogos com palpites faltando: 80 | Líder atual: Leonam (91 pts) | Última alteração: 18/06/2026, 01:03 · Resultado lançado/editado: Uzbequistão x Colômbia",
-      "lastPublicExportSummary": "Jogos finalizados: 24 | Palpites cadastrados: 256 | Jogos com palpites faltando: 80 | Líder atual: Leonam (91 pts) | Última alteração: 18/06/2026, 01:03 · Resultado lançado/editado: Uzbequistão x Colômbia"
+      "lastPublicExportDescription": "JSON público exportado para GitHub · Jogos finalizados: 24 | Palpites cadastrados: 264 | Jogos com palpites faltando: 80 | Líder atual: Leonam (91 pts) | Última alteração: 18/06/2026, 01:03 · Resultado lançado/editado: Uzbequistão x Colômbia",
+      "lastPublicExportSummary": "Jogos finalizados: 24 | Palpites cadastrados: 264 | Jogos com palpites faltando: 80 | Líder atual: Leonam (91 pts) | Última alteração: 18/06/2026, 01:03 · Resultado lançado/editado: Uzbequistão x Colômbia"
     }
   },
   "groups": {

@@ -362,14 +362,23 @@
         scoredPredictionsCount: 0,
         maxPointsPossible: 0
       };
-      current.gamePoints += Number(prediction.points || 0);
-      current.exactCount += prediction.exact ? 1 : 0;
-      current.outcomeCount += prediction.outcomeHit ? 1 : 0;
-      current.qualifiedCount += prediction.qualifiedHit ? 1 : 0;
-      current.scoredPredictionsCount += 1;
       const match = matchesById[prediction.matchId];
-      current.maxPointsPossible += scoring.exactScore + (isKnockoutMatch(match) ? (scoring.knockoutQualified ?? 3) : 0);
       current.predictionsCount += 1;
+
+      const hasFinalResult = match
+        && match.status === "finalizado"
+        && toNumberOrNull(match.scoreA) !== null
+        && toNumberOrNull(match.scoreB) !== null;
+
+      if (hasFinalResult) {
+        current.gamePoints += Number(prediction.points || 0);
+        current.exactCount += prediction.exact ? 1 : 0;
+        current.outcomeCount += prediction.outcomeHit ? 1 : 0;
+        current.qualifiedCount += prediction.qualifiedHit ? 1 : 0;
+        current.scoredPredictionsCount += 1;
+        current.maxPointsPossible += scoring.exactScore + (isKnockoutMatch(match) ? (scoring.knockoutQualified ?? 3) : 0);
+      }
+
       predictionMap.set(prediction.participantId, current);
     });
 
@@ -417,6 +426,42 @@
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return escapeHtml(value);
     return date.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
+  }
+
+  function formatMoney(value) {
+    return Number(value || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+  }
+
+  function prizeConfig() {
+    const distribution = state?.settings?.prizeDistribution || {};
+    return {
+      entryFee: Number(state?.settings?.entryFee || 0),
+      first: Number(distribution.first ?? 70),
+      second: Number(distribution.second ?? 20),
+      third: Number(distribution.third ?? 10)
+    };
+  }
+
+  function prizeAmount(position) {
+    const config = prizeConfig();
+    const total = config.entryFee * (state?.participants?.length || 0);
+    const percent = position === 0 ? config.first : position === 1 ? config.second : position === 2 ? config.third : 0;
+    return Math.round((total * percent) / 100 * 100) / 100;
+  }
+
+  function prizeSummaryHtml() {
+    const config = prizeConfig();
+    const total = config.entryFee * state.participants.length;
+    return `
+      <section class="card">
+        <div class="card-header"><div><h2>Premiação</h2><p>Entrada de ${formatMoney(config.entryFee)} por participante.</p></div></div>
+        <div class="grid-4">
+          <div class="kpi-card"><span class="kpi-label">Total arrecadado</span><span class="kpi-value">${formatMoney(total)}</span><span class="kpi-note">${state.participants.length} participantes</span></div>
+          <div class="kpi-card"><span class="kpi-label">1º lugar · ${config.first}%</span><span class="kpi-value">${formatMoney(prizeAmount(0))}</span><span class="kpi-note">campeão do bolão</span></div>
+          <div class="kpi-card"><span class="kpi-label">2º lugar · ${config.second}%</span><span class="kpi-value">${formatMoney(prizeAmount(1))}</span><span class="kpi-note">vice-líder</span></div>
+          <div class="kpi-card"><span class="kpi-label">3º lugar · ${config.third}%</span><span class="kpi-value">${formatMoney(prizeAmount(2))}</span><span class="kpi-note">terceiro colocado</span></div>
+        </div>
+      </section>`;
   }
 
   function participantName(id) {
@@ -693,9 +738,9 @@
           <button class="btn" type="button" data-open-rules>Ver regras</button>
         </div>
         <div class="grid-3">
-          <div class="rule-box"><strong>70%</strong><span>Primeiro lugar</span></div>
-          <div class="rule-box"><strong>20%</strong><span>Segundo lugar</span></div>
-          <div class="rule-box"><strong>10%</strong><span>Terceiro lugar</span></div>
+          <div class="rule-box"><strong>${formatMoney(prizeAmount(0))}</strong><span>Primeiro lugar · ${prizeConfig().first}%</span></div>
+          <div class="rule-box"><strong>${formatMoney(prizeAmount(1))}</strong><span>Segundo lugar · ${prizeConfig().second}%</span></div>
+          <div class="rule-box"><strong>${formatMoney(prizeAmount(2))}</strong><span>Terceiro lugar · ${prizeConfig().third}%</span></div>
         </div>
       </section>
 
@@ -904,6 +949,7 @@ function bonusView() {
       `<button class="btn small ghost" data-bonus-modal="${escapeHtml(question.id)}">Ver respostas</button>`
     ]);
     return `
+      <div class="notice"><strong>🔒 Bônus bloqueado:</strong> as respostas dos participantes estão travadas desde o início da Copa. Esta tela é apenas para consulta pública.</div>
       <section class="card">
         <div class="card-header"><div><h2>Perguntas bônus</h2><p>Consulta das respostas e pontuação bônus publicadas.</p></div></div>
         ${table(["Pergunta", "Tipo", "Pontos", "Resposta correta", "Status", "Respostas"], rows)}
@@ -915,9 +961,10 @@ function bonusView() {
     const ranking = buildRanking();
     return `
       <section class="card">
-        <div class="card-header"><div><h2>Pódio</h2><p>Premiação: 70% / 20% / 10%.</p></div></div>
+        <div class="card-header"><div><h2>Pódio</h2><p>Premiação calculada automaticamente pela entrada e distribuição oficial.</p></div></div>
         ${podiumHtml(ranking)}
       </section>
+      ${prizeSummaryHtml()}
       <section class="card">
         <div class="card-header"><div><h2>Ranking geral</h2><p>Desempate: placares exatos, resultados corretos, palpites cadastrados e cadastro mais antigo.</p></div></div>
         ${table(["Posição", "Participante", "Jogos", "Bônus", "Total", "Placares exatos", "Resultados corretos", "Classificados", "Palpites registrados"], ranking.map((row, index) => [
@@ -950,7 +997,10 @@ function bonusView() {
       const ranking = rankingByParticipant[participant.id] || {};
       const phaseRows = finalizedPhases.map((phase) => {
         const points = state.predictions
-          .filter((prediction) => prediction.participantId === participant.id && matchById(prediction.matchId)?.phase === phase)
+          .filter((prediction) => {
+            const match = matchById(prediction.matchId);
+            return prediction.participantId === participant.id && match?.phase === phase && match.status === "finalizado";
+          })
           .reduce((sum, prediction) => sum + Number(prediction.points || 0), 0);
         return [escapeHtml(phase), `<strong>${points}</strong>`];
       });
@@ -989,7 +1039,7 @@ function bonusView() {
             ${statItem("Última atualização", formatDateTime(state.meta.updatedAt || state.meta.publicPublishedAt))}
           </div>
         </section>
-        <section class="card"><div class="card-header"><div><h2>Aproveitamento</h2><p>Pontos de jogos sobre o máximo possível dos palpites manuais.</p></div></div>${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.efficiency, suffix: "%" })))}</section>
+        <section class="card"><div class="card-header"><div><h2>Aproveitamento</h2><p>Pontos obtidos apenas nos jogos finalizados, sobre o máximo possível desses jogos.</p></div></div>${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.efficiency, suffix: "%" })))}</section>
       </div>
       <section class="card"><div class="card-header"><div><h2>Evolução por rodada</h2><p>Pontuação acumulada por rodada finalizada.</p></div></div>${lineChartEvolution(rankingEvolutionByRound())}</section>
       <div class="grid-2">
@@ -1019,7 +1069,7 @@ function bonusView() {
         <div class="rule-box"><strong>+${scoring.knockoutQualified ?? 3} pts</strong><span>Classificado no mata-mata</span><p>Nos jogos eliminatórios, soma bônus se acertar quem se classifica/vence. O placar usado é o do jogo até o fim da prorrogação.</p></div>
         <div class="rule-box"><strong>Pênaltis</strong><span>Não entram no placar</span><p>Se o jogo terminar empatado e for decidido nos pênaltis, o placar do bolão continua empatado; o classificado é informado separadamente.</p></div>
         <div class="rule-box"><strong>0 pts</strong><span>Sem palpite</span><p>Se não houver palpite cadastrado, o participante não pontua neste jogo. Palpite 0x0 continua válido somente quando foi enviado/cadastrado manualmente.</p></div>
-        <div class="rule-box"><strong>70/20/10</strong><span>Premiação</span><p>70% para o primeiro lugar, 20% para o segundo lugar e 10% para o terceiro lugar.</p></div>
+        <div class="rule-box"><strong>${formatMoney(state.settings.entryFee || 50)}</strong><span>Entrada por participante</span><p>Premiação: ${prizeConfig().first}% para o primeiro lugar, ${prizeConfig().second}% para o segundo e ${prizeConfig().third}% para o terceiro.</p></div>
       </div>
       <section class="card" style="box-shadow:none;margin:18px 0 0;padding:16px;background:var(--surface-2)">
         <h2>Exemplos do mata-mata</h2>
@@ -1045,7 +1095,7 @@ function bonusView() {
   function podiumHtml(ranking) {
     if (!ranking.length) return emptyState();
     const medals = ["🥇", "🥈", "🥉"];
-    return `<div class="podium-grid">${ranking.slice(0, 3).map((row, index) => `<div class="podium-card"><div class="podium-medal">${medals[index]}</div><strong>${escapeHtml(row.nickname || row.name)}</strong><span>${row.total} pontos</span><small>${row.exactCount} exatos · ${row.outcomeCount} resultados corretos · ${row.qualifiedCount} classificados</small></div>`).join("")}</div>`;
+    return `<div class="podium-grid">${ranking.slice(0, 3).map((row, index) => `<div class="podium-card"><div class="podium-medal">${medals[index]}</div><strong>${escapeHtml(row.nickname || row.name)}</strong><span>${row.total} pontos</span><small>${row.exactCount} exatos · ${row.outcomeCount} resultados corretos · ${row.qualifiedCount} classificados · ${formatMoney(prizeAmount(index))}</small></div>`).join("")}</div>`;
   }
 
   function barChart(items) {
