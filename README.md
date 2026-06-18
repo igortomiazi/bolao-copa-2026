@@ -169,3 +169,18 @@ Use o `bolao-publico.json` exportado pela versão Admin e publique por aqui.
 - Pódio e ranking público exibem a premiação calculada pela entrada de R$ 50,00 e distribuição 70% / 20% / 10%.
 - Tela pública de bônus exibe aviso de bloqueio/integridade.
 - Metadado antigo `missingPredictionDefault: 0x0` foi substituído por `none`.
+
+## Atualização pública V42 - Estatísticas estilo Copa
+
+A aba **Estatísticas** da versão pública foi alinhada com a experiência nova do Admin:
+
+- removido o antigo gráfico de evolução por linhas;
+- adicionados cards de resumo com líder, mais placares exatos, mais vencedores/empates, melhor aproveitamento e jogos perdidos sem palpite;
+- adicionada a seção **Disputa pelo pódio**, com top 5, premiação atual e distância até a zona de prêmio;
+- adicionada a tabela **Pontuação por fase/rodada**;
+- a fase de grupos agora é dividida em **1ª rodada**, **2ª rodada**, **3ª rodada** e **Total grupos**;
+- mata-mata separado em **16 avos**, **Oitavas**, **Quartas**, **Semi**, **3º lugar** e **Final**;
+- mantidas as colunas **Bônus** e **Total**;
+- adicionada a seção **Evolução por marco da Copa**;
+- adicionados blocos de **Jogos que mais deram pontos** e **Jogos mais difíceis**;
+- aproveitamento segue considerando apenas jogos finalizados/com resultado lançado.

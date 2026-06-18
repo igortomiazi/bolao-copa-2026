@@ -145,3 +145,53 @@ assert.strictEqual(efficiencyScenario.scoredPredictionsCount, 2, 'aproveitamento
 assert.strictEqual(efficiencyScenario.efficiency, 100, '2 acertos exatos em 2 jogos finalizados deve gerar 100% de aproveitamento');
 
 assert.strictEqual(50 * 9 * 0.7, 315, 'premiação do primeiro lugar deve ser 70% de R$ 450,00');
+
+function publicStageKeyForMatch(match) {
+  const normalize = (value) => String(value || '')
+    .trim()
+    .toLocaleLowerCase('pt-BR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, ' ');
+  const phase = normalize(match.phase);
+  const round = normalize(match.round);
+  if (phase.includes('fase de grupos')) {
+    if (round.includes('1')) return 'groupR1';
+    if (round.includes('2')) return 'groupR2';
+    if (round.includes('3')) return 'groupR3';
+    const matchNo = Number(match.matchNo || 0);
+    if (matchNo > 0 && matchNo <= 24) return 'groupR1';
+    if (matchNo > 24 && matchNo <= 48) return 'groupR2';
+    if (matchNo > 48 && matchNo <= 72) return 'groupR3';
+    return 'groupR1';
+  }
+  if (phase.includes('16 avos')) return 'round32';
+  if (phase.includes('oitavas')) return 'round16';
+  if (phase.includes('quartas')) return 'quarter';
+  if (phase.includes('semifinal')) return 'semi';
+  if (phase.includes('terceiro')) return 'third';
+  if (phase.includes('final')) return 'final';
+  return 'other';
+}
+
+assert.strictEqual(publicStageKeyForMatch({ phase: 'Fase de grupos', round: 'Rodada 1' }), 'groupR1', 'fase de grupos rodada 1 deve cair em groupR1');
+assert.strictEqual(publicStageKeyForMatch({ phase: 'Fase de grupos', matchNo: 35 }), 'groupR2', 'fase de grupos sem round deve inferir rodada 2 pelo numero do jogo');
+assert.strictEqual(publicStageKeyForMatch({ phase: 'Semifinal' }), 'semi', 'semifinal deve cair em semi');
+assert.strictEqual(publicStageKeyForMatch({ phase: 'Disputa de terceiro lugar' }), 'third', 'terceiro lugar deve cair em third');
+
+function publicLostPredictionCount(participants, matches, predictions, participantId) {
+  const realPredictions = predictions.filter(prediction => !(prediction.automatic || prediction.autoDefault));
+  return matches
+    .filter(match => match.status === 'finalizado' && match.scoreA !== '' && match.scoreB !== '')
+    .filter(match => participants.some(participant => participant.id === participantId) && !realPredictions.some(prediction => prediction.participantId === participantId && prediction.matchId === match.id))
+    .length;
+}
+
+assert.strictEqual(publicLostPredictionCount(
+  [{ id: 'p1' }],
+  [{ id: 'm1', status: 'finalizado', scoreA: 1, scoreB: 0 }, { id: 'm2', status: 'agendado', scoreA: '', scoreB: '' }],
+  [],
+  'p1'
+), 1, 'jogos perdidos sem palpite devem considerar apenas finalizados');
+
+console.log('TESTES PUBLICOS V42 OK');

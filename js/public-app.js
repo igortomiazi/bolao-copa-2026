@@ -983,69 +983,329 @@ function bonusView() {
     `;
   }
 
-  function phasePointsAccordionHtml() {
-    const finalizedPhases = (state.settings.phases || [])
-      .filter((phase) => state.matches.some((match) => match.phase === phase && match.status === "finalizado"));
+  const STATS_STAGE_COLUMNS = [
+    { key: "groupR1", header: "Fase de grupos", label: "1ª rodada", short: "R1" },
+    { key: "groupR2", header: "Fase de grupos", label: "2ª rodada", short: "R2" },
+    { key: "groupR3", header: "Fase de grupos", label: "3ª rodada", short: "R3" },
+    { key: "groupTotal", header: "Fase de grupos", label: "Total grupos", short: "Grupos" },
+    { key: "round32", header: "Mata-mata", label: "16 avos", short: "16 avos" },
+    { key: "round16", header: "Mata-mata", label: "Oitavas", short: "Oitavas" },
+    { key: "quarter", header: "Mata-mata", label: "Quartas", short: "Quartas" },
+    { key: "semi", header: "Mata-mata", label: "Semi", short: "Semi" },
+    { key: "third", header: "Mata-mata", label: "3º lugar", short: "3º" },
+    { key: "final", header: "Mata-mata", label: "Final", short: "Final" },
+    { key: "bonus", header: "Extras", label: "Bônus", short: "Bônus" },
+    { key: "total", header: "Total", label: "Total", short: "Total" }
+  ];
 
-    if (!finalizedPhases.length) {
-      return emptyState("Nenhuma fase possui jogo finalizado ainda.");
-    }
+  function buildStats(data = state) {
+    const ranking = buildRanking(data);
+    return {
+      ranking,
+      mostExact: mostBy(ranking, "exactCount"),
+      mostOutcome: mostBy(ranking, "outcomeCount"),
+      mostQualified: mostBy(ranking, "qualifiedCount")
+    };
+  }
 
-    const rankingByParticipant = Object.fromEntries(buildRanking().map((row) => [row.participantId, row]));
+  function getPrediction(participantId, matchId) {
+    return (state.predictions || []).find((prediction) =>
+      prediction.participantId === participantId &&
+      prediction.matchId === matchId &&
+      !isAutomaticPrediction(prediction)
+    );
+  }
 
-    const items = state.participants.map((participant, index) => {
-      const ranking = rankingByParticipant[participant.id] || {};
-      const phaseRows = finalizedPhases.map((phase) => {
-        const points = state.predictions
-          .filter((prediction) => {
-            const match = matchById(prediction.matchId);
-            return prediction.participantId === participant.id && match?.phase === phase && match.status === "finalizado";
-          })
-          .reduce((sum, prediction) => sum + Number(prediction.points || 0), 0);
-        return [escapeHtml(phase), `<strong>${points}</strong>`];
+  function normalizedPhaseName(value) {
+    return normalizeSearch(value).replace(/\s+/g, " ").trim();
+  }
+
+  function groupRoundKey(match) {
+    const round = normalizedPhaseName(match?.round || "");
+    if (round.includes("1")) return "groupR1";
+    if (round.includes("2")) return "groupR2";
+    if (round.includes("3")) return "groupR3";
+    const matchNo = Number(match?.matchNo || 0);
+    if (matchNo > 0 && matchNo <= 24) return "groupR1";
+    if (matchNo > 24 && matchNo <= 48) return "groupR2";
+    if (matchNo > 48 && matchNo <= 72) return "groupR3";
+    return "groupR1";
+  }
+
+  function stageKeyForMatch(match) {
+    const phase = normalizedPhaseName(match?.phase || "");
+    if (phase.includes("fase de grupos")) return groupRoundKey(match);
+    if (phase.includes("16 avos")) return "round32";
+    if (phase.includes("oitavas")) return "round16";
+    if (phase.includes("quartas")) return "quarter";
+    if (phase.includes("semifinal")) return "semi";
+    if (phase.includes("terceiro")) return "third";
+    if (phase.includes("final")) return "final";
+    return "other";
+  }
+
+  function stageLabelForKey(key) {
+    return STATS_STAGE_COLUMNS.find((item) => item.key === key)?.label || key;
+  }
+
+  function stageOrderKeys() {
+    return ["groupR1", "groupR2", "groupR3", "round32", "round16", "quarter", "semi", "third", "final"];
+  }
+
+  function hasFinalScore(match) {
+    return match && match.status === "finalizado" && toNumberOrNull(match.scoreA) !== null && toNumberOrNull(match.scoreB) !== null;
+  }
+
+  function finalizedScoringMatches() {
+    return (state.matches || []).filter(hasFinalScore);
+  }
+
+  function matchSortValue(match) {
+    return `${match?.date || "9999-99-99"} ${match?.time || "99:99"} ${String(match?.matchNo || "").padStart(3, "0")}`;
+  }
+
+  function lostPredictionCounts() {
+    const counts = new Map((state.participants || []).map((participant) => [participant.id, 0]));
+    finalizedScoringMatches().forEach((match) => {
+      (state.participants || []).forEach((participant) => {
+        if (!getPrediction(participant.id, match.id)) {
+          counts.set(participant.id, (counts.get(participant.id) || 0) + 1);
+        }
+      });
+    });
+    return counts;
+  }
+
+  function stagePointRows(ranking) {
+    const matchesById = Object.fromEntries((state.matches || []).map((match) => [match.id, match]));
+    const rankingByParticipant = new Map(ranking.map((row) => [row.participantId, row]));
+    const rows = (state.participants || []).map((participant) => {
+      const rankingRow = rankingByParticipant.get(participant.id) || {};
+      const row = {
+        participantId: participant.id,
+        name: participant.nickname || participant.name,
+        fullName: participant.name,
+        groupR1: 0,
+        groupR2: 0,
+        groupR3: 0,
+        groupTotal: 0,
+        round32: 0,
+        round16: 0,
+        quarter: 0,
+        semi: 0,
+        third: 0,
+        final: 0,
+        bonus: Number(rankingRow.bonusPoints || 0),
+        total: Number(rankingRow.total || 0)
+      };
+
+      (state.predictions || []).forEach((prediction) => {
+        if (isAutomaticPrediction(prediction) || prediction.participantId !== participant.id) return;
+        const match = matchesById[prediction.matchId];
+        if (!hasFinalScore(match)) return;
+        const key = stageKeyForMatch(match);
+        if (!Object.prototype.hasOwnProperty.call(row, key)) return;
+        row[key] += Number(prediction.points || 0);
       });
 
-      return `
-        <details class="phase-accordion-item">
-          <summary>
-            <span><strong>${escapeHtml(participant.nickname || participant.name)}</strong><small>${escapeHtml(participant.name)}</small></span>
-            <span class="phase-total-badge">${escapeHtml(ranking.gamePoints || 0)} pts em jogos</span>
-          </summary>
-          ${table(["Fase", "Pontos"], phaseRows)}
-        </details>`;
-    }).join("");
+      row.groupTotal = row.groupR1 + row.groupR2 + row.groupR3;
+      return row;
+    });
 
-    return `<div class="phase-accordion">${items}</div>`;
+    return rows.sort((a, b) => Number(b.total || 0) - Number(a.total || 0) || a.name.localeCompare(b.name, "pt-BR"));
+  }
+
+  function bestCellClass(rows, key, value) {
+    const max = Math.max(0, ...rows.map((row) => Number(row[key] || 0)));
+    return max > 0 && Number(value || 0) === max ? " class=\"stage-cell-best\"" : "";
+  }
+
+  function phasePointsTableHtml(stats) {
+    const ranking = stats.ranking || buildRanking(state);
+    const rows = stagePointRows(ranking);
+    if (!rows.length) return emptyState();
+
+    return `
+      <div class="stage-points-table-wrap">
+        <table class="stage-points-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Participante</th>
+              <th colspan="4">Fase de grupos</th>
+              <th colspan="6">Mata-mata</th>
+              <th>Bônus</th>
+              <th>Total</th>
+            </tr>
+            <tr>
+              <th>1ª rodada</th>
+              <th>2ª rodada</th>
+              <th>3ª rodada</th>
+              <th>Total grupos</th>
+              <th>16 avos</th>
+              <th>Oitavas</th>
+              <th>Quartas</th>
+              <th>Semi</th>
+              <th>3º lugar</th>
+              <th>Final</th>
+              <th>Bônus</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${rows.map((row) => `
+              <tr>
+                <td><strong>${escapeHtml(row.name)}</strong><small>${escapeHtml(row.fullName)}</small></td>
+                ${["groupR1", "groupR2", "groupR3", "groupTotal", "round32", "round16", "quarter", "semi", "third", "final", "bonus", "total"].map((key) => `<td${bestCellClass(rows, key, row[key])}>${escapeHtml(row[key] || 0)}</td>`).join("")}
+              </tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+      <p class="help-text">Os pontos de jogos entram somente após o resultado ser lançado. Sem palpite conta como 0 ponto e não vira 0x0 automático.</p>`;
+  }
+
+  function statsHeroCardsHtml(stats) {
+    const ranking = stats.ranking || [];
+    const leader = ranking[0];
+    const bestEfficiency = [...ranking]
+      .filter((row) => Number(row.scoredPredictionsCount || 0) > 0)
+      .sort((a, b) => Number(b.efficiency || 0) - Number(a.efficiency || 0) || Number(b.total || 0) - Number(a.total || 0))[0];
+    const lostCounts = lostPredictionCounts();
+    const mostLost = [...(state.participants || [])]
+      .map((participant) => ({ participant, count: lostCounts.get(participant.id) || 0 }))
+      .sort((a, b) => b.count - a.count || (a.participant.nickname || a.participant.name).localeCompare(b.participant.nickname || b.participant.name, "pt-BR"))[0];
+
+    return `
+      <div class="stats-hero-grid">
+        <article class="stats-hero-card"><span>🏆</span><small>Líder atual</small><strong>${leader ? escapeHtml(leader.nickname || leader.name) : "-"}</strong><em>${leader ? `${escapeHtml(leader.total)} pts` : "sem ranking"}</em></article>
+        <article class="stats-hero-card"><span>🎯</span><small>Mais placares exatos</small><strong>${stats.mostExact ? escapeHtml(stats.mostExact.nickname || stats.mostExact.name) : "-"}</strong><em>${stats.mostExact ? `${escapeHtml(stats.mostExact.exactCount)} exato(s)` : "-"}</em></article>
+        <article class="stats-hero-card"><span>✅</span><small>Mais vencedores/empates</small><strong>${stats.mostOutcome ? escapeHtml(stats.mostOutcome.nickname || stats.mostOutcome.name) : "-"}</strong><em>${stats.mostOutcome ? `${escapeHtml(stats.mostOutcome.outcomeCount)} acerto(s)` : "-"}</em></article>
+        <article class="stats-hero-card"><span>🔥</span><small>Melhor aproveitamento</small><strong>${bestEfficiency ? escapeHtml(bestEfficiency.nickname || bestEfficiency.name) : "-"}</strong><em>${bestEfficiency ? `${escapeHtml(bestEfficiency.efficiency)}% em ${escapeHtml(bestEfficiency.scoredPredictionsCount)} jogo(s)` : "sem jogos"}</em></article>
+        <article class="stats-hero-card muted-card"><span>⚠️</span><small>Mais jogos perdidos</small><strong>${mostLost ? escapeHtml(mostLost.participant.nickname || mostLost.participant.name) : "-"}</strong><em>${mostLost ? `${escapeHtml(mostLost.count)} sem palpite` : "-"}</em></article>
+      </div>`;
+  }
+
+  function podiumRaceHtml(ranking) {
+    if (!ranking.length) return emptyState();
+    const third = ranking[2];
+    const thirdTotal = Number(third?.total || 0);
+    const medals = ["🥇", "🥈", "🥉", "4º", "5º"];
+    return `
+      <div class="podium-race-list">
+        ${ranking.slice(0, 5).map((row, index) => {
+          const prize = index < 3 ? formatMoney(prizeAmount(index)) : "fora do prêmio";
+          const distance = index < 3
+            ? `premiação atual: ${prize}`
+            : third
+              ? (thirdTotal - Number(row.total || 0) <= 0 ? "empatado no corte do prêmio" : `a ${escapeHtml(thirdTotal - Number(row.total || 0))} pts do prêmio`)
+              : "sem corte definido";
+          return `<article class="podium-race-item ${index < 3 ? "in-prize" : ""}"><span>${medals[index]}</span><strong>${escapeHtml(row.nickname || row.name)}</strong><em>${escapeHtml(row.total)} pts</em><small>${escapeHtml(distance)}</small></article>`;
+        }).join("")}
+      </div>`;
+  }
+
+  function matchPointRows() {
+    return finalizedScoringMatches().map((match) => {
+      const predictions = (state.predictions || []).filter((prediction) => !isAutomaticPrediction(prediction) && prediction.matchId === match.id);
+      const totalPoints = predictions.reduce((sum, prediction) => sum + Number(prediction.points || 0), 0);
+      const exact = predictions.filter((prediction) => prediction.exact).length;
+      const scored = predictions.filter((prediction) => Number(prediction.points || 0) > 0).length;
+      const total = predictions.length;
+      return { match, predictions, totalPoints, exact, scored, total, avg: total ? totalPoints / total : 0 };
+    });
+  }
+
+  function matchPointHighlightsHtml() {
+    const rows = matchPointRows();
+    const mostPoints = [...rows].sort((a, b) => b.totalPoints - a.totalPoints || b.exact - a.exact).slice(0, 6);
+    const hardest = [...rows].sort((a, b) => a.avg - b.avg || a.totalPoints - b.totalPoints).slice(0, 6);
+    return `
+      <div class="grid-2">
+        <section class="card compact-table-card stats-match-card">
+          <div class="card-header"><div><h2>Jogos que mais deram pontos</h2><p>Partidas que mais distribuíram pontos entre palpites reais.</p></div></div>
+          ${mostPoints.length ? table(["Jogo", "Total", "Exatos", "Pontuaram"], mostPoints.map((row) => [matchHtml(row.match, true), `<strong>${escapeHtml(row.totalPoints)}</strong>`, row.exact, `${row.scored}/${row.total}`])) : emptyState()}
+        </section>
+        <section class="card compact-table-card stats-match-card">
+          <div class="card-header"><div><h2>Jogos mais difíceis</h2><p>Menor média de pontos por palpite real.</p></div></div>
+          ${hardest.length ? table(["Jogo", "Média", "Zeraram", "Palpites"], hardest.map((row) => [matchHtml(row.match, true), row.avg.toFixed(2), `${Math.max(0, row.total - row.scored)}`, row.total])) : emptyState()}
+        </section>
+      </div>`;
+  }
+
+  function milestoneRows() {
+    const orderedKeys = stageOrderKeys();
+    const matches = finalizedScoringMatches().sort((a, b) => matchSortValue(a).localeCompare(matchSortValue(b), "pt-BR"));
+    const keysWithMatches = orderedKeys.filter((key) => matches.some((match) => stageKeyForMatch(match) === key));
+    const matchesById = Object.fromEntries((state.matches || []).map((match) => [match.id, match]));
+
+    return keysWithMatches.map((key) => {
+      const allowed = new Set(orderedKeys.slice(0, orderedKeys.indexOf(key) + 1));
+      const allowedMatchIds = new Set(matches.filter((match) => allowed.has(stageKeyForMatch(match))).map((match) => match.id));
+      const partialData = {
+        ...state,
+        predictions: (state.predictions || []).filter((prediction) => {
+          if (isAutomaticPrediction(prediction)) return false;
+          const match = matchesById[prediction.matchId];
+          return match && allowedMatchIds.has(match.id);
+        })
+      };
+      return {
+        key,
+        label: stageLabelForKey(key),
+        ranking: buildRanking(partialData).slice(0, 3)
+      };
+    });
+  }
+
+  function milestoneEvolutionHtml() {
+    const rows = milestoneRows();
+    if (!rows.length) return emptyState();
+    return `
+      <div class="milestone-grid">
+        ${rows.map((item) => `
+          <article class="milestone-card">
+            <small>Após</small>
+            <strong>${escapeHtml(item.label)}</strong>
+            <ol>
+              ${item.ranking.map((row, index) => `<li><span>${index + 1}º</span><b>${escapeHtml(row.nickname || row.name)}</b><em>${escapeHtml(row.total)} pts</em></li>`).join("")}
+            </ol>
+          </article>`).join("")}
+      </div>`;
   }
 
   function statsView() {
-    const ranking = buildRanking();
-    const finalized = state.matches.filter((match) => match.status === "finalizado");
-    const hardest = finalized.map((match) => {
-      const predictions = state.predictions.filter((prediction) => prediction.matchId === match.id);
-      const avg = predictions.length ? predictions.reduce((sum, prediction) => sum + Number(prediction.points || 0), 0) / predictions.length : 0;
-      const wrong = predictions.filter((prediction) => Number(prediction.points || 0) === 0).length;
-      return { match, avg: Number(avg.toFixed(2)), wrong, wrongPercent: predictions.length ? Math.round((wrong / predictions.length) * 100) : 0, total: predictions.length };
-    }).sort((a, b) => a.avg - b.avg || b.wrongPercent - a.wrongPercent).slice(0, 8);
+    const stats = buildStats(state);
+    const ranking = stats.ranking || buildRanking(state);
 
     return `
-      <div class="grid-2">
-        <section class="card"><div class="card-header"><div><h2>Resumo</h2><p>Principais estatísticas.</p></div></div>
-          <div class="stat-list">
-            ${statItem("Mais placares exatos", ranking[0] ? `${mostBy(ranking, "exactCount").nickname || mostBy(ranking, "exactCount").name} · ${mostBy(ranking, "exactCount").exactCount}` : "-")}
-            ${statItem("Mais resultados corretos", ranking[0] ? `${mostBy(ranking, "outcomeCount").nickname || mostBy(ranking, "outcomeCount").name} · ${mostBy(ranking, "outcomeCount").outcomeCount}` : "-")}
-            ${statItem("Mais classificados no mata-mata", ranking[0] ? `${mostBy(ranking, "qualifiedCount").nickname || mostBy(ranking, "qualifiedCount").name} · ${mostBy(ranking, "qualifiedCount").qualifiedCount}` : "-")}
-            ${statItem("Jogos finalizados", String(finalized.length))}
-            ${statItem("Última atualização", formatDateTime(state.meta.updatedAt || state.meta.publicPublishedAt))}
-          </div>
+      ${statsHeroCardsHtml(stats)}
+
+      <section class="card stats-podium-race-card">
+        <div class="card-header"><div><h2>Disputa pelo pódio</h2><p>Top 5, premiação atual e distância até a zona de prêmio.</p></div></div>
+        ${podiumRaceHtml(ranking)}
+      </section>
+
+      <div class="grid-2 stats-efficiency-grid">
+        <section class="card">
+          <div class="card-header"><div><h2>Aproveitamento percentual</h2><p>Pontos obtidos apenas nos jogos já finalizados/com resultado lançado, sobre o máximo possível desses jogos. Palpites futuros não entram no denominador.</p></div></div>
+          ${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.efficiency, suffix: "%" })))}
         </section>
-        <section class="card"><div class="card-header"><div><h2>Aproveitamento</h2><p>Pontos obtidos apenas nos jogos finalizados, sobre o máximo possível desses jogos.</p></div></div>${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.efficiency, suffix: "%" })))}</section>
+        <section class="card">
+          <div class="card-header"><div><h2>Jogos perdidos sem palpite</h2><p>Jogos já finalizados em que o participante ficou sem palpite manual.</p></div></div>
+          ${barChart((state.participants || []).map((participant) => ({ label: participant.nickname || participant.name, value: lostPredictionCounts().get(participant.id) || 0 })).sort((a, b) => b.value - a.value))}
+        </section>
       </div>
-      <section class="card"><div class="card-header"><div><h2>Evolução por rodada</h2><p>Pontuação acumulada por rodada finalizada.</p></div></div>${lineChartEvolution(rankingEvolutionByRound())}</section>
-      <div class="grid-2">
-        <section class="card compact-table-card"><div class="card-header"><div><h2>Jogos mais difíceis</h2><p>Menor média de pontos por palpite.</p></div></div>${table(["Jogo", "Fase", "Média", "Erraram"], hardest.map((row) => [matchHtml(row.match, true), escapeHtml(row.match.phase), row.avg, `${row.wrongPercent}%`]))}</section>
-        <section class="card compact-table-card"><div class="card-header"><div><h2>Pontuação por fase</h2><p>Resumo por participante. Abra um nome para ver os pontos por fase finalizada.</p></div></div>${phasePointsAccordionHtml()}</section>
-      </div>
+
+      <section class="card compact-table-card">
+        <div class="card-header"><div><h2>Pontuação por fase/rodada</h2><p>Fase de grupos dividida em 1ª, 2ª e 3ª rodadas, seguida pelas fases do mata-mata, bônus e total.</p></div></div>
+        ${phasePointsTableHtml(stats)}
+      </section>
+
+      <section class="card stats-milestone-card">
+        <div class="card-header"><div><h2>Evolução por marco da Copa</h2><p>Ranking acumulado após cada rodada/fase finalizada. Substitui o antigo gráfico de linhas.</p></div></div>
+        ${milestoneEvolutionHtml()}
+      </section>
+
+      ${matchPointHighlightsHtml()}
     `;
   }
 
