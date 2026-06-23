@@ -681,8 +681,70 @@
     setTimeout(() => alert.remove(), 5200);
   }
 
-  function publicNotice() {
-    return `<div class="notice"><strong>Modo consulta pública:</strong> esta versão não grava nada no GitHub e não salva alterações no navegador. O que vale é o arquivo publicado em <span class="code-path">data/bolao-publico.json</span>.</div>`;
+  function matchOrderValue(match) {
+    const numericNo = Number(match?.matchNo);
+    if (Number.isFinite(numericNo) && numericNo > 0) return String(numericNo).padStart(4, "0");
+    return `9999-${match?.date || "9999-99-99"}-${match?.time || "99:99"}`;
+  }
+
+  function sortByOfficialMatchOrder(a, b) {
+    return matchOrderValue(a).localeCompare(matchOrderValue(b), "pt-BR")
+      || `${a?.date || ""} ${a?.time || ""}`.localeCompare(`${b?.date || ""} ${b?.time || ""}`, "pt-BR");
+  }
+
+  function currentLocalDateISO() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
+
+  function addDaysISO(dateISO, days) {
+    const [year, month, day] = String(dateISO || currentLocalDateISO()).split("-").map(Number);
+    const date = new Date(year, (month || 1) - 1, day || 1);
+    date.setDate(date.getDate() + Number(days || 0));
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+  }
+
+  function dayFilterOptions() {
+    const dates = [...new Set(state.matches.map((match) => match.date).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b, "pt-BR"));
+    return `
+      <option value="">Todos os dias</option>
+      <option value="__today__">Hoje</option>
+      <option value="__tomorrow__">Amanhã</option>
+      <option value="__next2__">Próximos 2 dias</option>
+      ${dates.map((date) => `<option value="${escapeHtml(date)}">${formatDate(date)}</option>`).join("")}
+    `;
+  }
+
+  function dateMatchesDayFilter(matchDate, filterValue) {
+    if (!filterValue) return true;
+    const today = currentLocalDateISO();
+    if (filterValue === "__today__") return matchDate === today;
+    if (filterValue === "__tomorrow__") return matchDate === addDaysISO(today, 1);
+    if (filterValue === "__next2__") return matchDate >= today && matchDate <= addDaysISO(today, 2);
+    return matchDate === filterValue;
+  }
+
+  function statusMatchesFilter(matchStatus, filterValue) {
+    if (!filterValue) return true;
+    if (filterValue === "aberto") return matchStatus !== "finalizado";
+    return matchStatus === filterValue;
+  }
+
+  function quickFiltersHtml(kind) {
+    return `
+      <div class="quick-filters" data-quick-filters="${kind}" aria-label="Filtros rápidos">
+        <button class="btn small ghost" type="button" data-quick-filter="today">Hoje</button>
+        <button class="btn small ghost" type="button" data-quick-filter="tomorrow">Amanhã</button>
+        <button class="btn small ghost" type="button" data-quick-filter="next2">Próximos 2 dias</button>
+        <button class="btn small ghost" type="button" data-quick-filter="open">Em aberto</button>
+        <button class="btn small ghost" type="button" data-quick-filter="finished">Finalizados</button>
+        <button class="btn small ghost" type="button" data-quick-filter="all">Todos</button>
+      </div>
+    `;
   }
 
   function filtersHtml(kind) {
@@ -692,8 +754,9 @@
       <div class="filters" data-filters="${kind}">
         <input type="search" id="${kind}Search" placeholder="Buscar seleção, participante, fase..." />
         <select id="${kind}Phase"><option value="">Todas as fases</option>${phases.map((phase) => `<option value="${escapeHtml(phase)}">${escapeHtml(phase)}</option>`).join("")}</select>
+        <select id="${kind}Day">${dayFilterOptions()}</select>
         <select id="${kind}Group"><option value="">Todos os grupos</option>${groups.map((group) => `<option value="${escapeHtml(group)}">Grupo ${escapeHtml(group)}</option>`).join("")}</select>
-        <select id="${kind}Status"><option value="">Todos os status</option><option value="agendado">agendado</option><option value="andamento">andamento</option><option value="finalizado">finalizado</option></select>
+        <select id="${kind}Status"><option value="">Todos os status</option><option value="aberto">em aberto</option><option value="agendado">agendado</option><option value="andamento">andamento</option><option value="finalizado">finalizado</option></select>
       </div>
     `;
   }
@@ -701,17 +764,59 @@
   function filterMatches(kind) {
     const search = normalizeSearch(document.getElementById(`${kind}Search`)?.value || "");
     const phase = document.getElementById(`${kind}Phase`)?.value || "";
+    const day = document.getElementById(`${kind}Day`)?.value || "";
     const group = document.getElementById(`${kind}Group`)?.value || "";
     const status = document.getElementById(`${kind}Status`)?.value || "";
     return state.matches
       .filter((match) => !phase || match.phase === phase)
+      .filter((match) => dateMatchesDayFilter(match.date, day))
       .filter((match) => !group || match.group === group)
-      .filter((match) => !status || match.status === status)
+      .filter((match) => statusMatchesFilter(match.status, status))
       .filter((match) => {
         if (!search) return true;
-        return normalizeSearch(`${match.matchNo} ${match.teamA} ${match.teamB} ${match.phase} ${match.group} ${match.round} ${match.venue}`).includes(search);
+        return normalizeSearch(`${match.matchNo} ${match.teamA} ${match.teamB} ${match.phase} ${match.group} ${match.round} ${match.venue} ${match.date}`).includes(search);
       })
-      .sort((a, b) => `${a.date} ${a.time} ${a.matchNo}`.localeCompare(`${b.date} ${b.time} ${b.matchNo}`));
+      .sort(sortByOfficialMatchOrder);
+  }
+
+  function homeUpcomingCardsHtml(matches) {
+    if (!matches.length) return emptyState("Nenhum próximo jogo encontrado.");
+    return `
+      <div class="home-match-list">
+        ${matches.map((match) => `
+          <article class="home-match-card">
+            <div class="home-match-main">
+              <span class="home-match-number">${match.matchNo ? `#${escapeHtml(match.matchNo)}` : "Jogo"}</span>
+              <strong>${matchHtml(match, false)}</strong>
+            </div>
+            <div class="home-match-meta">
+              <span>${formatDate(match.date)} ${escapeHtml(match.time)}</span>
+              <span>${escapeHtml(match.phase)}${match.group && match.group !== "-" ? ` · Grupo ${escapeHtml(match.group)}` : ""}</span>
+              <span>${escapeHtml(match.venue || "-")}</span>
+            </div>
+            <div class="home-match-status">${statusBadge(match.status)}</div>
+          </article>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function homeRankingSummaryHtml(ranking) {
+    if (!ranking.length) return emptyState("Ranking ainda sem pontuação.");
+    return `
+      <div class="home-ranking-list">
+        ${ranking.slice(0, 5).map((row, index) => `
+          <div class="home-ranking-row">
+            <div class="home-ranking-position">${index + 1}</div>
+            <div>
+              <strong>${escapeHtml(row.nickname || row.name)}</strong>
+              <span>${escapeHtml(row.gamePoints)} jogos · ${escapeHtml(row.bonusPoints)} bônus</span>
+            </div>
+            <strong>${escapeHtml(row.total)}</strong>
+          </div>
+        `).join("")}
+      </div>
+    `;
   }
 
   function dashboardView() {
@@ -720,11 +825,10 @@
     const leader = ranking[0];
     const upcoming = [...state.matches]
       .filter((match) => match.status !== "finalizado")
-      .sort((a, b) => `${a.date} ${a.time} ${a.matchNo}`.localeCompare(`${b.date} ${b.time} ${b.matchNo}`))
+      .sort((a, b) => `${a.date} ${a.time} ${matchOrderValue(a)}`.localeCompare(`${b.date} ${b.time} ${matchOrderValue(b)}`, "pt-BR"))
       .slice(0, 5);
 
     return `
-      ${publicNotice()}
       <div class="grid-4">
         <div class="kpi-card"><span class="kpi-label">Participantes</span><span class="kpi-value">${state.participants.length}</span><span class="kpi-note">cadastrados</span></div>
         <div class="kpi-card"><span class="kpi-label">Jogos</span><span class="kpi-value">${state.matches.length}</span><span class="kpi-note">tabela oficial</span></div>
@@ -744,26 +848,14 @@
         </div>
       </section>
 
-      <div class="grid-2">
-        <section class="card compact-table-card home-table-card upcoming-table-card">
+      <div class="grid-2 home-summary-grid">
+        <section class="card home-summary-card upcoming-table-card">
           <div class="card-header"><div><h2>Próximos jogos</h2><p>Ordenados por data e horário.</p></div></div>
-          ${table(["Data", "Fase", "Jogo", "Sede", "Status"], upcoming.map((match) => [
-            `${formatDate(match.date)} ${escapeHtml(match.time)}`,
-            `<span class="phase-pill">${escapeHtml(match.phase)}</span>`,
-            `${match.matchNo ? `<strong>#${escapeHtml(match.matchNo)}</strong> ` : ""}${matchHtml(match, false)}`,
-            escapeHtml(match.venue || "-"),
-            statusBadge(match.status)
-          ]))}
+          ${homeUpcomingCardsHtml(upcoming)}
         </section>
-        <section class="card compact-table-card home-table-card ranking-summary-card">
+        <section class="card home-summary-card ranking-summary-card">
           <div class="card-header"><div><h2>Ranking resumido</h2><p>Top 5 por pontuação total.</p></div></div>
-          ${table(["#", "Participante", "Jogos", "Bônus", "Total"], ranking.slice(0, 5).map((row, index) => [
-            `<strong>${index + 1}</strong>`,
-            escapeHtml(row.nickname || row.name),
-            row.gamePoints,
-            row.bonusPoints,
-            `<strong>${row.total}</strong>`
-          ]))}
+          ${homeRankingSummaryHtml(ranking)}
         </section>
       </div>
 
@@ -789,7 +881,10 @@
     return `
       <section class="card">
         <div class="card-header"><div><h2>Jogos</h2><p>Consulta da tabela e resultados publicados pelo administrador.</p></div></div>
-        ${filtersHtml("matches")}
+        <div class="filter-panel">
+          ${quickFiltersHtml("matches")}
+          ${filtersHtml("matches")}
+        </div>
         <div id="matchesTable">${table(["Nº", "Data", "Fase", "Grupo", "Jogo", "Sede", "Placar", "Status", "Ações"], rows)}</div>
       </section>
     `;
@@ -799,11 +894,16 @@
     return `
       <section class="card">
         <div class="card-header"><div><h2>Palpites</h2><p>Somente consulta. Palpites ausentes não pontuam; 0x0 só vale quando foi cadastrado manualmente.</p></div></div>
-        <div class="filters predictions-filters" data-filters="predictions">
-          <input type="search" id="predSearch" placeholder="Buscar participante, seleção ou fase" />
-          <select id="predParticipant"><option value="">Todos os participantes</option>${state.participants.map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.nickname || p.name)}</option>`).join("")}</select>
-          <select id="predStatus"><option value="">Todos os status</option><option value="agendado">agendado</option><option value="andamento">andamento</option><option value="finalizado">finalizado</option></select>
-          <select id="predView"><option value="grouped">Visualização por jogo</option><option value="table">Visualização em tabela</option></select>
+        <div class="filter-panel">
+          ${quickFiltersHtml("predictions")}
+          <div class="filters predictions-filters" data-filters="predictions">
+            <input type="search" id="predSearch" placeholder="Buscar participante, seleção ou fase" />
+            <select id="predParticipant"><option value="">Todos os participantes</option>${state.participants.map((p) => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.nickname || p.name)}</option>`).join("")}</select>
+            <select id="predPhase"><option value="">Todas as fases</option>${[...new Set(state.matches.map((match) => match.phase).filter(Boolean))].map((phase) => `<option value="${escapeHtml(phase)}">${escapeHtml(phase)}</option>`).join("")}</select>
+            <select id="predDay">${dayFilterOptions()}</select>
+            <select id="predStatus"><option value="">Todos os status</option><option value="aberto">em aberto</option><option value="agendado">agendado</option><option value="andamento">andamento</option><option value="finalizado">finalizado</option></select>
+            <select id="predView"><option value="grouped">Visualização por jogo</option><option value="table">Visualização em tabela</option></select>
+          </div>
         </div>
         <div id="predictionsTable">${predictionsTableHtml()}</div>
       </section>
@@ -811,23 +911,28 @@
   }
 
   function predictionMatchSortValue(match) {
-    return `${match?.date || "9999-99-99"} ${match?.time || "99:99"} ${String(match?.matchNo || "").padStart(4, "0")}`;
+    return matchOrderValue(match);
   }
 
   function filteredPredictions() {
     const search = normalizeSearch(document.getElementById("predSearch")?.value || "");
     const participantId = document.getElementById("predParticipant")?.value || "";
+    const phase = document.getElementById("predPhase")?.value || "";
+    const day = document.getElementById("predDay")?.value || "";
     const status = document.getElementById("predStatus")?.value || "";
     return state.predictions
       .filter((prediction) => !participantId || prediction.participantId === participantId)
       .filter((prediction) => {
         const match = matchById(prediction.matchId);
-        return !status || match?.status === status;
+        if (!match) return false;
+        return (!phase || match.phase === phase)
+          && dateMatchesDayFilter(match.date, day)
+          && statusMatchesFilter(match.status, status);
       })
       .filter((prediction) => {
         if (!search) return true;
         const match = matchById(prediction.matchId);
-        return normalizeSearch(`${participantName(prediction.participantId)} ${match?.teamA || ""} ${match?.teamB || ""} ${match?.phase || ""} ${match?.group || ""} ${match?.matchNo || ""} ${match?.date || ""}`).includes(search);
+        return normalizeSearch(`${participantName(prediction.participantId)} ${match?.teamA || ""} ${match?.teamB || ""} ${match?.phase || ""} ${match?.group || ""} ${match?.round || ""} ${match?.matchNo || ""} ${match?.date || ""}`).includes(search);
       })
       .sort((a, b) => {
         const matchA = matchById(a.matchId);
@@ -1515,23 +1620,97 @@ function bonusView() {
     });
   }
 
+  function filterPrefix(kind) {
+    return kind === "predictions" ? "pred" : kind;
+  }
+
+  function filterControlIds(kind) {
+    const prefix = filterPrefix(kind);
+    const ids = [`${prefix}Search`, `${prefix}Phase`, `${prefix}Day`, `${prefix}Status`];
+    if (kind === "matches") ids.push(`${prefix}Group`);
+    if (kind === "predictions") ids.push(`${prefix}Participant`, `${prefix}View`);
+    return ids;
+  }
+
+  function setFilterValue(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.value = value;
+  }
+
+  function dispatchFilterChange(kind) {
+    const prefix = filterPrefix(kind);
+    const element = document.getElementById(`${prefix}Search`) || document.getElementById(`${prefix}Day`) || document.getElementById(`${prefix}Status`);
+    if (element) element.dispatchEvent(new Event("input", { bubbles: true }));
+  }
+
+  function applyQuickFilter(kind, quickFilter) {
+    const prefix = filterPrefix(kind);
+    if (quickFilter === "all") {
+      filterControlIds(kind).forEach((id) => {
+        if (id.endsWith("View")) return;
+        setFilterValue(id, "");
+      });
+    }
+    if (quickFilter === "today") setFilterValue(`${prefix}Day`, "__today__");
+    if (quickFilter === "tomorrow") setFilterValue(`${prefix}Day`, "__tomorrow__");
+    if (quickFilter === "next2") setFilterValue(`${prefix}Day`, "__next2__");
+    if (quickFilter === "open") setFilterValue(`${prefix}Status`, "aberto");
+    if (quickFilter === "finished") setFilterValue(`${prefix}Status`, "finalizado");
+    dispatchFilterChange(kind);
+  }
+
+  function syncQuickFilterButtons(kind) {
+    const prefix = filterPrefix(kind);
+    const day = document.getElementById(`${prefix}Day`)?.value || "";
+    const status = document.getElementById(`${prefix}Status`)?.value || "";
+    const hasAnyFilter = filterControlIds(kind).some((id) => {
+      if (id.endsWith("View")) return false;
+      return Boolean(document.getElementById(id)?.value || "");
+    });
+    app.querySelectorAll(`[data-quick-filters='${kind}'] [data-quick-filter]`).forEach((button) => {
+      const key = button.dataset.quickFilter;
+      const active = (key === "today" && day === "__today__")
+        || (key === "tomorrow" && day === "__tomorrow__")
+        || (key === "next2" && day === "__next2__")
+        || (key === "open" && status === "aberto")
+        || (key === "finished" && status === "finalizado")
+        || (key === "all" && !hasAnyFilter);
+      button.classList.toggle("active", active);
+    });
+  }
+
+  function bindQuickFilters(kind) {
+    app.querySelectorAll(`[data-quick-filters='${kind}'] [data-quick-filter]`).forEach((button) => {
+      button.addEventListener("click", () => applyQuickFilter(kind, button.dataset.quickFilter));
+    });
+    syncQuickFilterButtons(kind);
+  }
+
   function bindViewEvents(view) {
     if (view === "matches") {
-      app.querySelectorAll("[data-filters='matches'] input, [data-filters='matches'] select").forEach((element) => element.addEventListener("input", () => {
+      const redrawMatches = () => {
         const rows = filterMatches("matches").map((match) => [match.matchNo ? `#${escapeHtml(match.matchNo)}` : "-", `${formatDate(match.date)} ${escapeHtml(match.time)}`, `<span class="phase-pill">${escapeHtml(match.phase)}</span>`, escapeHtml(match.group || "-"), matchHtml(match, false), escapeHtml(match.venue || "-"), resultText(match), statusBadge(match.status), `<button class="btn compact ghost" type="button" data-match-predictions="${escapeHtml(match.id)}">Ver palpites</button>`]);
         document.getElementById("matchesTable").innerHTML = table(["Nº", "Data", "Fase", "Grupo", "Jogo", "Sede", "Placar", "Status", "Ações"], rows);
         bindMatchPredictionButtons();
-      }));
+        syncQuickFilterButtons("matches");
+      };
+      app.querySelectorAll("[data-filters='matches'] input, [data-filters='matches'] select").forEach((element) => {
+        element.addEventListener("input", redrawMatches);
+        element.addEventListener("change", redrawMatches);
+      });
+      bindQuickFilters("matches");
       bindMatchPredictionButtons();
     }
     if (view === "predictions") {
       const redrawPredictions = () => {
         document.getElementById("predictionsTable").innerHTML = predictionsTableHtml();
+        syncQuickFilterButtons("predictions");
       };
-      app.querySelectorAll("#predSearch, #predParticipant, #predStatus, #predOnly, #predView").forEach((element) => {
+      app.querySelectorAll("[data-filters='predictions'] input, [data-filters='predictions'] select").forEach((element) => {
         element.addEventListener("input", redrawPredictions);
         element.addEventListener("change", redrawPredictions);
       });
+      bindQuickFilters("predictions");
     }
     app.querySelectorAll("[data-open-rules]").forEach((button) => button.addEventListener("click", () => openModal("Regras do bolão", rulesHtml())));
     app.querySelectorAll("[data-bonus-modal]").forEach((button) => button.addEventListener("click", () => bonusResponsesModal(button.dataset.bonusModal)));
