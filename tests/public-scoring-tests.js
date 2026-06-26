@@ -1,7 +1,7 @@
 const assert = require('assert');
 
 const KNOCKOUT_PHASES = ["16 avos", "Oitavas", "Quartas", "Semifinal", "Disputa de terceiro lugar", "Final"];
-const scoring = { exactScore: 10, goalDifference: 7, outcome: 5, wrong: 0, knockoutQualified: 3 };
+const scoring = { exactScore: 10, goalDifference: 7, outcome: 5, knockoutDrawOutcome: 6, wrong: 0, knockoutQualified: 3 };
 
 function outcome(a, b) {
   if (a > b) return 'A';
@@ -28,7 +28,7 @@ function calc(predA, predB, realA, realB, phase = 'Fase de grupos', predictionQu
   let basePoints = scoring.wrong;
   if (exact) basePoints = scoring.exactScore;
   else if (goalDifferenceHit) basePoints = scoring.goalDifference;
-  else if (outcomeHit) basePoints = scoring.outcome;
+  else if (outcomeHit) basePoints = isKnockoutMatch({ phase }) && realOutcome === 'E' ? scoring.knockoutDrawOutcome : scoring.outcome;
 
   const match = { phase };
   const realQualified = normalizeSide(matchQualified || inferWinnerSide(realA, realB));
@@ -41,10 +41,12 @@ assert.strictEqual(calc(2, 1, 2, 1), 10, 'placar exato vitória deve valer 10');
 assert.strictEqual(calc(0, 0, 0, 0), 10, 'placar exato empate deve valer 10');
 assert.strictEqual(calc(4, 2, 2, 0), 7, 'vencedor + saldo deve valer 7');
 assert.strictEqual(calc(3, 0, 1, 0), 5, 'vencedor simples deve valer 5');
-assert.strictEqual(calc(2, 2, 0, 0), 5, 'empate simples deve valer 5');
+assert.strictEqual(calc(2, 2, 0, 0), 5, 'empate simples na fase de grupos deve valer 5');
+assert.strictEqual(calc(2, 2, 0, 0, '16 avos'), 6, 'empate simples no mata-mata deve valer 6');
 assert.strictEqual(calc(1, 0, 0, 1), 0, 'erro total deve valer 0');
 assert.strictEqual(calc(1, 1, 1, 1, 'Oitavas', 'A', 'A'), 13, 'mata-mata empate exato + classificado deve valer 13');
-assert.strictEqual(calc(2, 2, 0, 0, 'Oitavas', 'A', 'A'), 8, 'mata-mata empate simples + classificado deve valer 8');
+assert.strictEqual(calc(2, 2, 0, 0, 'Oitavas', 'A', 'B'), 6, 'mata-mata empate simples com classificado errado deve valer 6');
+assert.strictEqual(calc(2, 2, 0, 0, 'Oitavas', 'A', 'A'), 9, 'mata-mata empate simples + classificado deve valer 9');
 assert.strictEqual(calc(2, 0, 1, 1, 'Oitavas', 'A', 'A'), 3, 'mata-mata só classificado deve valer 3');
 assert.strictEqual(calc(2, 1, 2, 1, 'Final', 'B', 'A'), 10, 'placar exato com classificado errado mantém só 10 pontos');
 assert.strictEqual(calc(2, 0, 2, 0, 'Fase de grupos', 'A', 'A'), 10, 'bônus de classificado não existe na fase de grupos');

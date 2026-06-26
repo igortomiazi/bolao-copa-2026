@@ -45,12 +45,13 @@ data/bolao-publico.json
 
 - Placar exato: 10 pontos.
 - Vencedor + saldo de gols: 7 pontos.
-- Resultado correto, incluindo empate: 5 pontos.
+- Resultado correto na fase de grupos, incluindo empate: 5 pontos.
+- Empate correto no mata-mata, com placar diferente: 6 pontos.
 - Erro total: 0 ponto.
 - Se não houver palpite cadastrado em jogo finalizado, o participante não pontua nesse jogo.
 - Palpite 0x0 continua válido somente quando foi cadastrado manualmente.
 
-Observação: empate com saldo zero, mas placar diferente, vale 5 pontos, não 7. Exemplo: palpite 2x2 e resultado 0x0 vale 5 pontos.
+Observação: empate com saldo zero, mas placar diferente, vale 5 pontos na fase de grupos e 6 pontos a partir do mata-mata. Não entra como saldo de gols de 7 pontos.
 
 ### Mata-mata, prorrogação e pênaltis
 
@@ -67,7 +68,7 @@ Além da pontuação do placar, o participante ganha:
 Exemplos:
 
 - Palpite 1x1 + Brasil classificado; resultado 1x1 + Brasil nos pênaltis = 13 pontos.
-- Palpite 2x2 + Brasil classificado; resultado 0x0 + Brasil nos pênaltis = 8 pontos.
+- Palpite 2x2 + Brasil classificado; resultado 0x0 + Brasil nos pênaltis = 9 pontos.
 - Palpite Brasil 2x0 + Brasil classificado; resultado 1x1 + Brasil nos pênaltis = 3 pontos.
 
 ## Premiação
@@ -184,3 +185,11 @@ A aba **Estatísticas** da versão pública foi alinhada com a experiência nova
 - adicionada a seção **Evolução por marco da Copa**;
 - adicionados blocos de **Jogos que mais deram pontos** e **Jogos mais difíceis**;
 - aproveitamento segue considerando apenas jogos finalizados/com resultado lançado.
+
+
+## V51/V52 — empate 6 no mata-mata
+
+- Fase de grupos mantém empate correto com placar diferente em 5 pontos.
+- A partir dos 16 avos, empate correto com placar diferente vale 6 pontos.
+- Classificado correto no mata-mata continua somando +3 pontos.
+- Exemplos: empate correto + classificado = 9 pontos; placar exato + classificado = 13 pontos.

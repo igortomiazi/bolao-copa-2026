@@ -1,0 +1,21 @@
+Patch GitHub v52 - empate 6 no mata-mata
+
+Arquivos alterados:
+- README.md
+- js/public-app.js
+- tests/public-scoring-tests.js
+
+Regras aplicadas:
+- Fase de grupos: empate correto com placar diferente continua valendo 5 pontos.
+- Mata-mata, a partir dos 16 avos: empate correto com placar diferente vale 6 pontos.
+- Classificado correto no mata-mata continua somando +3 pontos.
+- Empate correto + classificado correto no mata-mata = 9 pontos.
+- Placar exato + classificado correto no mata-mata = 13 pontos.
+
+Observação:
+- Não inclui data/bolao-publico.json, porque esse arquivo deve continuar vindo da exportação do Admin pelo .bat.
+- Melhorias de importação WhatsApp e cobrança são exclusivas do Admin e não se aplicam ao site público.
+
+Validação:
+- node --check js/public-app.js
+- node tests/public-scoring-tests.js
