@@ -13,6 +13,7 @@
     dashboard: "Home",
     matches: "Jogos",
     predictions: "Palpites",
+    cupTable: "Tabela da Copa",
     bonus: "Perguntas bônus",
     ranking: "Ranking geral",
     stats: "Estatísticas",
@@ -822,6 +823,28 @@
     `;
   }
 
+
+  function homeLatestResultsHtml(matches) {
+    if (!matches.length) return emptyState("Nenhum resultado publicado ainda.");
+    return `
+      <div class="home-match-list latest-results-list">
+        ${matches.map((match) => `
+          <article class="home-match-card latest-result-card">
+            <div class="home-match-main">
+              <span class="home-match-number">${match.matchNo ? `#${escapeHtml(match.matchNo)}` : "Jogo"}</span>
+              <strong>${matchHtml(match, true)}</strong>
+            </div>
+            <div class="home-match-meta">
+              <span>${formatDate(match.date)} ${escapeHtml(match.time)}</span>
+              <span>${escapeHtml(match.phase)}</span>
+            </div>
+            <div class="home-match-status"><button class="btn small ghost" type="button" data-match-predictions="${escapeHtml(match.id)}">Ver palpites</button></div>
+          </article>
+        `).join("")}
+      </div>
+    `;
+  }
+
   function dashboardView() {
     const ranking = buildRanking();
     const finished = state.matches.filter((match) => match.status === "finalizado").length;
@@ -829,43 +852,42 @@
     const upcoming = [...state.matches]
       .filter((match) => match.status !== "finalizado")
       .sort((a, b) => `${a.date} ${a.time} ${matchOrderValue(a)}`.localeCompare(`${b.date} ${b.time} ${matchOrderValue(b)}`, "pt-BR"))
-      .slice(0, 5);
+      .slice(0, 6);
+    const latestResults = [...state.matches]
+      .filter((match) => match.status === "finalizado")
+      .sort((a, b) => `${b.date} ${b.time} ${matchOrderValue(b)}`.localeCompare(`${a.date} ${a.time} ${matchOrderValue(a)}`, "pt-BR"))
+      .slice(0, 6);
 
     return `
       <div class="grid-4">
-        <div class="kpi-card"><span class="kpi-label">Participantes</span><span class="kpi-value">${state.participants.length}</span><span class="kpi-note">cadastrados</span></div>
-        <div class="kpi-card"><span class="kpi-label">Jogos</span><span class="kpi-value">${state.matches.length}</span><span class="kpi-note">tabela oficial</span></div>
-        <div class="kpi-card"><span class="kpi-label">Finalizados</span><span class="kpi-value">${finished}</span><span class="kpi-note">com resultado</span></div>
         <div class="kpi-card"><span class="kpi-label">Líder atual</span><span class="kpi-value">${leader ? escapeHtml(leader.nickname || leader.name) : "-"}</span><span class="kpi-note">${leader ? `${leader.total} pontos` : "sem pontos"}</span></div>
+        <div class="kpi-card"><span class="kpi-label">Participantes</span><span class="kpi-value">${state.participants.length}</span><span class="kpi-note">no bolão</span></div>
+        <div class="kpi-card"><span class="kpi-label">Jogos finalizados</span><span class="kpi-value">${finished}</span><span class="kpi-note">de ${state.matches.length}</span></div>
+        <div class="kpi-card"><span class="kpi-label">Prêmio total</span><span class="kpi-value">${formatMoney(prizeConfig().entryFee * state.participants.length)}</span><span class="kpi-note">entrada de ${formatMoney(prizeConfig().entryFee)}</span></div>
       </div>
 
-      <section class="card">
+      <section class="card public-home-hero">
         <div class="card-header">
-          <div><h2>Regras e premiação</h2><p>Resumo oficial do bolão e critérios de desempate.</p></div>
+          <div><h2>Resumo do bolão</h2><p>Consulta pública do ranking, palpites, tabela da Copa e regras de pontuação.</p></div>
           <button class="btn" type="button" data-open-rules>Ver regras</button>
         </div>
         <div class="grid-3">
-          <div class="rule-box"><strong>${formatMoney(prizeAmount(0))}</strong><span>Primeiro lugar · ${prizeConfig().first}%</span></div>
-          <div class="rule-box"><strong>${formatMoney(prizeAmount(1))}</strong><span>Segundo lugar · ${prizeConfig().second}%</span></div>
-          <div class="rule-box"><strong>${formatMoney(prizeAmount(2))}</strong><span>Terceiro lugar · ${prizeConfig().third}%</span></div>
+          <div class="rule-box"><strong>${formatMoney(prizeAmount(0))}</strong><span>1º lugar · ${prizeConfig().first}%</span></div>
+          <div class="rule-box"><strong>${formatMoney(prizeAmount(1))}</strong><span>2º lugar · ${prizeConfig().second}%</span></div>
+          <div class="rule-box"><strong>${formatMoney(prizeAmount(2))}</strong><span>3º lugar · ${prizeConfig().third}%</span></div>
         </div>
       </section>
 
       <div class="grid-2 home-summary-grid">
         <section class="card home-summary-card upcoming-table-card">
-          <div class="card-header"><div><h2>Próximos jogos</h2><p>Ordenados por data e horário.</p></div></div>
+          <div class="card-header"><div><h2>Próximos jogos</h2><p>Os próximos confrontos publicados.</p></div></div>
           ${homeUpcomingCardsHtml(upcoming)}
         </section>
-        <section class="card home-summary-card ranking-summary-card">
-          <div class="card-header"><div><h2>Ranking resumido</h2><p>Top 5 por pontuação total.</p></div></div>
-          ${homeRankingSummaryHtml(ranking)}
+        <section class="card home-summary-card latest-results-card">
+          <div class="card-header"><div><h2>Últimos resultados</h2><p>Jogos finalizados mais recentes.</p></div></div>
+          ${homeLatestResultsHtml(latestResults)}
         </section>
       </div>
-
-      <section class="card">
-        <div class="card-header"><div><h2>Pontuação geral</h2><p>Gráfico simples do ranking atual.</p></div></div>
-        ${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.total })))}
-      </section>
     `;
   }
 
@@ -1057,7 +1079,7 @@ function bonusView() {
       `<button class="btn small ghost" data-bonus-modal="${escapeHtml(question.id)}">Ver respostas</button>`
     ]);
     return `
-      <div class="notice"><strong>🔒 Bônus bloqueado:</strong> as respostas dos participantes estão travadas desde o início da Copa. Esta tela é apenas para consulta pública.</div>
+      <div class="notice public-soft-notice"><strong>Perguntas bônus em consulta:</strong> respostas travadas desde o início da Copa; a pontuação aparece conforme os resultados oficiais são publicados.</div>
       <section class="card">
         <div class="card-header"><div><h2>Perguntas bônus</h2><p>Consulta das respostas e pontuação bônus publicadas.</p></div></div>
         ${table(["Pergunta", "Tipo", "Pontos", "Resposta correta", "Status", "Respostas"], rows)}
@@ -1087,7 +1109,6 @@ function bonusView() {
           row.predictionsCount
         ]))}
       </section>
-      <section class="card"><div class="card-header"><div><h2>Total por participante</h2><p>Ranking em gráfico.</p></div></div>${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.total })))}</section>
     `;
   }
 
@@ -1277,10 +1298,6 @@ function bonusView() {
     const bestEfficiency = [...ranking]
       .filter((row) => Number(row.scoredPredictionsCount || 0) > 0)
       .sort((a, b) => Number(b.efficiency || 0) - Number(a.efficiency || 0) || Number(b.total || 0) - Number(a.total || 0))[0];
-    const lostCounts = lostPredictionCounts();
-    const mostLost = [...(state.participants || [])]
-      .map((participant) => ({ participant, count: lostCounts.get(participant.id) || 0 }))
-      .sort((a, b) => b.count - a.count || (a.participant.nickname || a.participant.name).localeCompare(b.participant.nickname || b.participant.name, "pt-BR"))[0];
 
     return `
       <div class="stats-hero-grid">
@@ -1288,7 +1305,6 @@ function bonusView() {
         <article class="stats-hero-card"><span>🎯</span><small>Mais placares exatos</small><strong>${stats.mostExact ? escapeHtml(stats.mostExact.nickname || stats.mostExact.name) : "-"}</strong><em>${stats.mostExact ? `${escapeHtml(stats.mostExact.exactCount)} exato(s)` : "-"}</em></article>
         <article class="stats-hero-card"><span>✅</span><small>Mais vencedores/empates</small><strong>${stats.mostOutcome ? escapeHtml(stats.mostOutcome.nickname || stats.mostOutcome.name) : "-"}</strong><em>${stats.mostOutcome ? `${escapeHtml(stats.mostOutcome.outcomeCount)} acerto(s)` : "-"}</em></article>
         <article class="stats-hero-card"><span>🔥</span><small>Melhor aproveitamento</small><strong>${bestEfficiency ? escapeHtml(bestEfficiency.nickname || bestEfficiency.name) : "-"}</strong><em>${bestEfficiency ? `${escapeHtml(bestEfficiency.efficiency)}% em ${escapeHtml(bestEfficiency.scoredPredictionsCount)} jogo(s)` : "sem jogos"}</em></article>
-        <article class="stats-hero-card muted-card"><span>⚠️</span><small>Mais jogos perdidos</small><strong>${mostLost ? escapeHtml(mostLost.participant.nickname || mostLost.participant.name) : "-"}</strong><em>${mostLost ? `${escapeHtml(mostLost.count)} sem palpite` : "-"}</em></article>
       </div>`;
   }
 
@@ -1324,8 +1340,8 @@ function bonusView() {
 
   function matchPointHighlightsHtml() {
     const rows = matchPointRows();
-    const mostPoints = [...rows].sort((a, b) => b.totalPoints - a.totalPoints || b.exact - a.exact).slice(0, 6);
-    const hardest = [...rows].sort((a, b) => a.avg - b.avg || a.totalPoints - b.totalPoints).slice(0, 6);
+    const mostPoints = [...rows].sort((a, b) => b.totalPoints - a.totalPoints || b.exact - a.exact).slice(0, 15);
+    const hardest = [...rows].sort((a, b) => a.avg - b.avg || a.totalPoints - b.totalPoints).slice(0, 15);
     return `
       <div class="grid-2">
         <section class="card compact-table-card stats-match-card">
@@ -1392,17 +1408,6 @@ function bonusView() {
         ${podiumRaceHtml(ranking)}
       </section>
 
-      <div class="grid-2 stats-efficiency-grid">
-        <section class="card">
-          <div class="card-header"><div><h2>Aproveitamento percentual</h2><p>Pontos obtidos apenas nos jogos já finalizados/com resultado lançado, sobre o máximo possível desses jogos. Palpites futuros não entram no denominador.</p></div></div>
-          ${barChart(ranking.map((row) => ({ label: row.nickname || row.name, value: row.efficiency, suffix: "%" })))}
-        </section>
-        <section class="card">
-          <div class="card-header"><div><h2>Jogos perdidos sem palpite</h2><p>Jogos já finalizados em que o participante ficou sem palpite manual.</p></div></div>
-          ${barChart((state.participants || []).map((participant) => ({ label: participant.nickname || participant.name, value: lostPredictionCounts().get(participant.id) || 0 })).sort((a, b) => b.value - a.value))}
-        </section>
-      </div>
-
       <section class="card compact-table-card">
         <div class="card-header"><div><h2>Pontuação por fase/rodada</h2><p>Fase de grupos dividida em 1ª, 2ª e 3ª rodadas, seguida pelas fases do mata-mata, bônus e total.</p></div></div>
         ${phasePointsTableHtml(stats)}
@@ -1414,6 +1419,259 @@ function bonusView() {
       </section>
 
       ${matchPointHighlightsHtml()}
+    `;
+  }
+
+
+  const CUP_GROUPS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+  const CUP_BRACKET_PUBLIC = {
+    left: {
+      round32: [74, 77, 73, 75, 83, 84, 81, 82],
+      round16: [89, 90, 93, 94],
+      quarter: [97, 98],
+      semi: [101]
+    },
+    right: {
+      semi: [102],
+      quarter: [99, 100],
+      round16: [91, 92, 95, 96],
+      round32: [76, 78, 80, 79, 86, 88, 85, 87]
+    }
+  };
+
+  function isGroupStageMatch(match) {
+    return normalizeSearch(match?.phase || "").includes("fase de grupos") && CUP_GROUPS.includes(String(match?.group || "").toUpperCase());
+  }
+
+  function isFinalizedWithScore(match) {
+    return match?.status === "finalizado" && toNumberOrNull(match.scoreA) !== null && toNumberOrNull(match.scoreB) !== null;
+  }
+
+  function cupInitialTeam(team, group) {
+    return { team, group, played: 0, wins: 0, draws: 0, losses: 0, gf: 0, ga: 0, gd: 0, points: 0, position: 0 };
+  }
+
+  function cupApplyResult(row, gf, ga) {
+    row.played += 1;
+    row.gf += gf;
+    row.ga += ga;
+    row.gd = row.gf - row.ga;
+    if (gf > ga) { row.wins += 1; row.points += 3; }
+    else if (gf === ga) { row.draws += 1; row.points += 1; }
+    else row.losses += 1;
+  }
+
+  function cupGroupMatches(group) {
+    return state.matches
+      .filter((match) => isGroupStageMatch(match) && String(match.group).toUpperCase() === group)
+      .sort(sortByOfficialMatchOrder);
+  }
+
+  function cupSortRows(rows) {
+    return [...rows]
+      .sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team, "pt-BR"))
+      .map((row, index) => ({ ...row, position: index + 1 }));
+  }
+
+  function calculateCupStandings() {
+    const groups = CUP_GROUPS.map((group) => {
+      const matches = cupGroupMatches(group);
+      const teamNames = [...new Set(matches.flatMap((match) => [match.teamA, match.teamB]).filter(Boolean))];
+      const rowsMap = new Map(teamNames.map((team) => [team, cupInitialTeam(team, group)]));
+      matches.filter(isFinalizedWithScore).forEach((match) => {
+        const a = rowsMap.get(match.teamA);
+        const b = rowsMap.get(match.teamB);
+        if (!a || !b) return;
+        const scoreA = Number(match.scoreA);
+        const scoreB = Number(match.scoreB);
+        cupApplyResult(a, scoreA, scoreB);
+        cupApplyResult(b, scoreB, scoreA);
+      });
+      const finalized = matches.filter(isFinalizedWithScore).length;
+      return { group, matches, rows: cupSortRows([...rowsMap.values()]), finalized, total: matches.length, complete: matches.length > 0 && finalized === matches.length };
+    });
+    const thirds = groups
+      .map((group) => group.rows[2] ? { ...group.rows[2], sourceGroup: group.group } : null)
+      .filter(Boolean)
+      .sort((a, b) => b.points - a.points || b.gd - a.gd || b.gf - a.gf || a.team.localeCompare(b.team, "pt-BR"))
+      .map((row, index) => ({ ...row, thirdRank: index + 1, qualifiesAsThird: index < 8 }));
+    return { groups, thirds };
+  }
+
+  function cupTeamNameCompact(name) {
+    const clean = String(name || "-");
+    const text = normalizeSearch(clean);
+    const winner = text.match(/vencedor\s+#?(\d+)/) || text.match(/vencedor\s+jogo\s+(\d+)/);
+    if (winner) return `Venc. #${winner[1]}`;
+    const loser = text.match(/perdedor\s+#?(\d+)/) || text.match(/perdedor\s+jogo\s+(\d+)/);
+    if (loser) return `Perd. #${loser[1]}`;
+    return clean;
+  }
+
+  function cupIsPlaceholderTeam(name) {
+    return /grupo|melhor 3|vencedor|perdedor|a definir|^\s*[-–]?\s*$/i.test(normalizeSearch(name || ""));
+  }
+
+  function cupTeamHtml(name) {
+    if (cupIsPlaceholderTeam(name)) return `<span class="team cup-placeholder-team">${escapeHtml(cupTeamNameCompact(name))}</span>`;
+    return teamHtml(name);
+  }
+
+  function cupMatchByNo(matchNo) {
+    return state.matches.find((match) => Number(match.matchNo) === Number(matchNo));
+  }
+
+  function cupDisplayScore(match) {
+    if (!isFinalizedWithScore(match)) return "";
+    return `<span class="cup-public-score">${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}</span>`;
+  }
+
+  function cupBracketMatchCard(match) {
+    if (!match) return "";
+    return `
+      <article class="cup-public-match ${cupIsPlaceholderTeam(match.teamA) || cupIsPlaceholderTeam(match.teamB) ? "is-pending" : ""}">
+        <div class="cup-public-match-head"><strong>#${escapeHtml(match.matchNo || "")}</strong></div>
+        <div class="cup-public-teams">
+          <div class="cup-public-teamline">${cupTeamHtml(match.teamA)}</div>
+          <div class="cup-public-teamline">${cupTeamHtml(match.teamB)}</div>
+        </div>
+        ${cupDisplayScore(match)}
+      </article>`;
+  }
+
+  function cupSplitStageHtml(title, matchNos, side, level) {
+    const matches = matchNos.map(cupMatchByNo).filter(Boolean);
+    return `
+      <section class="cup-public-stage cup-public-stage-${escapeHtml(level)} cup-public-stage-${escapeHtml(side)}">
+        <div class="cup-public-stage-title">${escapeHtml(title)}</div>
+        <div class="cup-public-stage-list">
+          ${matches.map(cupBracketMatchCard).join("")}
+        </div>
+      </section>`;
+  }
+
+  function cupCenterHtml() {
+    const finalMatch = cupMatchByNo(104);
+    const thirdMatch = cupMatchByNo(103);
+    return `
+      <section class="cup-public-center">
+        <div class="cup-public-stage-title">Final</div>
+        <div class="cup-public-trophy" aria-hidden="true">🏆</div>
+        ${finalMatch ? cupBracketMatchCard(finalMatch) : ""}
+        <div class="cup-public-third-title">3º lugar</div>
+        ${thirdMatch ? cupBracketMatchCard(thirdMatch) : ""}
+      </section>`;
+  }
+
+  function cupMobileKnockoutListHtml() {
+    const phaseOrder = ["16 avos", "Oitavas", "Quartas", "Semifinal", "Disputa de terceiro lugar", "Final"];
+    const knockoutMatches = state.matches
+      .filter((match) => phaseOrder.some((phase) => normalizeSearch(match.phase || "").includes(normalizeSearch(phase))))
+      .sort(sortByOfficialMatchOrder);
+    const groups = phaseOrder.map((phase) => ({
+      phase,
+      matches: knockoutMatches.filter((match) => normalizeSearch(match.phase || "").includes(normalizeSearch(phase)))
+    })).filter((group) => group.matches.length);
+
+    return `
+      <div class="cup-public-mobile-list" aria-label="Lista do mata-mata">
+        ${groups.map((group) => `
+          <section class="cup-mobile-phase">
+            <h3>${escapeHtml(group.phase)}</h3>
+            <div class="cup-mobile-match-grid">
+              ${group.matches.map((match) => `
+                <article class="cup-mobile-match">
+                  <div class="cup-mobile-match-head"><strong>#${escapeHtml(match.matchNo || "")}</strong><span>${formatDate(match.date)} ${escapeHtml(match.time || "")}</span></div>
+                  <div class="cup-mobile-teams">${matchHtml(match, match.status === "finalizado")}</div>
+                  <small>${escapeHtml(match.status || "agendado")}</small>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function cupBracketHtml() {
+    return `
+      <section class="card cup-public-bracket-card">
+        <div class="card-header"><div><h2>Chave oficial</h2><p>Confrontos do mata-mata conforme publicado pelo administrador.</p></div></div>
+        <div class="cup-public-bracket-scroll">
+          <div class="cup-public-bracket">
+            ${cupSplitStageHtml("1/16", CUP_BRACKET_PUBLIC.left.round32, "left", "r32")}
+            ${cupSplitStageHtml("Oitavas", CUP_BRACKET_PUBLIC.left.round16, "left", "r16")}
+            ${cupSplitStageHtml("Quartas", CUP_BRACKET_PUBLIC.left.quarter, "left", "qf")}
+            ${cupSplitStageHtml("Semifinal", CUP_BRACKET_PUBLIC.left.semi, "left", "sf")}
+            ${cupCenterHtml()}
+            ${cupSplitStageHtml("Semifinal", CUP_BRACKET_PUBLIC.right.semi, "right", "sf")}
+            ${cupSplitStageHtml("Quartas", CUP_BRACKET_PUBLIC.right.quarter, "right", "qf")}
+            ${cupSplitStageHtml("Oitavas", CUP_BRACKET_PUBLIC.right.round16, "right", "r16")}
+            ${cupSplitStageHtml("1/16", CUP_BRACKET_PUBLIC.right.round32, "right", "r32")}
+          </div>
+        </div>
+        ${cupMobileKnockoutListHtml()}
+      </section>`;
+  }
+
+  function cupGroupTablesHtml(standings) {
+    return `
+      <section class="card cup-public-groups-card">
+        <div class="card-header"><div><h2>Classificação por grupo</h2><p>Pontos, saldo e gols calculados a partir dos resultados publicados.</p></div></div>
+        <div class="cup-public-groups-grid">
+          ${standings.groups.map((group) => `
+            <article class="cup-public-group">
+              <div class="cup-public-group-head"><strong>Grupo ${escapeHtml(group.group)}</strong><span>${escapeHtml(group.finalized)}/${escapeHtml(group.total)} jogos</span></div>
+              <div class="table-wrap mini-table-wrap">
+                <table class="cup-public-table">
+                  <thead><tr><th>Pos</th><th>Seleção</th><th>Pts</th><th>SG</th><th>GP</th></tr></thead>
+                  <tbody>
+                    ${group.rows.map((row) => `<tr class="${row.position <= 2 ? "qualified-row" : row.position === 3 ? "third-row" : ""}"><td>${row.position}º</td><td>${teamHtml(row.team)}</td><td><strong>${row.points}</strong></td><td>${row.gd >= 0 ? "+" : ""}${row.gd}</td><td>${row.gf}</td></tr>`).join("")}
+                  </tbody>
+                </table>
+              </div>
+            </article>`).join("")}
+        </div>
+      </section>`;
+  }
+
+  function cupThirdsHtml(standings) {
+    const qualified = standings.thirds.filter((row) => row.qualifiesAsThird);
+    const eliminated = standings.thirds.filter((row) => !row.qualifiesAsThird);
+    const thirdRows = (rows, label, className) => table(["Rank", "Grupo", "Seleção", "Pts", "SG", "GP", "Status"], rows.map((row) => [
+      `${row.thirdRank}º`,
+      `Grupo ${row.sourceGroup}`,
+      teamHtml(row.team),
+      row.points,
+      `${row.gd >= 0 ? "+" : ""}${row.gd}`,
+      row.gf,
+      `<span class="badge ${className}">${label}</span>`
+    ]));
+    return `
+      <section class="card cup-public-thirds-card">
+        <div class="card-header"><div><h2>Melhores terceiros</h2><p>Os 8 primeiros avançam aos 16 avos.</p></div></div>
+        <div class="grid-2 cup-public-thirds-grid">
+          <div class="cup-public-panel"><h3>Classificados ${qualified.length}/8</h3>${thirdRows(qualified, "classificado", "success")}</div>
+          <div class="cup-public-panel"><h3>Eliminados ${eliminated.length}/4</h3>${thirdRows(eliminated, "eliminado", "agendado")}</div>
+        </div>
+      </section>`;
+  }
+
+  function cupTableView() {
+    const standings = calculateCupStandings();
+    return `
+      <section class="card cup-public-hero">
+        <div class="card-header"><div><h2>Tabela da Copa</h2><p>Classificação da fase de grupos, melhores terceiros e chave oficial do mata-mata.</p></div></div>
+        <div class="grid-4">
+          <div class="kpi-card"><span class="kpi-label">Grupos fechados</span><span class="kpi-value">${standings.groups.filter((g) => g.complete).length}/12</span><span class="kpi-note">fase de grupos</span></div>
+          <div class="kpi-card"><span class="kpi-label">Melhores terceiros</span><span class="kpi-value">${standings.thirds.filter((row) => row.qualifiesAsThird).length}/8</span><span class="kpi-note">classificados</span></div>
+          <div class="kpi-card"><span class="kpi-label">16 avos</span><span class="kpi-value">${state.matches.filter((m) => Number(m.matchNo) >= 73 && Number(m.matchNo) <= 88).length}</span><span class="kpi-note">confrontos</span></div>
+          <div class="kpi-card"><span class="kpi-label">Mata-mata</span><span class="kpi-value">32</span><span class="kpi-note">seleções na chave</span></div>
+        </div>
+      </section>
+      ${cupBracketHtml()}
+      ${cupThirdsHtml(standings)}
+      ${cupGroupTablesHtml(standings)}
     `;
   }
 
@@ -1613,7 +1871,7 @@ function bonusView() {
     currentView = view;
     pageTitle.textContent = titles[view] || "Bolão";
     menu.querySelectorAll("button[data-view]").forEach((button) => button.classList.toggle("active", button.dataset.view === view));
-    const views = { dashboard: dashboardView, matches: matchesView, predictions: predictionsView, bonus: bonusView, ranking: rankingView, stats: statsView, rules: rulesView };
+    const views = { dashboard: dashboardView, matches: matchesView, predictions: predictionsView, cupTable: cupTableView, bonus: bonusView, ranking: rankingView, stats: statsView, rules: rulesView };
     app.innerHTML = (views[view] || dashboardView)();
     bindViewEvents(view);
   }
@@ -1716,6 +1974,7 @@ function bonusView() {
       });
       bindQuickFilters("predictions");
     }
+    bindMatchPredictionButtons();
     app.querySelectorAll("[data-open-rules]").forEach((button) => button.addEventListener("click", () => openModal("Regras do bolão", rulesHtml())));
     app.querySelectorAll("[data-bonus-modal]").forEach((button) => button.addEventListener("click", () => bonusResponsesModal(button.dataset.bonusModal)));
   }
