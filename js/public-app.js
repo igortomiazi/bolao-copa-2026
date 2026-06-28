@@ -159,6 +159,7 @@
       exactScore: 10,
       goalDifference: 7,
       outcome: 5,
+      knockoutDrawOutcome: 6,
       wrong: 0,
       knockoutQualified: 3,
       ...(data?.settings?.scoring || {})
@@ -266,6 +267,7 @@
       exactScore: Number(scoring.exactScore ?? 10),
       goalDifference: Number(scoring.goalDifference ?? 7),
       outcome: Number(scoring.outcome ?? 5),
+      knockoutDrawOutcome: Number(scoring.knockoutDrawOutcome ?? scoring.knockoutDrawPoints ?? 6),
       wrong: Number(scoring.wrong ?? 0),
       knockoutQualified: Number(scoring.knockoutQualified ?? 3)
     };
@@ -286,6 +288,8 @@
     const predOutcome = outcome(predA, predB);
     const exact = realA === predA && realB === predB;
     const outcomeHit = realOutcome === predOutcome;
+    const knockout = isKnockoutMatch(match);
+    const knockoutDrawOutcomeHit = knockout && !exact && realOutcome === "E" && predOutcome === "E";
     const goalDifferenceHit = outcomeHit && realOutcome !== "E" && goalDifference(realA, realB) === goalDifference(predA, predB);
     let basePoints = rules.wrong;
 
@@ -294,10 +298,9 @@
     } else if (goalDifferenceHit) {
       basePoints = rules.goalDifference;
     } else if (outcomeHit) {
-      basePoints = rules.outcome;
+      basePoints = knockoutDrawOutcomeHit ? rules.knockoutDrawOutcome : rules.outcome;
     }
 
-    const knockout = isKnockoutMatch(match);
     const matchQualified = normalizeSide(match.qualifiedTeam || inferWinnerSide(realA, realB));
     const predictionQualified = normalizeSide(prediction.qualifiedTeam);
     const qualifiedHit = knockout && matchQualified !== "" && predictionQualified !== "" && matchQualified === predictionQualified;
@@ -1429,7 +1432,8 @@ function bonusView() {
       <div class="rules-grid">
         <div class="rule-box"><strong>${scoring.exactScore} pts</strong><span>Placar exato</span><p>Acertou exatamente o placar, seja vitória ou empate. Ex.: palpite 2x1 e resultado 2x1; ou palpite 0x0 e resultado 0x0.</p></div>
         <div class="rule-box"><strong>${scoring.goalDifference} pts</strong><span>Vencedor + saldo de gols</span><p>Acertou o vencedor e a diferença de gols. Ex.: palpite 4x2 e resultado 2x0.</p></div>
-        <div class="rule-box"><strong>${scoring.outcome} pts</strong><span>Resultado correto</span><p>Acertou apenas o vencedor ou o empate. Ex.: palpite 3x0 e resultado 1x0; ou 2x2 e resultado 0x0.</p></div>
+        <div class="rule-box"><strong>${scoring.outcome} pts</strong><span>Resultado correto</span><p>Acertou apenas o vencedor ou o empate. Ex.: palpite 3x0 e resultado 1x0; na fase de grupos, 2x2 e resultado 0x0.</p></div>
+        <div class="rule-box"><strong>${scoring.knockoutDrawOutcome ?? 6} pts</strong><span>Empate no mata-mata</span><p>Nos jogos eliminatórios, empate correto sem placar exato vale 6 pontos. Ex.: palpite 2x2 e resultado 0x0.</p></div>
         <div class="rule-box"><strong>${scoring.wrong || 0} pts</strong><span>Errou tudo</span><p>Não acertou o placar, nem o vencedor/empate, nem o saldo quando aplicável.</p></div>
         <div class="rule-box"><strong>+${scoring.knockoutQualified ?? 3} pts</strong><span>Classificado no mata-mata</span><p>Nos jogos eliminatórios, soma bônus se acertar quem se classifica/vence. O placar usado é o do jogo até o fim da prorrogação.</p></div>
         <div class="rule-box"><strong>Pênaltis</strong><span>Não entram no placar</span><p>Se o jogo terminar empatado e for decidido nos pênaltis, o placar do bolão continua empatado; o classificado é informado separadamente.</p></div>
@@ -1440,7 +1444,7 @@ function bonusView() {
         <h2>Exemplos do mata-mata</h2>
         <ul>
           <li>Palpite 1x1 + Brasil classificado; resultado 1x1 + Brasil nos pênaltis = ${scoring.exactScore + (scoring.knockoutQualified ?? 3)} pontos.</li>
-          <li>Palpite 2x2 + Brasil classificado; resultado 0x0 + Brasil nos pênaltis = ${scoring.outcome + (scoring.knockoutQualified ?? 3)} pontos.</li>
+          <li>Palpite 2x2 + Brasil classificado; resultado 0x0 + Brasil nos pênaltis = ${(scoring.knockoutDrawOutcome ?? 6) + (scoring.knockoutQualified ?? 3)} pontos.</li>
           <li>Palpite Brasil 2x0 + Brasil classificado; resultado 1x1 + Brasil nos pênaltis = ${scoring.knockoutQualified ?? 3} pontos.</li>
         </ul>
       </section>
