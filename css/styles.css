@@ -1119,6 +1119,74 @@ tr:hover td { background: color-mix(in srgb, var(--surface-2) 70%, transparent);
   }
 }
 
+/* Ajuste V52: palpites do mata-mata compactos e alinhados */
+.prediction-pick {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.prediction-score {
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.prediction-qualified-badge {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.prediction-group-card td:nth-child(2),
+.prediction-group-card th:nth-child(2) {
+  width: 260px;
+  min-width: 220px;
+}
+
+.prediction-group-card td:nth-child(2) {
+  vertical-align: middle;
+}
+
+.prediction-group-card td:nth-child(3),
+.prediction-group-card th:nth-child(3) {
+  width: 86px;
+  min-width: 76px;
+  text-align: center;
+}
+
+.prediction-group-card td:nth-child(4),
+.prediction-group-card th:nth-child(4) {
+  width: 210px;
+  min-width: 190px;
+}
+
+@media (max-width: 900px) {
+  .prediction-pick {
+    display: grid;
+    gap: 5px;
+    justify-items: start;
+  }
+
+  .prediction-group-card .table-wrap {
+    overflow-x: auto;
+  }
+
+  .prediction-group-card .table-wrap table {
+    min-width: 720px;
+  }
+}
+
 /* V42 publico - Estatisticas em formato Copa */
 .stats-hero-grid {
   display: grid;
