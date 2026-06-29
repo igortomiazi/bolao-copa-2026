@@ -1581,7 +1581,12 @@ function bonusView() {
 
   function cupDisplayScore(match) {
     if (!isFinalizedWithScore(match)) return "";
-    return `<span class="cup-public-score">${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}</span>`;
+    const winnerSide = cupWinnerSide(match);
+    const qualifiedName = winnerSide ? cupResolvedTeamName(cupTeamBySide(match, winnerSide)) : "";
+    const qualifiedText = qualifiedName && !cupIsPlaceholderTeam(qualifiedName)
+      ? ` · ${escapeHtml(qualifiedName)}`
+      : "";
+    return `<span class="cup-public-score">${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}${qualifiedText}</span>`;
   }
 
   function cupBracketMatchCard(match) {
@@ -1589,12 +1594,15 @@ function bonusView() {
     const resolvedA = cupResolvedTeamName(match.teamA);
     const resolvedB = cupResolvedTeamName(match.teamB);
     const pending = cupIsPlaceholderTeam(resolvedA) || cupIsPlaceholderTeam(resolvedB);
+    const winnerSide = cupWinnerSide(match);
+    const lineAClass = winnerSide === "A" ? " is-winner" : winnerSide === "B" ? " is-loser" : "";
+    const lineBClass = winnerSide === "B" ? " is-winner" : winnerSide === "A" ? " is-loser" : "";
     return `
-      <article class="cup-public-match ${pending ? "is-pending" : ""}">
+      <article class="cup-public-match ${pending ? "is-pending" : ""} ${winnerSide ? "has-result" : ""}">
         <div class="cup-public-match-head"><strong>#${escapeHtml(match.matchNo || "")}</strong></div>
         <div class="cup-public-teams">
-          <div class="cup-public-teamline">${cupTeamHtml(resolvedA)}</div>
-          <div class="cup-public-teamline">${cupTeamHtml(resolvedB)}</div>
+          <div class="cup-public-teamline${lineAClass}">${cupTeamHtml(resolvedA)}</div>
+          <div class="cup-public-teamline${lineBClass}">${cupTeamHtml(resolvedB)}</div>
         </div>
         ${cupDisplayScore(match)}
       </article>`;

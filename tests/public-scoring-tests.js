@@ -243,3 +243,24 @@ const resolvedCupScenario = publicCupResolvePlaceholderScenario();
 assert.strictEqual(resolvedCupScenario.teamA, 'Canadá', 'publico deve resolver Vencedor jogo 73 para Canadá pelo resultado publicado');
 assert.strictEqual(resolvedCupScenario.teamB, 'Vencedor jogo 75', 'publico deve manter placeholder quando jogo de origem ainda não terminou');
 console.log('TESTES PUBLICOS V55 OK');
+
+
+function publicCupScoreLabel(match) {
+  const normalizeSide = (value) => ['A', 'B'].includes(String(value || '').trim().toUpperCase()) ? String(value || '').trim().toUpperCase() : '';
+  const isFinalizedWithScore = (item) => item?.status === 'finalizado' && item.scoreA !== '' && item.scoreB !== '';
+  const winnerSide = (item) => {
+    const explicit = normalizeSide(item.qualifiedTeam);
+    if (explicit) return explicit;
+    if (!isFinalizedWithScore(item)) return '';
+    if (Number(item.scoreA) > Number(item.scoreB)) return 'A';
+    if (Number(item.scoreB) > Number(item.scoreA)) return 'B';
+    return '';
+  };
+  const side = winnerSide(match);
+  const qualified = side === 'B' ? match.teamB : side === 'A' ? match.teamA : '';
+  return `${match.scoreA} x ${match.scoreB}${qualified ? ` · ${qualified}` : ''}`;
+}
+
+assert.strictEqual(publicCupScoreLabel({ teamA: 'África do Sul', teamB: 'Canadá', status: 'finalizado', scoreA: 0, scoreB: 1, qualifiedTeam: 'B' }), '0 x 1 · Canadá', 'chave publica deve mostrar o classificado junto do placar');
+assert.strictEqual(publicCupScoreLabel({ teamA: 'Holanda', teamB: 'Marrocos', status: 'finalizado', scoreA: 1, scoreB: 1, qualifiedTeam: 'A' }), '1 x 1 · Holanda', 'empate no mata-mata deve mostrar quem passou');
+console.log('TESTES PUBLICOS V56 OK');

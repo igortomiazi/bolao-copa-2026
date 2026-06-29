@@ -2210,3 +2210,39 @@ tr:hover td.stage-cell-best,
   .cup-public-panel th:nth-child(7),
   .cup-public-panel td:nth-child(7) { width: 6.4rem; }
 }
+
+
+/* v56 - destaque do classificado na chave pública */
+.cup-public-teamline.is-winner {
+  border-color: color-mix(in srgb, var(--success) 58%, var(--border));
+  background: color-mix(in srgb, var(--success) 14%, var(--surface));
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--success) 18%, transparent);
+}
+
+.cup-public-teamline.is-winner .team-name,
+.cup-public-teamline.is-winner .team,
+.cup-public-teamline.is-winner .cup-placeholder-team {
+  color: var(--text);
+  opacity: 1;
+}
+
+.cup-public-teamline.is-winner .flag-img {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--success) 45%, transparent), 0 3px 8px rgba(0,0,0,.24);
+}
+
+.cup-public-teamline.is-loser {
+  opacity: .58;
+}
+
+.cup-public-match.has-result .cup-public-score {
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 16%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--success) 32%, var(--border));
+  font-weight: 900;
+}
+
+.cup-public-stage-right .cup-public-teamline.is-winner .team-with-flag,
+.cup-public-stage-right .cup-public-teamline.is-winner .team {
+  justify-content: flex-end;
+}
