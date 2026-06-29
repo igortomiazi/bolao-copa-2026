@@ -1521,6 +1521,64 @@ function bonusView() {
     return state.matches.find((match) => Number(match.matchNo) === Number(matchNo));
   }
 
+  function cupNormalizeSide(value) {
+    const side = String(value || "").trim().toUpperCase();
+    return side === "A" || side === "B" ? side : "";
+  }
+
+  function cupOppositeSide(side) {
+    const normalized = cupNormalizeSide(side);
+    if (normalized === "A") return "B";
+    if (normalized === "B") return "A";
+    return "";
+  }
+
+  function cupWinnerSide(match) {
+    if (!match) return "";
+    const explicit = cupNormalizeSide(match.qualifiedTeam);
+    if (explicit) return explicit;
+    if (!isFinalizedWithScore(match)) return "";
+    const scoreA = Number(match.scoreA);
+    const scoreB = Number(match.scoreB);
+    if (scoreA > scoreB) return "A";
+    if (scoreB > scoreA) return "B";
+    return "";
+  }
+
+  function cupLoserSide(match) {
+    const winner = cupWinnerSide(match);
+    return winner ? cupOppositeSide(winner) : "";
+  }
+
+  function cupTeamBySide(match, side) {
+    if (!match) return "";
+    return cupNormalizeSide(side) === "B" ? String(match.teamB || "") : String(match.teamA || "");
+  }
+
+  function cupPlaceholderSource(teamName) {
+    const text = normalizeSearch(teamName || "");
+    const winner = text.match(/venc(?:edor)?\.?\s*(?:jogo)?\s*#?\s*(\d+)/);
+    if (winner) return { type: "winner", matchNo: Number(winner[1]) };
+    const loser = text.match(/perd(?:edor)?\.?\s*(?:jogo)?\s*#?\s*(\d+)/);
+    if (loser) return { type: "loser", matchNo: Number(loser[1]) };
+    return null;
+  }
+
+  function cupResolvedTeamName(teamName, seen = new Set()) {
+    const source = cupPlaceholderSource(teamName);
+    if (!source) return String(teamName || "");
+    if (seen.has(source.matchNo)) return String(teamName || "");
+    seen.add(source.matchNo);
+
+    const sourceMatch = cupMatchByNo(source.matchNo);
+    if (!sourceMatch) return String(teamName || "");
+    const side = source.type === "loser" ? cupLoserSide(sourceMatch) : cupWinnerSide(sourceMatch);
+    if (!side) return String(teamName || "");
+
+    const resolved = cupTeamBySide(sourceMatch, side);
+    return cupPlaceholderSource(resolved) ? cupResolvedTeamName(resolved, seen) : resolved;
+  }
+
   function cupDisplayScore(match) {
     if (!isFinalizedWithScore(match)) return "";
     return `<span class="cup-public-score">${escapeHtml(match.scoreA)} x ${escapeHtml(match.scoreB)}</span>`;
@@ -1528,12 +1586,15 @@ function bonusView() {
 
   function cupBracketMatchCard(match) {
     if (!match) return "";
+    const resolvedA = cupResolvedTeamName(match.teamA);
+    const resolvedB = cupResolvedTeamName(match.teamB);
+    const pending = cupIsPlaceholderTeam(resolvedA) || cupIsPlaceholderTeam(resolvedB);
     return `
-      <article class="cup-public-match ${cupIsPlaceholderTeam(match.teamA) || cupIsPlaceholderTeam(match.teamB) ? "is-pending" : ""}">
+      <article class="cup-public-match ${pending ? "is-pending" : ""}">
         <div class="cup-public-match-head"><strong>#${escapeHtml(match.matchNo || "")}</strong></div>
         <div class="cup-public-teams">
-          <div class="cup-public-teamline">${cupTeamHtml(match.teamA)}</div>
-          <div class="cup-public-teamline">${cupTeamHtml(match.teamB)}</div>
+          <div class="cup-public-teamline">${cupTeamHtml(resolvedA)}</div>
+          <div class="cup-public-teamline">${cupTeamHtml(resolvedB)}</div>
         </div>
         ${cupDisplayScore(match)}
       </article>`;
@@ -1582,7 +1643,7 @@ function bonusView() {
               ${group.matches.map((match) => `
                 <article class="cup-mobile-match">
                   <div class="cup-mobile-match-head"><strong>#${escapeHtml(match.matchNo || "")}</strong><span>${formatDate(match.date)} ${escapeHtml(match.time || "")}</span></div>
-                  <div class="cup-mobile-teams">${matchHtml(match, match.status === "finalizado")}</div>
+                  <div class="cup-mobile-teams">${matchHtml({ ...match, teamA: cupResolvedTeamName(match.teamA), teamB: cupResolvedTeamName(match.teamB) }, match.status === "finalizado")}</div>
                   <small>${escapeHtml(match.status || "agendado")}</small>
                 </article>
               `).join("")}

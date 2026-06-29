@@ -197,3 +197,49 @@ assert.strictEqual(publicLostPredictionCount(
 ), 1, 'jogos perdidos sem palpite devem considerar apenas finalizados');
 
 console.log('TESTES PUBLICOS V42 OK');
+
+
+function publicCupResolvePlaceholderScenario() {
+  const matches = [
+    { matchNo: 73, teamA: 'África do Sul', teamB: 'Canadá', status: 'finalizado', scoreA: 0, scoreB: 1, qualifiedTeam: 'B' },
+    { matchNo: 75, teamA: 'Holanda', teamB: 'Marrocos', status: 'agendado', scoreA: '', scoreB: '', qualifiedTeam: '' },
+    { matchNo: 90, teamA: 'Vencedor jogo 73', teamB: 'Vencedor jogo 75', status: 'agendado', scoreA: '', scoreB: '', qualifiedTeam: '' },
+    { matchNo: 97, teamA: 'Vencedor jogo 89', teamB: 'Vencedor jogo 90', status: 'agendado', scoreA: '', scoreB: '', qualifiedTeam: '' }
+  ];
+  const byNo = (matchNo) => matches.find(match => Number(match.matchNo) === Number(matchNo));
+  const normalizeSearch = (value) => String(value || '')
+    .trim()
+    .toLocaleLowerCase('pt-BR')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+  const isFinalizedWithScore = (match) => match?.status === 'finalizado' && match.scoreA !== '' && match.scoreB !== '';
+  const normalizeSide = (value) => ['A', 'B'].includes(String(value || '').trim().toUpperCase()) ? String(value || '').trim().toUpperCase() : '';
+  const winnerSide = (match) => {
+    const explicit = normalizeSide(match?.qualifiedTeam);
+    if (explicit) return explicit;
+    if (!isFinalizedWithScore(match)) return '';
+    return Number(match.scoreA) > Number(match.scoreB) ? 'A' : Number(match.scoreB) > Number(match.scoreA) ? 'B' : '';
+  };
+  const sourceFromName = (teamName) => {
+    const text = normalizeSearch(teamName);
+    const winner = text.match(/venc(?:edor)?\.?\s*(?:jogo)?\s*#?\s*(\d+)/);
+    return winner ? { type: 'winner', matchNo: Number(winner[1]) } : null;
+  };
+  const resolved = (teamName, seen = new Set()) => {
+    const source = sourceFromName(teamName);
+    if (!source || seen.has(source.matchNo)) return teamName;
+    seen.add(source.matchNo);
+    const match = byNo(source.matchNo);
+    const side = winnerSide(match);
+    if (!match || !side) return teamName;
+    const team = side === 'B' ? match.teamB : match.teamA;
+    return sourceFromName(team) ? resolved(team, seen) : team;
+  };
+  const match90 = byNo(90);
+  return { teamA: resolved(match90.teamA), teamB: resolved(match90.teamB) };
+}
+
+const resolvedCupScenario = publicCupResolvePlaceholderScenario();
+assert.strictEqual(resolvedCupScenario.teamA, 'Canadá', 'publico deve resolver Vencedor jogo 73 para Canadá pelo resultado publicado');
+assert.strictEqual(resolvedCupScenario.teamB, 'Vencedor jogo 75', 'publico deve manter placeholder quando jogo de origem ainda não terminou');
+console.log('TESTES PUBLICOS V55 OK');
