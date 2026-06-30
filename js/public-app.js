@@ -1087,6 +1087,235 @@ function bonusView() {
     `;
   }
 
+
+  function participantHistoryStageOptions() {
+    return [
+      { value: "all", label: "Todas as fases" },
+      { value: "groupR1", label: "Grupos · 1ª rodada" },
+      { value: "groupR2", label: "Grupos · 2ª rodada" },
+      { value: "groupR3", label: "Grupos · 3ª rodada" },
+      { value: "round32", label: "16 avos" },
+      { value: "round16", label: "Oitavas" },
+      { value: "quarter", label: "Quartas" },
+      { value: "semi", label: "Semifinal" },
+      { value: "third", label: "3º lugar" },
+      { value: "final", label: "Final" },
+      { value: "bonus", label: "Bônus" }
+    ];
+  }
+
+  function participantHistoryMatchText(match, showScore = true) {
+    if (!match) return "-";
+    const score = showScore && hasFinalScore(match)
+      ? ` ${match.scoreA} x ${match.scoreB} `
+      : " x ";
+    return `${match.teamA || "-"}${score}${match.teamB || "-"}`;
+  }
+
+  function participantHistoryPredictionScoreText(prediction) {
+    if (!prediction) return "-";
+    return `${prediction.goalsA ?? "-"} x ${prediction.goalsB ?? "-"}`;
+  }
+
+  function participantHistoryPredictionKinds(prediction, match) {
+    const kinds = [];
+    const finalized = hasFinalScore(match);
+    if (!prediction || isAutomaticPrediction(prediction)) {
+      kinds.push("missing");
+      if (finalized) kinds.push("zero");
+      return kinds;
+    }
+    if (!finalized) {
+      kinds.push("pending");
+      return kinds;
+    }
+    const points = Number(prediction.points || 0);
+    if (points > 0) kinds.push("scored");
+    else kinds.push("zero", "wrong");
+    if (prediction.exact) kinds.push("exact");
+    if (prediction.outcomeHit && !prediction.exact) kinds.push("outcome");
+    if (prediction.qualifiedHit) kinds.push("qualified");
+    if (!prediction.exact && !prediction.outcomeHit && points === 0) kinds.push("wrong");
+    return [...new Set(kinds)];
+  }
+
+  function participantHistoryPredictionStatus(prediction, match) {
+    const finalized = hasFinalScore(match);
+    if (!prediction || isAutomaticPrediction(prediction)) {
+      return finalized
+        ? { label: "Sem palpite", className: "zero", detail: "0 ponto" }
+        : { label: "Sem palpite", className: "pending", detail: "jogo ainda aberto/futuro" };
+    }
+    if (!finalized) return { label: "Aguardando resultado", className: "pending", detail: "palpite registrado" };
+    const points = Number(prediction.points || 0);
+    const detail = criterionText(prediction, match);
+    if (points > 0) return { label: `+${points} pts`, className: "scored", detail };
+    return { label: "0 pts", className: "zero", detail };
+  }
+
+  function participantHistoryPredictionLine(prediction, match) {
+    if (!prediction || isAutomaticPrediction(prediction)) return `<span class="muted-inline">Palpite não registrado</span>`;
+    const qualified = isKnockoutMatch(match) && normalizeSide(prediction.qualifiedTeam)
+      ? ` · Classificado: ${escapeHtml(qualifiedTeamText(match, prediction.qualifiedTeam))}`
+      : "";
+    return `<strong>${escapeHtml(participantHistoryPredictionScoreText(prediction))}</strong>${qualified}`;
+  }
+
+  function participantHistorySummary(participant, rankingRow) {
+    const finalized = finalizedScoringMatches();
+    const finalizedRows = finalized.map((match) => ({ match, prediction: getPrediction(participant.id, match.id) }));
+    const scored = finalizedRows.filter((row) => Number(row.prediction?.points || 0) > 0).length;
+    const zero = finalizedRows.filter((row) => row.prediction && Number(row.prediction.points || 0) === 0).length;
+    const missing = finalizedRows.filter((row) => !row.prediction).length;
+    const best = finalizedRows
+      .filter((row) => row.prediction)
+      .sort((a, b) => Number(b.prediction.points || 0) - Number(a.prediction.points || 0))[0];
+    return { finalized: finalized.length, scored, zero, missing, best, rankingRow };
+  }
+
+  function participantHistoryMatchCards(participant) {
+    const matches = [...(state.matches || [])].sort((a, b) => matchSortValue(a).localeCompare(matchSortValue(b), "pt-BR"));
+    return matches.map((match) => {
+      const prediction = getPrediction(participant.id, match.id);
+      const finalized = hasFinalScore(match);
+      const kinds = participantHistoryPredictionKinds(prediction, match);
+      const status = participantHistoryPredictionStatus(prediction, match);
+      const stage = stageKeyForMatch(match);
+      const result = finalized ? matchHtml(match, true) : matchHtml(match, false);
+      const lockedOrPending = finalized ? "Resultado lançado" : match.status === "finalizado" ? "Finalizado sem placar" : "Pendente";
+      return `
+        <article class="participant-history-item ${status.className}" data-history-kinds="${escapeHtml(kinds.join(" "))}" data-history-stage="${escapeHtml(stage)}">
+          <div class="participant-history-match-main">
+            <div class="participant-history-match-title">
+              <span class="match-number">#${escapeHtml(match.matchNo || "-")}</span>
+              <strong>${result}</strong>
+            </div>
+            <div class="participant-history-meta">${formatDate(match.date)} ${escapeHtml(match.time || "")} · ${escapeHtml(match.phase || "-")} ${match.round ? `· ${escapeHtml(match.round)}` : ""}</div>
+            <div class="participant-history-prediction">Palpite: ${participantHistoryPredictionLine(prediction, match)}</div>
+          </div>
+          <div class="participant-history-points">
+            <span class="participant-history-pill ${status.className}">${escapeHtml(status.label)}</span>
+            <small>${escapeHtml(status.detail || lockedOrPending)}</small>
+          </div>
+        </article>`;
+    }).join("");
+  }
+
+  function participantHistoryBonusCards(participant) {
+    return (state.bonusQuestions || []).map((question) => {
+      const answer = (question.answers || []).find((item) => item.participantId === participant.id);
+      const points = Number(answer?.points || 0);
+      const hasAnswer = String(answer?.answer || "").trim() !== "";
+      const kinds = ["bonus", points > 0 ? "scored" : "zero"];
+      if (!hasAnswer) kinds.push("missing");
+      return `
+        <article class="participant-history-item bonus ${points > 0 ? "scored" : "zero"}" data-history-kinds="${escapeHtml(kinds.join(" "))}" data-history-stage="bonus">
+          <div class="participant-history-match-main">
+            <div class="participant-history-match-title"><span class="match-number">Bônus</span><strong>${escapeHtml(question.question || "Pergunta bônus")}</strong></div>
+            <div class="participant-history-meta">Resposta: ${hasAnswer ? escapeHtml(answer.answer) : "-"}</div>
+            <div class="participant-history-prediction">Correta: ${question.correctAnswer ? escapeHtml(question.correctAnswer) : "ainda não lançada"}</div>
+          </div>
+          <div class="participant-history-points">
+            <span class="participant-history-pill ${points > 0 ? "scored" : "zero"}">${escapeHtml(points)} pts</span>
+            <small>${points > 0 ? "acertou bônus" : hasAnswer ? "não pontuou" : "sem resposta"}</small>
+          </div>
+        </article>`;
+    }).join("");
+  }
+
+  function openParticipantHistoryModal(participantId) {
+    const participant = (state.participants || []).find((item) => item.id === participantId);
+    if (!participant) {
+      toast("Participante não encontrado.", "error");
+      return;
+    }
+
+    const ranking = buildRanking();
+    const rankingRow = ranking.find((row) => row.participantId === participant.id) || {};
+    const summary = participantHistorySummary(participant, rankingRow);
+    const bestText = summary.best?.prediction
+      ? `#${summary.best.match.matchNo} · ${participantHistoryMatchText(summary.best.match, true)} · ${Number(summary.best.prediction.points || 0)} pts`
+      : "-";
+
+    modalRoot.innerHTML = `
+      <div class="modal-backdrop">
+        <div class="modal-card participant-history-modal-card" role="dialog" aria-modal="true" aria-labelledby="participantHistoryTitle">
+          <div class="modal-header">
+            <div>
+              <p class="eyebrow">Histórico de pontuação</p>
+              <h2 id="participantHistoryTitle">${escapeHtml(participant.nickname || participant.name)}</h2>
+              <p>${escapeHtml(participant.name)} · onde pontuou, onde zerou e onde ficou sem palpite.</p>
+            </div>
+            <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+          </div>
+          <div class="participant-history-summary-grid">
+            <article><span>Total</span><strong>${escapeHtml(rankingRow.total || 0)}</strong><small>pontos gerais</small></article>
+            <article><span>Pontuou</span><strong>${escapeHtml(summary.scored)}</strong><small>de ${escapeHtml(summary.finalized)} jogos finalizados</small></article>
+            <article><span>Zerou</span><strong>${escapeHtml(summary.zero)}</strong><small>palpitou e não pontuou</small></article>
+            <article><span>Sem palpite</span><strong>${escapeHtml(summary.missing)}</strong><small>em jogos finalizados</small></article>
+            <article><span>Exatos</span><strong>${escapeHtml(rankingRow.exactCount || 0)}</strong><small>placares cravados</small></article>
+            <article><span>Melhor jogo</span><strong>${escapeHtml(bestText)}</strong><small>maior pontuação em um jogo</small></article>
+          </div>
+          <div class="participant-history-filters">
+            <label>Mostrar
+              <select data-history-filter="kind">
+                <option value="all">Tudo</option>
+                <option value="scored">Pontuou</option>
+                <option value="zero">Não pontuou</option>
+                <option value="exact">Placares exatos</option>
+                <option value="outcome">Acertou vencedor/empate</option>
+                <option value="qualified">Acertou classificado</option>
+                <option value="wrong">Errou tudo</option>
+                <option value="missing">Sem palpite</option>
+                <option value="bonus">Bônus</option>
+              </select>
+            </label>
+            <label>Fase
+              <select data-history-filter="stage">
+                ${participantHistoryStageOptions().map((option) => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join("")}
+              </select>
+            </label>
+            <span class="participant-history-count" data-history-count></span>
+          </div>
+          <div class="participant-history-list">
+            ${participantHistoryMatchCards(participant)}
+            ${participantHistoryBonusCards(participant)}
+          </div>
+          <div class="modal-footer">
+            <button class="btn ghost" type="button" data-close-modal>Fechar</button>
+          </div>
+        </div>
+      </div>`;
+
+    const backdrop = modalRoot.querySelector(".modal-backdrop");
+    applyParticipantHistoryFilters(backdrop);
+    backdrop.querySelectorAll("[data-history-filter]").forEach((control) => control.addEventListener("change", () => applyParticipantHistoryFilters(backdrop)));
+    backdrop.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", () => modalRoot.innerHTML = ""));
+    backdrop.addEventListener("click", (event) => {
+      if (event.target === backdrop) modalRoot.innerHTML = "";
+    });
+    modalRoot.querySelector("[data-close-modal]")?.focus();
+  }
+
+  function applyParticipantHistoryFilters(root) {
+    const kind = root.querySelector('[data-history-filter="kind"]')?.value || "all";
+    const stage = root.querySelector('[data-history-filter="stage"]')?.value || "all";
+    const items = [...root.querySelectorAll(".participant-history-item")];
+    let visible = 0;
+    items.forEach((item) => {
+      const kinds = String(item.dataset.historyKinds || "").split(/\s+/).filter(Boolean);
+      const itemStage = item.dataset.historyStage || "";
+      const okKind = kind === "all" || kinds.includes(kind);
+      const okStage = stage === "all" || itemStage === stage;
+      const show = okKind && okStage;
+      item.hidden = !show;
+      if (show) visible += 1;
+    });
+    const count = root.querySelector("[data-history-count]");
+    if (count) count.textContent = `${visible} registro(s)`;
+  }
+
+
   function rankingView() {
     const ranking = buildRanking();
     return `
@@ -1097,7 +1326,7 @@ function bonusView() {
       ${prizeSummaryHtml()}
       <section class="card">
         <div class="card-header"><div><h2>Ranking geral</h2><p>Desempate: placares exatos, resultados corretos, palpites cadastrados e cadastro mais antigo.</p></div></div>
-        ${table(["Posição", "Participante", "Jogos", "Bônus", "Total", "Placares exatos", "Resultados corretos", "Classificados", "Palpites registrados"], ranking.map((row, index) => [
+        ${table(["Posição", "Participante", "Jogos", "Bônus", "Total", "Placares exatos", "Resultados corretos", "Classificados", "Palpites registrados", "Histórico"], ranking.map((row, index) => [
           `<strong>${index + 1}</strong>`,
           escapeHtml(row.nickname || row.name),
           row.gamePoints,
@@ -1106,7 +1335,8 @@ function bonusView() {
           row.exactCount,
           row.outcomeCount,
           row.qualifiedCount,
-          row.predictionsCount
+          row.predictionsCount,
+          `<button class="btn compact ghost" type="button" data-participant-history="${escapeHtml(row.participantId)}">Ver histórico</button>`
         ]))}
       </section>
     `;
@@ -2046,6 +2276,9 @@ function bonusView() {
     bindMatchPredictionButtons();
     app.querySelectorAll("[data-open-rules]").forEach((button) => button.addEventListener("click", () => openModal("Regras do bolão", rulesHtml())));
     app.querySelectorAll("[data-bonus-modal]").forEach((button) => button.addEventListener("click", () => bonusResponsesModal(button.dataset.bonusModal)));
+    app.querySelectorAll("[data-participant-history]").forEach((button) => {
+      button.addEventListener("click", () => openParticipantHistoryModal(button.dataset.participantHistory));
+    });
   }
 
   function bindGlobalEvents() {

@@ -264,3 +264,30 @@ function publicCupScoreLabel(match) {
 assert.strictEqual(publicCupScoreLabel({ teamA: 'África do Sul', teamB: 'Canadá', status: 'finalizado', scoreA: 0, scoreB: 1, qualifiedTeam: 'B' }), '0 x 1 · Canadá', 'chave publica deve mostrar o classificado junto do placar');
 assert.strictEqual(publicCupScoreLabel({ teamA: 'Holanda', teamB: 'Marrocos', status: 'finalizado', scoreA: 1, scoreB: 1, qualifiedTeam: 'A' }), '1 x 1 · Holanda', 'empate no mata-mata deve mostrar quem passou');
 console.log('TESTES PUBLICOS V56 OK');
+
+
+function publicParticipantHistorySummaryScenario() {
+  const matches = [
+    { id: 'm1', status: 'finalizado', scoreA: 1, scoreB: 0 },
+    { id: 'm2', status: 'finalizado', scoreA: 0, scoreB: 0 },
+    { id: 'm3', status: 'agendado', scoreA: '', scoreB: '' }
+  ];
+  const predictions = [
+    { participantId: 'p1', matchId: 'm1', points: 5 },
+    { participantId: 'p1', matchId: 'm2', points: 0 }
+  ];
+  const finalized = matches.filter((match) => match.status === 'finalizado' && match.scoreA !== '' && match.scoreB !== '');
+  const finalizedRows = finalized.map((match) => ({
+    match,
+    prediction: predictions.find((prediction) => prediction.participantId === 'p1' && prediction.matchId === match.id)
+  }));
+  return {
+    finalized: finalized.length,
+    scored: finalizedRows.filter((row) => Number(row.prediction?.points || 0) > 0).length,
+    zero: finalizedRows.filter((row) => row.prediction && Number(row.prediction.points || 0) === 0).length,
+    missing: finalizedRows.filter((row) => !row.prediction).length
+  };
+}
+
+assert.deepStrictEqual(publicParticipantHistorySummaryScenario(), { finalized: 2, scored: 1, zero: 1, missing: 0 }, 'historico publico deve separar jogos pontuados e zerados');
+console.log('TESTES PUBLICOS V57 OK');
