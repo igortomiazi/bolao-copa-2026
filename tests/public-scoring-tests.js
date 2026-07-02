@@ -291,3 +291,19 @@ function publicParticipantHistorySummaryScenario() {
 
 assert.deepStrictEqual(publicParticipantHistorySummaryScenario(), { finalized: 2, scored: 1, zero: 1, missing: 0 }, 'historico publico deve separar jogos pontuados e zerados');
 console.log('TESTES PUBLICOS V57 OK');
+
+
+function publicMatchChronologicalValue(match) {
+  const numericNo = Number(match?.matchNo);
+  const order = Number.isFinite(numericNo) && numericNo > 0 ? String(numericNo).padStart(4, '0') : '9999';
+  return `${match?.date || '9999-99-99'} ${match?.time || '99:99'} ${order}`;
+}
+
+const publicChronologicalOrder = [
+  { matchNo: 90, date: '2026-07-04', time: '14:00' },
+  { matchNo: 89, date: '2026-07-04', time: '18:00' },
+  { matchNo: 91, date: '2026-07-05', time: '17:00' }
+].sort((a, b) => publicMatchChronologicalValue(a).localeCompare(publicMatchChronologicalValue(b), 'pt-BR')).map((match) => match.matchNo);
+
+assert.deepStrictEqual(publicChronologicalOrder, [90, 89, 91], 'abas Jogos e Palpites devem ordenar por data/horario antes do numero da partida');
+console.log('TESTES PUBLICOS V59 OK');

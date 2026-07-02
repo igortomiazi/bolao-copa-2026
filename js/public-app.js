@@ -691,6 +691,14 @@
     return `9999-${match?.date || "9999-99-99"}-${match?.time || "99:99"}`;
   }
 
+  function matchChronologicalValue(match) {
+    return `${match?.date || "9999-99-99"} ${match?.time || "99:99"} ${matchOrderValue(match)}`;
+  }
+
+  function sortByMatchChronological(a, b) {
+    return matchChronologicalValue(a).localeCompare(matchChronologicalValue(b), "pt-BR");
+  }
+
   function sortByOfficialMatchOrder(a, b) {
     return matchOrderValue(a).localeCompare(matchOrderValue(b), "pt-BR")
       || `${a?.date || ""} ${a?.time || ""}`.localeCompare(`${b?.date || ""} ${b?.time || ""}`, "pt-BR");
@@ -780,7 +788,7 @@
         if (!search) return true;
         return normalizeSearch(`${match.matchNo} ${match.teamA} ${match.teamB} ${match.phase} ${match.group} ${match.round} ${match.venue} ${match.date}`).includes(search);
       })
-      .sort(sortByOfficialMatchOrder);
+      .sort(sortByMatchChronological);
   }
 
   function homeUpcomingCardsHtml(matches) {
@@ -936,7 +944,7 @@
   }
 
   function predictionMatchSortValue(match) {
-    return matchOrderValue(match);
+    return matchChronologicalValue(match);
   }
 
   function filteredPredictions() {
@@ -2104,9 +2112,8 @@ function bonusView() {
     return `<div class="table-wrap"><svg class="svg-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Evolução de pontuação por rodada">${grid}${lines}${labels}</svg></div><div style="margin-top:8px;color:var(--muted)">${legend}</div>`;
   }
 
-  function openModal(title, bodyHtml, extraCardClass = "") {
-    const safeExtraClass = extraCardClass ? ` ${escapeHtml(extraCardClass)}` : "";
-    modalRoot.innerHTML = `<div class="modal-backdrop"><div class="modal-card${safeExtraClass}" role="dialog" aria-modal="true"><div class="modal-header"><h2>${escapeHtml(title)}</h2><button class="modal-close" type="button" data-close-modal>×</button></div><div class="modal-body">${bodyHtml}</div><div class="modal-footer"><button class="btn ghost" type="button" data-close-modal>Fechar</button></div></div></div>`;
+  function openModal(title, bodyHtml) {
+    modalRoot.innerHTML = `<div class="modal-backdrop"><div class="modal-card" role="dialog" aria-modal="true"><div class="modal-header"><h2>${escapeHtml(title)}</h2><button class="modal-close" type="button" data-close-modal>×</button></div><div class="modal-body">${bodyHtml}</div><div class="modal-footer"><button class="btn ghost" type="button" data-close-modal>Fechar</button></div></div></div>`;
     modalRoot.querySelectorAll("[data-close-modal]").forEach((button) => button.addEventListener("click", () => modalRoot.innerHTML = ""));
     modalRoot.querySelector(".modal-backdrop").addEventListener("click", (event) => { if (event.target.classList.contains("modal-backdrop")) modalRoot.innerHTML = ""; });
   }
@@ -2130,37 +2137,26 @@ function bonusView() {
         return Number(right.prediction?.points || 0) - Number(left.prediction?.points || 0) || left.index - right.index;
       });
 
-    const rowsHtml = ordered.map(({ participant, prediction }) => {
+    const rows = ordered.map(({ participant, prediction }) => {
       const points = Number(prediction?.points || 0);
-      const isBest = prediction && match.status === "finalizado" && maxPoints > 0 && points === maxPoints;
-      return `
-        <article class="match-prediction-row ${isBest ? "is-best" : ""} ${points > 0 ? "has-points" : "is-zero"}">
-          <div class="match-prediction-participant">
-            <strong>${escapeHtml(participant.nickname || participant.name)}</strong>
-            <span>${escapeHtml(participant.name || participant.nickname || "")}</span>
-          </div>
-          <div class="match-prediction-pick-cell">
-            ${predictionText(prediction, match)}
-          </div>
-          <div class="match-prediction-points-cell">
-            ${predictionPointsSummaryHtml(prediction, match)}
-          </div>
-        </article>`;
-    }).join("");
+      const bestBadge = prediction && match.status === "finalizado" && maxPoints > 0 && points === maxPoints
+        ? ` <span class="badge criterion-best">🏆 Melhor do jogo</span>`
+        : "";
+      return [
+        `<strong>${escapeHtml(participant.nickname || participant.name)}</strong>`,
+        predictionText(prediction, match),
+        predictionPointsSummaryHtml(prediction, match) + bestBadge
+      ];
+    });
 
     const body = `
-      <div class="match-predictions-modal-content">
-        ${matchResultSummaryHtml(match)}
-        ${match.status === "finalizado" ? matchStatsHtml(stats) : `<p class="modal-helper-text">A pontuação aparecerá automaticamente depois que o resultado for publicado.</p>`}
-        <p class="modal-helper-text">${match.status === "finalizado" ? "Ordenado por maior pontuação no jogo. A linha destacada indica o melhor desempenho da partida." : "Ordem de participantes mantida enquanto o jogo não estiver finalizado."}</p>
-        <section class="match-prediction-list" aria-label="Palpites do jogo">
-          <div class="match-prediction-list-head"><span>Participante</span><span>Palpite</span><span>Pontuação / regra</span></div>
-          ${rowsHtml || emptyState("Nenhum palpite cadastrado.")}
-        </section>
-      </div>
+      ${matchResultSummaryHtml(match)}
+      ${match.status === "finalizado" ? matchStatsHtml(stats) : `<p class="modal-helper-text">A pontuação aparecerá automaticamente depois que o resultado for publicado.</p>`}
+      <p class="modal-helper-text">${match.status === "finalizado" ? "Ordenado por maior pontuação no jogo. Quem não palpitou aparece como sem palpite e não pontua." : "Ordem de participantes mantida enquanto o jogo não estiver finalizado."}</p>
+      ${table(["Participante", "Palpite", "Pontuação / regra"], rows)}
     `;
 
-    openModal(`${match.matchNo ? `#${escapeHtml(match.matchNo)} · ` : ""}${match.teamA} x ${match.teamB}`, body, "match-predictions-modal-card");
+    openModal(`${match.matchNo ? `#${escapeHtml(match.matchNo)} · ` : ""}${match.teamA} x ${match.teamB}`, body);
   }
 
   function bonusResponsesModal(questionId) {
