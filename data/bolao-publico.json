@@ -3,7 +3,7 @@
     "appName": "Bolão Copa do Mundo 2026",
     "version": 9,
     "createdAt": "2026-06-10T00:00:00.000Z",
-    "updatedAt": "2026-07-03T18:32:42.224Z",
+    "updatedAt": "2026-07-03T20:46:42.246Z",
     "dataSource": "Tabela oficial FIFA 2026; horários ajustados para Brasília/São Paulo",
     "totalMatches": 104
   },
@@ -43,13 +43,13 @@
       "enabled": true,
       "intervalMinutes": 60,
       "saveEveryChanges": 10,
-      "lastBackupAt": "2026-07-03T16:52:22.430Z",
+      "lastBackupAt": "2026-07-03T13:13:22.449Z",
       "changesSinceBackup": 0
     },
     "publication": {
-      "lastPublicExportAt": "2026-07-03T16:52:31.603Z",
-      "lastPublicExportDescription": "JSON público exportado para GitHub · Jogos finalizados: 85 | Palpites cadastrados: 826 | Jogos com pendências abertas: 2 | Líder atual: Léo (387 pts) | Última alteração: 03/07/2026, 13:52 · Palpite alterado: Cebola em Austrália x Egito",
-      "lastPublicExportSummary": "Jogos finalizados: 85 | Palpites cadastrados: 826 | Jogos com pendências abertas: 2 | Líder atual: Léo (387 pts) | Última alteração: 03/07/2026, 13:52 · Palpite alterado: Cebola em Austrália x Egito"
+      "lastPublicExportAt": "2026-07-03T13:13:22.449Z",
+      "lastPublicExportDescription": "JSON público exportado para GitHub · Jogos finalizados: 85 | Palpites cadastrados: 826 | Jogos com pendências abertas: 2 | Líder atual: Léo (387 pts) | Última alteração: 03/07/2026, 10:09 · Confronto sincronizado automaticamente: jogo #96",
+      "lastPublicExportSummary": "Jogos finalizados: 85 | Palpites cadastrados: 826 | Jogos com pendências abertas: 2 | Líder atual: Léo (387 pts) | Última alteração: 03/07/2026, 10:09 · Confronto sincronizado automaticamente: jogo #96"
     },
     "compactMode": false
   },
@@ -17300,7 +17300,7 @@
       "id": "pr_3518b0ac",
       "participantId": "p_igor",
       "matchId": "m_088",
-      "goalsA": 0,
+      "goalsA": 1,
       "goalsB": 1,
       "qualifiedTeam": "B",
       "points": 0,
@@ -17314,7 +17314,7 @@
       "autoDefault": false,
       "calculatedAt": "",
       "createdAt": "2026-07-01T12:28:44.131Z",
-      "updatedAt": "2026-07-03T16:52:22.420Z"
+      "updatedAt": "2026-07-01T12:28:44.131Z"
     },
     {
       "id": "pr_ef24adfc",
@@ -29902,24 +29902,6 @@
       "type": "Backup",
       "entity": "publico",
       "description": "JSON público exportado para GitHub · Jogos finalizados: 85 | Palpites cadastrados: 826 | Jogos com pendências abertas: 2 | Líder atual: Léo (387 pts) | Última alteração: 03/07/2026, 10:09 · Confronto sincronizado automaticamente: jogo #96",
-      "before": "",
-      "after": ""
-    },
-    {
-      "id": "log_3b0bc2b6",
-      "timestamp": "2026-07-03T16:52:22.420Z",
-      "type": "Palpite",
-      "entity": "pr_3518b0ac",
-      "description": "Palpite alterado: Cebola em Austrália x Egito",
-      "before": "1 x 1",
-      "after": "0 x 1 · classificado: Egito"
-    },
-    {
-      "id": "log_3190ecb7",
-      "timestamp": "2026-07-03T16:52:31.603Z",
-      "type": "Backup",
-      "entity": "publico",
-      "description": "JSON público exportado para GitHub · Jogos finalizados: 85 | Palpites cadastrados: 826 | Jogos com pendências abertas: 2 | Líder atual: Léo (387 pts) | Última alteração: 03/07/2026, 13:52 · Palpite alterado: Cebola em Austrália x Egito",
       "before": "",
       "after": ""
     }
