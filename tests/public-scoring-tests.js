@@ -307,3 +307,24 @@ const publicChronologicalOrder = [
 
 assert.deepStrictEqual(publicChronologicalOrder, [90, 89, 91], 'abas Jogos e Palpites devem ordenar por data/horario antes do numero da partida');
 console.log('TESTES PUBLICOS V59 OK');
+
+
+function normalizeBonusAnswerPublic(value) {
+  return String(value ?? '').trim().toLocaleLowerCase('pt-BR').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+function publicCorrectAnswerList(question) {
+  return [
+    ...(Array.isArray(question.correctAnswers) ? question.correctAnswers : []),
+    ...String(question.correctAnswer ?? '').split(/[;,|\n]+/)
+  ].map((item) => String(item || '').trim()).filter(Boolean)
+   .filter((item, index, array) => array.findIndex((other) => normalizeBonusAnswerPublic(other) === normalizeBonusAnswerPublic(item)) === index);
+}
+function publicBonusHit(question, answer) {
+  const normalizedAnswer = normalizeBonusAnswerPublic(answer);
+  return publicCorrectAnswerList(question).some((correct) => normalizeBonusAnswerPublic(correct) === normalizedAnswer);
+}
+const publicMultiScorerQuestion = { question: 'Quem será o artilheiro?', correctAnswer: 'Mbappé; Kane; Vini Jr' };
+assert.strictEqual(publicBonusHit(publicMultiScorerQuestion, 'Kane'), true, 'publico deve aceitar co-artilheiro separado por ponto e virgula');
+assert.strictEqual(publicBonusHit(publicMultiScorerQuestion, 'Vini Jr'), true, 'publico deve aceitar outro co-artilheiro');
+assert.strictEqual(publicBonusHit(publicMultiScorerQuestion, 'Haaland'), false, 'publico nao deve pontuar nome fora da lista');
+console.log('TESTES PUBLICOS V60 OK');

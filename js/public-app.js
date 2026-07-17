@@ -155,6 +155,39 @@
       .replace(/[\u0300-\u036f]/g, "");
   }
 
+  function splitBonusCorrectAnswers(question = {}) {
+    const fromArray = Array.isArray(question.correctAnswers) ? question.correctAnswers : [];
+    const fromText = String(question.correctAnswer ?? "")
+      .split(/[;,|\n]+/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return [...fromArray, ...fromText]
+      .map((item) => normalizeAnswer(item))
+      .filter(Boolean)
+      .filter((item, index, array) => array.indexOf(item) === index);
+  }
+
+  function splitBonusCorrectAnswersDisplay(value) {
+    return String(value ?? "")
+      .split(/[;,|\n]+/)
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .filter((item, index, array) => array.findIndex((other) => normalizeAnswer(other) === normalizeAnswer(item)) === index);
+  }
+
+  function bonusCorrectAnswerList(question = {}) {
+    const fromArray = Array.isArray(question.correctAnswers) ? question.correctAnswers : [];
+    return [...fromArray, ...splitBonusCorrectAnswersDisplay(question.correctAnswer)]
+      .map((item) => String(item || "").trim())
+      .filter(Boolean)
+      .filter((item, index, array) => array.findIndex((other) => normalizeAnswer(other) === normalizeAnswer(item)) === index);
+  }
+
+  function bonusCorrectAnswerDisplay(question = {}) {
+    const answers = bonusCorrectAnswerList(question);
+    return answers.length ? answers.join("; ") : "";
+  }
+
   function defaultScoring(data) {
     return {
       exactScore: 10,
@@ -242,6 +275,7 @@
       answerPreset: question.answerPreset || "nenhuma",
       options: Array.isArray(question.options) ? question.options : [],
       correctAnswer: question.correctAnswer ?? "",
+      correctAnswers: Array.isArray(question.correctAnswers) ? question.correctAnswers : [],
       points: Number(question.points || 0),
       status: question.status || "aberto",
       answers: Array.isArray(question.answers) ? question.answers : [],
@@ -320,12 +354,13 @@
   }
 
   function calculateBonusQuestion(question) {
-    const correct = normalizeAnswer(question.correctAnswer);
-    const canCalculate = ["fechado", "calculado"].includes(question.status) && correct !== "";
+    const correctSet = new Set(splitBonusCorrectAnswers(question));
+    const canCalculate = ["fechado", "calculado"].includes(question.status) && correctSet.size > 0;
     return {
       ...question,
       answers: question.answers.map((answer) => {
-        const hit = canCalculate && normalizeAnswer(answer.answer) === correct;
+        const participantAnswer = normalizeAnswer(answer.answer);
+        const hit = canCalculate && participantAnswer !== "" && correctSet.has(participantAnswer);
         return { ...answer, hit, points: hit ? Number(question.points || 0) : 0 };
       })
     };
@@ -1082,7 +1117,7 @@ function bonusView() {
       escapeHtml(question.question),
       escapeHtml(question.answerType),
       question.points,
-      escapeHtml(question.correctAnswer || "-"),
+      escapeHtml(bonusCorrectAnswerDisplay(question) || "-"),
       statusBadge(question.status),
       `<button class="btn small ghost" data-bonus-modal="${escapeHtml(question.id)}">Ver respostas</button>`
     ]);
@@ -1221,7 +1256,7 @@ function bonusView() {
           <div class="participant-history-match-main">
             <div class="participant-history-match-title"><span class="match-number">Bônus</span><strong>${escapeHtml(question.question || "Pergunta bônus")}</strong></div>
             <div class="participant-history-meta">Resposta: ${hasAnswer ? escapeHtml(answer.answer) : "-"}</div>
-            <div class="participant-history-prediction">Correta: ${question.correctAnswer ? escapeHtml(question.correctAnswer) : "ainda não lançada"}</div>
+            <div class="participant-history-prediction">Correta: ${bonusCorrectAnswerDisplay(question) ? escapeHtml(bonusCorrectAnswerDisplay(question)) : "ainda não lançada"}</div>
           </div>
           <div class="participant-history-points">
             <span class="participant-history-pill ${points > 0 ? "scored" : "zero"}">${escapeHtml(points)} pts</span>
@@ -1604,6 +1639,9 @@ function bonusView() {
       const allowedMatchIds = new Set(matches.filter((match) => allowed.has(stageKeyForMatch(match))).map((match) => match.id));
       const partialData = {
         ...state,
+        // Evolução por marco mostra somente pontos de jogos até aquele momento.
+        // Bônus lançado depois não deve aparecer retroativamente nas etapas antigas.
+        bonusQuestions: [],
         predictions: (state.predictions || []).filter((prediction) => {
           if (isAutomaticPrediction(prediction)) return false;
           const match = matchesById[prediction.matchId];
@@ -2171,7 +2209,7 @@ function bonusView() {
         `<strong>${answer.points || 0}</strong>`
       ];
     });
-    openModal(question.question, `<p style="margin-top:0;color:var(--muted)">Resposta correta: <strong>${escapeHtml(question.correctAnswer || "não definida")}</strong> · Status: ${escapeHtml(question.status)} · Pontos: ${question.points}</p>${table(["Participante", "Resposta", "Resultado", "Pontos"], rows)}`);
+    openModal(question.question, `<p style="margin-top:0;color:var(--muted)">Resposta correta: <strong>${escapeHtml(bonusCorrectAnswerDisplay(question) || "não definida")}</strong> · Status: ${escapeHtml(question.status)} · Pontos: ${question.points}</p>${table(["Participante", "Resposta", "Resultado", "Pontos"], rows)}`);
   }
 
   function render(view = currentView) {
