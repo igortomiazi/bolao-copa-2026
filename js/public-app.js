@@ -542,6 +542,203 @@
     return "-";
   }
 
+
+  function finalMatch() {
+    return state.matches.find((match) => Number(match.matchNo) === 104)
+      || state.matches.find((match) => normalizedPhaseName(match.phase) === "final");
+  }
+
+  function thirdPlaceMatch() {
+    return state.matches.find((match) => Number(match.matchNo) === 103)
+      || state.matches.find((match) => normalizedPhaseName(match.phase).includes("terceiro"));
+  }
+
+  function matchWinnerSide(match) {
+    if (!hasFinalScore(match)) return "";
+    return normalizeSide(match.qualifiedTeam) || inferWinnerSide(Number(match.scoreA), Number(match.scoreB));
+  }
+
+  function matchLoserSide(match) {
+    const winner = matchWinnerSide(match);
+    if (winner === "A") return "B";
+    if (winner === "B") return "A";
+    return "";
+  }
+
+  function matchWinnerName(match) {
+    const side = matchWinnerSide(match);
+    return side ? sideLabel(match, side) : "";
+  }
+
+  function matchLoserName(match) {
+    const side = matchLoserSide(match);
+    return side ? sideLabel(match, side) : "";
+  }
+
+  function isCupFinished() {
+    const final = finalMatch();
+    return Boolean(final && hasFinalScore(final) && matchWinnerName(final));
+  }
+
+  function topScorerQuestion() {
+    return (state.bonusQuestions || []).find((question) => normalizeSearch(question.question).includes("artilheiro"));
+  }
+
+  function topScorerDisplay() {
+    const question = topScorerQuestion();
+    return question ? bonusCorrectAnswerDisplay(question) || "-" : "-";
+  }
+
+  function finalSummaryData() {
+    const final = finalMatch();
+    const third = thirdPlaceMatch();
+    return {
+      cupFinished: isCupFinished(),
+      final,
+      third,
+      champion: matchWinnerName(final),
+      vice: matchLoserName(final),
+      thirdPlace: matchWinnerName(third),
+      topScorers: topScorerDisplay()
+    };
+  }
+
+  function finalMatchMiniHtml(match, label) {
+    if (!match) return "";
+    return `
+      <article class="final-mini-match">
+        <span>${escapeHtml(label)}</span>
+        <strong>${matchHtml(match, true)}</strong>
+        <small>${formatDate(match.date)} ${escapeHtml(match.time)} · ${escapeHtml(match.venue || "-")}</small>
+      </article>
+    `;
+  }
+
+  function finalPodiumHtml(ranking) {
+    if (!ranking.length) return emptyState("Ranking final ainda não disponível.");
+    const medals = ["🥇", "🥈", "🥉"];
+    const labels = ["Campeão do bolão", "Vice-campeão", "3º lugar"];
+    return `
+      <div class="final-podium-grid">
+        ${ranking.slice(0, 3).map((row, index) => `
+          <article class="final-podium-card final-podium-${index + 1}">
+            <div class="final-podium-medal">${medals[index]}</div>
+            <span>${labels[index]}</span>
+            <strong>${escapeHtml(row.nickname || row.name)}</strong>
+            <b>${escapeHtml(row.total)} pts</b>
+            <small>${escapeHtml(row.gamePoints)} jogos · ${escapeHtml(row.bonusPoints)} bônus · ${escapeHtml(row.exactCount)} exatos</small>
+          </article>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function championPathHtml(champion) {
+    if (!champion) return "";
+    const path = (state.matches || [])
+      .filter((match) => hasFinalScore(match) && isKnockoutMatch(match) && (match.teamA === champion || match.teamB === champion))
+      .sort(sortByMatchChronological);
+    if (!path.length) return "";
+    return `
+      <div class="champion-path-list">
+        ${path.map((match) => `
+          <article class="champion-path-item">
+            <span>#${escapeHtml(match.matchNo)} · ${escapeHtml(match.phase)}</span>
+            <strong>${matchHtml(match, true)}</strong>
+            <small>${formatDate(match.date)} · classificado/vencedor: ${escapeHtml(matchWinnerName(match) || "-")}</small>
+          </article>
+        `).join("")}
+      </div>
+    `;
+  }
+
+  function finalCupSummaryHtml() {
+    const summary = finalSummaryData();
+    if (!summary.cupFinished) return "";
+    return `
+      <section class="card final-cup-summary-card">
+        <div class="card-header"><div><h2>🏆 Copa encerrada</h2><p>Resumo final da Copa e caminho da seleção campeã.</p></div></div>
+        <div class="final-cup-summary-grid">
+          <article class="final-cup-winner-card">
+            <span>Campeã do mundo</span>
+            <strong>${teamHtml(summary.champion || "-")}</strong>
+            <small>Final: ${summary.final ? matchHtml(summary.final, true) : "-"}</small>
+          </article>
+          <article class="final-cup-info-card"><span>Vice-campeã</span><strong>${summary.vice ? teamHtml(summary.vice) : "-"}</strong></article>
+          <article class="final-cup-info-card"><span>3º lugar</span><strong>${summary.thirdPlace ? teamHtml(summary.thirdPlace) : "-"}</strong></article>
+          <article class="final-cup-info-card"><span>Artilheiro(s)</span><strong>${escapeHtml(summary.topScorers)}</strong></article>
+        </div>
+        <div class="champion-path-card">
+          <h3>Caminho da campeã</h3>
+          ${championPathHtml(summary.champion) || emptyState("Caminho da campeã indisponível no JSON atual.")}
+        </div>
+      </section>
+    `;
+  }
+
+  function finalDashboardView(ranking, finished) {
+    const summary = finalSummaryData();
+    const championBolao = ranking[0];
+    const totalPredictions = (state.predictions || []).length;
+    return `
+      <section class="card final-closure-hero">
+        <div class="final-closure-copy">
+          <span class="final-state-badge">🏁 Bolão encerrado</span>
+          <h2>Obrigado por participarem!</h2>
+          <p>Esse bolão nasceu para deixar a Copa mais divertida entre amigos. Valeu pelos palpites, pelas cobranças, pelas zoeiras e pela disputa até o último jogo.</p>
+          <p>Nos vemos no próximo bolão. ⚽</p>
+          <div class="final-closure-actions">
+            <button class="btn" type="button" data-view-jump="ranking">Ver ranking final</button>
+            <button class="btn ghost" type="button" data-view-jump="cupTable">Ver tabela da Copa</button>
+            <button class="btn ghost" type="button" data-view-jump="stats">Ver estatísticas finais</button>
+          </div>
+        </div>
+        <div class="final-closure-winners">
+          <article class="final-world-champion">
+            <span>🏆 Campeã da Copa</span>
+            <strong>${summary.champion ? teamHtml(summary.champion) : "-"}</strong>
+            <small>${summary.final ? matchHtml(summary.final, true) : "Final indisponível"}</small>
+          </article>
+          <article class="final-bolao-champion">
+            <span>👑 Campeão do bolão</span>
+            <strong>${championBolao ? escapeHtml(championBolao.nickname || championBolao.name) : "-"}</strong>
+            <small>${championBolao ? `${escapeHtml(championBolao.total)} pontos` : "Ranking indisponível"}</small>
+          </article>
+        </div>
+      </section>
+
+      <div class="grid-4 final-kpi-row">
+        <div class="kpi-card"><span class="kpi-label">Jogos finalizados</span><span class="kpi-value">${finished}</span><span class="kpi-note">de ${state.matches.length}</span></div>
+        <div class="kpi-card"><span class="kpi-label">Palpites registrados</span><span class="kpi-value">${totalPredictions}</span><span class="kpi-note">no bolão</span></div>
+        <div class="kpi-card"><span class="kpi-label">Participantes</span><span class="kpi-value">${state.participants.length}</span><span class="kpi-note">na disputa</span></div>
+        <div class="kpi-card"><span class="kpi-label">Prêmio total</span><span class="kpi-value">${formatMoney(prizeConfig().entryFee * state.participants.length)}</span><span class="kpi-note">premiação final</span></div>
+      </div>
+
+      <section class="card final-podium-section">
+        <div class="card-header"><div><h2>Pódio final do bolão</h2><p>Resultado final com pontos de jogos e bônus oficiais.</p></div></div>
+        ${finalPodiumHtml(ranking)}
+      </section>
+
+      <div class="grid-2 home-summary-grid final-home-grid">
+        <section class="card home-summary-card">
+          <div class="card-header"><div><h2>Últimos jogos da Copa</h2><p>Final e disputa de 3º lugar para consulta.</p></div></div>
+          <div class="final-mini-list">
+            ${finalMatchMiniHtml(summary.final, "Final")}
+            ${finalMatchMiniHtml(summary.third, "3º lugar")}
+          </div>
+        </section>
+        <section class="card home-summary-card final-prize-card">
+          <div class="card-header"><div><h2>Premiação final</h2><p>Distribuição oficial do bolão.</p></div></div>
+          <div class="grid-3">
+            <div class="rule-box"><strong>${formatMoney(prizeAmount(0))}</strong><span>1º lugar · ${prizeConfig().first}%</span></div>
+            <div class="rule-box"><strong>${formatMoney(prizeAmount(1))}</strong><span>2º lugar · ${prizeConfig().second}%</span></div>
+            <div class="rule-box"><strong>${formatMoney(prizeAmount(2))}</strong><span>3º lugar · ${prizeConfig().third}%</span></div>
+          </div>
+        </section>
+      </div>
+    `;
+  }
+
   function criterionText(prediction, match = null) {
     const meta = criterionMeta(prediction, match);
     return meta?.shortLabel || "-";
@@ -891,6 +1088,9 @@
   function dashboardView() {
     const ranking = buildRanking();
     const finished = state.matches.filter((match) => match.status === "finalizado").length;
+    if (isCupFinished()) {
+      return finalDashboardView(ranking, finished);
+    }
     const leader = ranking[0];
     const upcoming = [...state.matches]
       .filter((match) => match.status !== "finalizado")
@@ -1363,12 +1563,12 @@ function bonusView() {
     const ranking = buildRanking();
     return `
       <section class="card">
-        <div class="card-header"><div><h2>Pódio</h2><p>Premiação calculada automaticamente pela entrada e distribuição oficial.</p></div></div>
+        <div class="card-header"><div><h2>${isCupFinished() ? "Pódio final" : "Pódio"}</h2><p>Premiação calculada automaticamente pela entrada e distribuição oficial.</p></div></div>
         ${podiumHtml(ranking)}
       </section>
       ${prizeSummaryHtml()}
       <section class="card">
-        <div class="card-header"><div><h2>Ranking geral</h2><p>Desempate: placares exatos, resultados corretos, palpites cadastrados e cadastro mais antigo.</p></div></div>
+        <div class="card-header"><div><h2>${isCupFinished() ? "Ranking final" : "Ranking geral"}</h2><p>Desempate: placares exatos, resultados corretos, palpites cadastrados e cadastro mais antigo.</p></div></div>
         ${table(["Posição", "Participante", "Jogos", "Bônus", "Total", "Placares exatos", "Resultados corretos", "Classificados", "Palpites registrados", "Histórico"], ranking.map((row, index) => [
           `<strong>${index + 1}</strong>`,
           escapeHtml(row.nickname || row.name),
@@ -1680,7 +1880,7 @@ function bonusView() {
       ${statsHeroCardsHtml(stats)}
 
       <section class="card stats-podium-race-card">
-        <div class="card-header"><div><h2>Disputa pelo pódio</h2><p>Top 5, premiação atual e distância até a zona de prêmio.</p></div></div>
+        <div class="card-header"><div><h2>${isCupFinished() ? "Pódio final" : "Disputa pelo pódio"}</h2><p>${isCupFinished() ? "Top 5 final e premiação do bolão." : "Top 5, premiação atual e distância até a zona de prêmio."}</p></div></div>
         ${podiumRaceHtml(ranking)}
       </section>
 
@@ -1690,7 +1890,7 @@ function bonusView() {
       </section>
 
       <section class="card stats-milestone-card">
-        <div class="card-header"><div><h2>Evolução por marco da Copa</h2><p>Ranking acumulado após cada rodada/fase finalizada. Substitui o antigo gráfico de linhas.</p></div></div>
+        <div class="card-header"><div><h2>Evolução por marco da Copa</h2><p>${isCupFinished() ? "Ranking acumulado final após cada rodada/fase." : "Ranking acumulado após cada rodada/fase finalizada. Substitui o antigo gráfico de linhas."}</p></div></div>
         ${milestoneEvolutionHtml()}
       </section>
 
@@ -2014,6 +2214,7 @@ function bonusView() {
           <div class="kpi-card"><span class="kpi-label">Mata-mata</span><span class="kpi-value">32</span><span class="kpi-note">seleções na chave</span></div>
         </div>
       </section>
+      ${finalCupSummaryHtml()}
       ${cupBracketHtml()}
       ${cupThirdsHtml(standings)}
       ${cupGroupTablesHtml(standings)}
@@ -2320,6 +2521,7 @@ function bonusView() {
       bindQuickFilters("predictions");
     }
     bindMatchPredictionButtons();
+    app.querySelectorAll("[data-view-jump]").forEach((button) => button.addEventListener("click", () => render(button.dataset.viewJump)));
     app.querySelectorAll("[data-open-rules]").forEach((button) => button.addEventListener("click", () => openModal("Regras do bolão", rulesHtml())));
     app.querySelectorAll("[data-bonus-modal]").forEach((button) => button.addEventListener("click", () => bonusResponsesModal(button.dataset.bonusModal)));
     app.querySelectorAll("[data-participant-history]").forEach((button) => {
